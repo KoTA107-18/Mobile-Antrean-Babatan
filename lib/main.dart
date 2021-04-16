@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'screen/antreScreen.dart';
 import 'screen/dashboardScreen.dart';
+import 'screen/loginScreen.dart';
 import 'screen/poliklinikScreen.dart';
 import 'screen/profilScreen.dart';
 import 'screen/riwayatScreen.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: App(),
+      home: Login(),
     );
   }
 }
