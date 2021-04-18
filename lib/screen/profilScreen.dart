@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_antrean_babatan/screen/loginScreen.dart';
 
 class Profil extends StatefulWidget {
   @override
@@ -13,7 +14,16 @@ class _ProfilState extends State<Profil> {
         title: Text("Profil"),
       ),
       body: Center(
-        child: Text("Halaman Profil"),
+        child: ElevatedButton(
+          child: Text(
+            'Logout',
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Login()));
+          },
+        ),
       ),
     );
   }
