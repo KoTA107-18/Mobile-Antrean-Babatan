@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_antrean_babatan/screen/loginScreen.dart';
+import 'package:mobile_antrean_babatan/utils/color.dart';
 
 import 'screen/antreScreen.dart';
 import 'screen/dashboardScreen.dart';
-import 'screen/loginScreen.dart';
 import 'screen/poliklinikScreen.dart';
 import 'screen/profilScreen.dart';
 import 'screen/riwayatScreen.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.teal,
@@ -30,7 +32,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int selectedIndex = 0;
+  int selectedIndex = 1;
   final screenList = [Dashboard(), Poliklinik(), Antre(), Riwayat(), Profil()];
 
   void onTappedItem(int index) {
@@ -56,7 +58,7 @@ class _AppState extends State<App> {
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
           ],
           selectedLabelStyle: TextStyle(fontSize: 14.0),
-          selectedItemColor: Colors.green,
+          selectedItemColor: ColorTheme.greenDark,
           onTap: onTappedItem,
         ));
   }

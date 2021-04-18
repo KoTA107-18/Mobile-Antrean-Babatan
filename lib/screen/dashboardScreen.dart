@@ -10,10 +10,11 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.home),
         title: Text("Dashboard"),
       ),
-      body: Center(
-        child: Text("Halaman Dashboard"),
+      body: Column(
+        children: [Text("Halaman Dashboard")],
       ),
     );
   }
