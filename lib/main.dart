@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_antrean_babatan/screen/loginScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 import 'screen/antreScreen.dart';
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: Login(),
+      home: App(),
     );
   }
 }
@@ -32,7 +31,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int selectedIndex = 1;
+  int selectedIndex = 2;
   final screenList = [Dashboard(), Eticket(), Antre(), Riwayat(), Profil()];
 
   void onTappedItem(int index) {
