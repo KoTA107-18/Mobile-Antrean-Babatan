@@ -31,7 +31,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int selectedIndex = 2;
+  int selectedIndex = 0;
   final screenList = [Dashboard(), Eticket(), Antre(), Riwayat(), Profil()];
 
   void onTappedItem(int index) {

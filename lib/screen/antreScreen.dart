@@ -60,7 +60,7 @@ class HariIni extends StatefulWidget {
 
 class _HariIniState extends State<HariIni> {
   int _radioValue = 0;
-  final List Poli = [
+  final List poli = [
     "Poliklinik Gigi",
     "Poliklinik Anak",
     "Poliklinik THT",
@@ -95,7 +95,7 @@ class _HariIniState extends State<HariIni> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0))),
               //value: atasan,
-              items: Poli.map((value) {
+              items: poli.map((value) {
                 return DropdownMenuItem(
                   child: Text(value),
                   value: value,
@@ -183,14 +183,14 @@ class HariLain extends StatefulWidget {
 
 class _HariLainState extends State<HariLain> {
   int _radioValue = 0;
-  final List Poli = [
+  final List poli = [
     "Poliklinik Gigi",
     "Poliklinik Anak",
     "Poliklinik THT",
     "Poliklinik Lansia",
     "Poliklinik Umum"
   ];
-  final List Jam = [
+  final List jam = [
     "09.00 - 10.00 WIB",
     "10.00 - 11.00 WIB",
     "11.00 - 12.00 WIB",
@@ -225,7 +225,7 @@ class _HariLainState extends State<HariLain> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0))),
               //value: atasan,
-              items: Poli.map((value) {
+              items: poli.map((value) {
                 return DropdownMenuItem(
                   child: Text(value),
                   value: value,
@@ -280,7 +280,7 @@ class _HariLainState extends State<HariLain> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16.0))),
               //value: atasan,
-              items: Jam.map((value) {
+              items: jam.map((value) {
                 return DropdownMenuItem(
                   child: Text(value),
                   value: value,
