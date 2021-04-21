@@ -4,7 +4,7 @@ import 'package:mobile_antrean_babatan/utils/color.dart';
 
 import 'screen/antreScreen.dart';
 import 'screen/dashboardScreen.dart';
-import 'screen/poliklinikScreen.dart';
+import 'screen/ticketScreen.dart';
 import 'screen/profilScreen.dart';
 import 'screen/riwayatScreen.dart';
 
@@ -33,7 +33,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int selectedIndex = 1;
-  final screenList = [Dashboard(), Poliklinik(), Antre(), Riwayat(), Profil()];
+  final screenList = [Dashboard(), Eticket(), Antre(), Riwayat(), Profil()];
 
   void onTappedItem(int index) {
     setState(() {
@@ -51,7 +51,7 @@ class _AppState extends State<App> {
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.local_hospital), label: 'Poliklinik'),
+                icon: Icon(Icons.card_membership), label: 'E-Ticket'),
             BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Antre'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.history), label: 'Riwayat'),

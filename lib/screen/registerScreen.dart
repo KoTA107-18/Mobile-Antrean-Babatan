@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_antrean_babatan/main.dart';
+import 'package:mobile_antrean_babatan/screen/verificationScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 import 'loginScreen.dart';
@@ -40,6 +40,7 @@ class _RegisterState extends State<Register> {
                       TextField(
                         decoration: InputDecoration(
                             labelText: 'Nama Lengkap',
+                            hintText: 'Isi nama anda',
                             prefixIcon: Icon(Icons.person),
                             labelStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -54,7 +55,39 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20.0),
                       TextField(
                         decoration: InputDecoration(
-                            labelText: 'Username',
+                            labelText: 'Tanggal Lahir',
+                            prefixIcon: Icon(Icons.date_range),
+                            labelStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16.0),
+                                borderSide:
+                                    BorderSide(color: ColorTheme.greenDark))),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextField(
+                        decoration: InputDecoration(
+                            hintText: 'Isi alamat rumah anda',
+                            labelText: 'Alamat Lengkap',
+                            prefixIcon: Icon(Icons.map),
+                            labelStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16.0),
+                                borderSide:
+                                    BorderSide(color: ColorTheme.greenDark))),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextField(
+                        decoration: InputDecoration(
+                            hintText: 'Isi nama kepala keluarga anda',
+                            labelText: 'Nama Kepala Keluarga',
                             prefixIcon: Icon(Icons.person),
                             labelStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -69,7 +102,24 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20.0),
                       TextField(
                         decoration: InputDecoration(
-                            labelText: 'Password',
+                            hintText: 'Contoh : Luthfi22',
+                            labelText: 'Nama Pengguna (Username)',
+                            prefixIcon: Icon(Icons.person),
+                            labelStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16.0)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16.0),
+                                borderSide:
+                                    BorderSide(color: ColorTheme.greenDark))),
+                      ),
+                      SizedBox(height: 20.0),
+                      TextField(
+                        decoration: InputDecoration(
+                            hintText: 'Isi kata sandi anda',
+                            labelText: 'Kata Sandi',
                             prefixIcon: Icon(Icons.vpn_key),
                             labelStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -84,7 +134,8 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20.0),
                       TextField(
                         decoration: InputDecoration(
-                            labelText: 'Konfirmasi Password',
+                            hintText: 'Isi kembali kata sandi anda',
+                            labelText: 'Konfirmasi Kata Sandi',
                             prefixIcon: Icon(Icons.vpn_key),
                             labelStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -99,8 +150,9 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20.0),
                       TextField(
                         decoration: InputDecoration(
+                            hintText: 'Isi dengan nomor seluler anda',
                             labelText: 'Nomor Seluler',
-                            prefixIcon: Icon(Icons.vpn_key),
+                            prefixIcon: Icon(Icons.call),
                             labelStyle: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey),
@@ -114,8 +166,10 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20.0),
                       InkWell(
                         onTap: () {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) => App()));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Verification()));
                         },
                         child: Container(
                           height: 40.0,
