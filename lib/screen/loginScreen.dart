@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:mobile_antrean_babatan/screen/verificationScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
@@ -205,43 +204,5 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
-  }
-
-  _showMaterialDialog() {
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              title: Text("Kode Verifikasi"),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  VerificationCode(
-                      textStyle: TextStyle(
-                          fontSize: 20.0, color: ColorTheme.greenDark),
-                      underlineColor: ColorTheme.greenDark,
-                      keyboardType: TextInputType.number,
-                      length: 4,
-                      onCompleted: (String value) {
-                        setState(() {});
-                      },
-                      onEditing: (bool value) {
-                        setState(() {});
-                      })
-                ],
-              ),
-              actions: <Widget>[
-                ElevatedButton(
-                  child: Text(
-                    'Verifikasi',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => App()));
-                  },
-                ),
-              ],
-            ));
   }
 }

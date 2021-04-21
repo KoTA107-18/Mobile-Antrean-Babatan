@@ -11,7 +11,7 @@ class _EticketState extends State<Eticket> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal[100],
+      backgroundColor: ColorTheme.greenLight,
       appBar: AppBar(
         leading: Icon(Icons.card_membership),
         title: Text("E-Ticket Pendaftaran"),
@@ -40,13 +40,14 @@ class _EticketState extends State<Eticket> {
                           style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.teal)),
+                              color: ColorTheme.greenDark)),
                     ),
                   ),
                   Container(
                     child: Center(
                       child: Text('Jl. Babatan No.4, Kec. Andir, Bandung.',
-                          style: TextStyle(fontSize: 16.0, color: Colors.teal)),
+                          style: TextStyle(
+                              fontSize: 16.0, color: ColorTheme.greenDark)),
                     ),
                   ),
                 ],
@@ -135,9 +136,12 @@ class _EticketState extends State<Eticket> {
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: Text(
-              "Jangan lupa membawa dokumen pendukung seperti KTP, KK, BPJS dan lain sebagainya",
+              "Catatan : Jangan lupa membawa dokumen pendukung seperti KTP, KK, BPJS dan lain sebagainya",
               textAlign: TextAlign.center,
-              style: TextStyle(color: ColorTheme.greenDark, fontSize: 14.0),
+              style: TextStyle(
+                  color: ColorTheme.greenDark,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
