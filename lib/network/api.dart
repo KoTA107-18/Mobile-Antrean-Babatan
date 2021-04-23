@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:mobile_antrean_babatan/model/pasien.dart';
 
 class RequestApi {
   static final String apiUrl = "rest-api-babatan.herokuapp.com";
@@ -8,10 +9,13 @@ class RequestApi {
     return json.decode(result.body)['data'];
   }
 
-  static Future<bool> registerPasien() async {
-    var result = await http.post(Uri.http(apiUrl, 'pasien'));
-    //print(json.decode(result.body)['response']);
-    print(result.body);
-    return true;
+  static Future<bool> registerPasien(Pasien pasien) async {
+    var result =
+        await http.post(Uri.http(apiUrl, 'pasien'), body: pasien.toJson());
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

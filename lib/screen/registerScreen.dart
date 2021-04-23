@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_antrean_babatan/screen/verificationScreen.dart';
+import 'package:flutter/services.dart';
+import 'package:mobile_antrean_babatan/model/pasien.dart';
+import 'package:mobile_antrean_babatan/network/api.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
+import 'package:mobile_antrean_babatan/utils/loading.dart';
 
 import 'loginScreen.dart';
 
@@ -10,6 +13,14 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController _namaLengkap = TextEditingController();
+  TextEditingController _tglLahir = TextEditingController();
+  TextEditingController _alamat = TextEditingController();
+  TextEditingController _kepalaKeluarga = TextEditingController();
+  TextEditingController _username = TextEditingController();
+  TextEditingController _password = TextEditingController();
+  TextEditingController _passwordTwo = TextEditingController();
+  TextEditingController _nomorHandphone = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,139 +48,78 @@ class _RegisterState extends State<Register> {
                   padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
                   child: Column(
                     children: <Widget>[
-                      TextField(
-                        decoration: InputDecoration(
-                            labelText: 'Nama Lengkap',
-                            hintText: 'Isi nama anda',
-                            prefixIcon: Icon(Icons.person),
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                                borderSide:
-                                    BorderSide(color: ColorTheme.greenDark))),
-                      ),
-                      SizedBox(height: 20.0),
-                      TextField(
-                        decoration: InputDecoration(
-                            labelText: 'Tanggal Lahir',
-                            prefixIcon: Icon(Icons.date_range),
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                                borderSide:
-                                    BorderSide(color: ColorTheme.greenDark))),
-                      ),
-                      SizedBox(height: 20.0),
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: 'Isi alamat rumah anda',
-                            labelText: 'Alamat Lengkap',
-                            prefixIcon: Icon(Icons.map),
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                                borderSide:
-                                    BorderSide(color: ColorTheme.greenDark))),
-                      ),
-                      SizedBox(height: 20.0),
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: 'Isi nama kepala keluarga anda',
-                            labelText: 'Nama Kepala Keluarga',
-                            prefixIcon: Icon(Icons.person),
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                                borderSide:
-                                    BorderSide(color: ColorTheme.greenDark))),
-                      ),
-                      SizedBox(height: 20.0),
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: 'Contoh : Luthfi22',
-                            labelText: 'Nama Pengguna (Username)',
-                            prefixIcon: Icon(Icons.person),
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                                borderSide:
-                                    BorderSide(color: ColorTheme.greenDark))),
-                      ),
-                      SizedBox(height: 20.0),
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: 'Isi kata sandi anda',
-                            labelText: 'Kata Sandi',
-                            prefixIcon: Icon(Icons.vpn_key),
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0)),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: ColorTheme.greenDark))),
-                        obscureText: true,
-                      ),
-                      SizedBox(height: 20.0),
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: 'Isi kembali kata sandi anda',
-                            labelText: 'Konfirmasi Kata Sandi',
-                            prefixIcon: Icon(Icons.vpn_key),
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0)),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: ColorTheme.greenDark))),
-                        obscureText: true,
-                      ),
-                      SizedBox(height: 20.0),
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText: 'Isi dengan nomor seluler anda',
-                            labelText: 'Nomor Seluler',
-                            prefixIcon: Icon(Icons.call),
-                            labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16.0)),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: ColorTheme.greenDark))),
-                        obscureText: true,
-                      ),
+                      textFieldModified(
+                          label: 'Nama Lengkap',
+                          hint: 'Isi nama anda',
+                          icon: Icon(Icons.person),
+                          controller: _namaLengkap),
                       SizedBox(height: 20.0),
                       InkWell(
                         onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Verification()));
+                          print("Bingo");
+                        },
+                        child: textFieldModified(
+                            label: 'Tanggal Lahir',
+                            icon: Icon(Icons.date_range),
+                            controller: _tglLahir),
+                      ),
+                      SizedBox(height: 20.0),
+                      textFieldModified(
+                          label: 'Alamat Lengkap',
+                          hint: 'Isi alamat rumah anda',
+                          icon: Icon(Icons.map),
+                          controller: _tglLahir),
+                      SizedBox(height: 20.0),
+                      textFieldModified(
+                          label: 'Nama Kepala Keluarga',
+                          hint: 'Isi nama kepala keluarga anda',
+                          icon: Icon(Icons.person),
+                          controller: _kepalaKeluarga),
+                      SizedBox(height: 20.0),
+                      textFieldModified(
+                          label: 'Nama Pengguna (Username)',
+                          hint: 'Contoh : Luthfi22',
+                          icon: Icon(Icons.person),
+                          controller: _username),
+                      SizedBox(height: 20.0),
+                      textFieldModified(
+                          label: 'Kata Sandi',
+                          hint: 'Isi kata sandi anda',
+                          icon: Icon(Icons.vpn_key),
+                          controller: _password),
+                      SizedBox(height: 20.0),
+                      textFieldModified(
+                          label: 'Konfirmasi Kata Sandi',
+                          hint: 'Isi kembali kata sandi anda',
+                          icon: Icon(Icons.vpn_key),
+                          controller: _passwordTwo),
+                      SizedBox(height: 20.0),
+                      textFieldModified(
+                          label: 'Nomor Seluler',
+                          hint: 'Isi dengan nomor seluler anda',
+                          icon: Icon(Icons.call),
+                          typeKeyboard: TextInputType.number,
+                          formatter: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                          ],
+                          controller: _nomorHandphone),
+                      SizedBox(height: 20.0),
+                      InkWell(
+                        onTap: () {
+                          verifiedInput();
+                          /*
+                          loading(context);
+                          Pasien iniBaru = Pasien(
+                              username: "luthfialri21",
+                              no_handphone: "081220391796",
+                              kepala_keluarga: "Fahmi Widianto",
+                              nama_lengkap: "Luthfi Alri",
+                              password: "luthfigg123",
+                              alamat: "Sindanglaya, Bandung",
+                              tgl_lahir: "2000-03-10");
+                          RequestApi.registerPasien(iniBaru).then((value) {
+                            Navigator.pop(context); 
+                          });*/
                         },
                         child: Container(
                           height: 40.0,
@@ -221,5 +171,31 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  void verifiedInput() {}
+
+  TextField textFieldModified(
+      {String label,
+      String hint,
+      Icon icon,
+      TextEditingController controller,
+      TextInputType typeKeyboard,
+      List<TextInputFormatter> formatter}) {
+    return TextField(
+        keyboardType: typeKeyboard,
+        inputFormatters: formatter,
+        controller: controller,
+        decoration: InputDecoration(
+            labelText: label,
+            hintText: hint,
+            prefixIcon: icon,
+            labelStyle:
+                TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                borderSide: BorderSide(color: ColorTheme.greenDark))));
   }
 }
