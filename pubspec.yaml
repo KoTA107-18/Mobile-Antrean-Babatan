@@ -31,6 +31,8 @@ dependencies:
   flutter_ticket_widget:
   flutter_verification_code:
   http:
+  shared_preferences:
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:

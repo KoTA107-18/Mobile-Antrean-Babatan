@@ -14,7 +14,7 @@ class _LoginState extends State<Login> {
   TextEditingController _username = TextEditingController();
   TextEditingController _password = TextEditingController();
   TextEditingController _nomorSeluler = TextEditingController();
-  bool isLoginByUsername = false;
+  bool isLoginByUsername = true;
   @override
   Widget build(BuildContext context) {
     return Container(
