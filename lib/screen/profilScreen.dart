@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_antrean_babatan/screen/loginScreen.dart';
+import 'package:mobile_antrean_babatan/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 class Profil extends StatefulWidget {
@@ -28,7 +30,12 @@ class _ProfilState extends State<Profil> {
           Card(
             margin: EdgeInsets.only(left: 16.0, right: 16.0),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Fluttertoast.showToast(
+                    backgroundColor: ColorTheme.greenDark,
+                    msg: "On Going!",
+                    toastLength: Toast.LENGTH_SHORT);
+              },
               child: ListTile(
                 leading: Icon(Icons.file_copy),
                 title: Text(
@@ -41,7 +48,12 @@ class _ProfilState extends State<Profil> {
           Card(
             margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Fluttertoast.showToast(
+                    backgroundColor: ColorTheme.greenDark,
+                    msg: "On Going!",
+                    toastLength: Toast.LENGTH_SHORT);
+              },
               child: ListTile(
                 leading: Icon(Icons.help),
                 title: Text(
@@ -88,8 +100,15 @@ class _ProfilState extends State<Profil> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Login()));
+                    SharedPref.deleteSharedPref().then((value){
+                      Fluttertoast.showToast(
+                          backgroundColor: ColorTheme.greenDark,
+                          msg: "Logout berhasil!",
+                          toastLength: Toast.LENGTH_SHORT);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => Login()));
+                    });
+
                   },
                 ),
                 ElevatedButton(

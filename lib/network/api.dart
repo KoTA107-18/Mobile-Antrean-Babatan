@@ -18,4 +18,17 @@ class RequestApi {
       return false;
     }
   }
+
+  static Future<bool> loginPasienUsername(String username, String password) async {
+    var uri = Uri.http(apiUrl, 'pasien/login', {
+      "username" : username,
+      "password" : password
+    });
+    var result = await http.get(uri);
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

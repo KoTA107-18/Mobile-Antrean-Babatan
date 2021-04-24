@@ -5,6 +5,7 @@ import 'package:mobile_antrean_babatan/model/pasien.dart';
 import 'package:mobile_antrean_babatan/network/api.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
+import 'package:mobile_antrean_babatan/utils/textFieldModified.dart';
 import 'loginScreen.dart';
 
 class Register extends StatefulWidget {
@@ -160,8 +161,8 @@ class _RegisterState extends State<Register> {
                             controller: _username),
                         SizedBox(height: 20.0),
                         textFieldModified(
-                            label: 'Kata Sandi',
-                            hint: 'Isi kata sandi anda',
+                            label: 'Password',
+                            hint: 'Isi password anda',
                             icon: Icon(Icons.vpn_key),
                             formatter: [
                               FilteringTextInputFormatter.deny(RegExp('[ ]')),
@@ -179,8 +180,8 @@ class _RegisterState extends State<Register> {
                             controller: _password),
                         SizedBox(height: 20.0),
                         textFieldModified(
-                            label: 'Konfirmasi Kata Sandi',
-                            hint: 'Isi kembali kata sandi anda',
+                            label: 'Konfirmasi Password',
+                            hint: 'Isi kembali password anda',
                             icon: Icon(Icons.vpn_key),
                             formatter: [
                               FilteringTextInputFormatter.deny(RegExp('[ ]')),
@@ -319,36 +320,5 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  TextFormField textFieldModified(
-      {String label,
-      bool isEnabled = true,
-      String hint,
-      Icon icon,
-      TextEditingController controller,
-      TextInputType typeKeyboard,
-      FormFieldValidator<String> validatorFunc,
-      bool isPasword = false,
-      List<TextInputFormatter> formatter}) {
-    return TextFormField(
-        enabled: isEnabled,
-        obscureText: isPasword,
-        keyboardType: typeKeyboard,
-        inputFormatters: formatter,
-        controller: controller,
-        validator: validatorFunc,
-        decoration: InputDecoration(
-            labelText: label,
-            hintText: hint,
-            prefixIcon: icon,
-            disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                borderSide: BorderSide(color: Colors.grey)),
-            labelStyle:
-                TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                borderSide: BorderSide(color: ColorTheme.greenDark))));
-  }
+
 }

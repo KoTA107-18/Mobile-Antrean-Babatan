@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_antrean_babatan/screen/verificationScreen.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobile_antrean_babatan/network/api.dart';
+import 'package:mobile_antrean_babatan/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
+import 'package:mobile_antrean_babatan/utils/loading.dart';
+import 'package:mobile_antrean_babatan/utils/textFieldModified.dart';
 
 import '../main.dart';
 import 'registerScreen.dart';
@@ -11,10 +16,47 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _username = TextEditingController();
   TextEditingController _password = TextEditingController();
   TextEditingController _nomorSeluler = TextEditingController();
   bool isLoginByUsername = true;
+  bool isClickValidated = false;
+
+  void verifiedInput() {
+    setState(() {
+      isClickValidated = true;
+    });
+    if (_formKey.currentState.validate()) {
+      loading(context);
+      RequestApi.loginPasienUsername(_username.text, _password.text)
+          .then((value) {
+        Navigator.pop(context);
+        if (value) {
+          SharedPref.saveUsername(_username.text).then((value) {
+            Fluttertoast.showToast(
+                backgroundColor: ColorTheme.greenDark,
+                msg: "Login berhasil!",
+                toastLength: Toast.LENGTH_LONG);
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => App()));
+          });
+        } else {
+          Fluttertoast.showToast(
+              backgroundColor: ColorTheme.greenDark,
+              msg: "Login gagal!",
+              toastLength: Toast.LENGTH_LONG);
+        }
+      }).catchError((e) {
+        Navigator.pop(context);
+        Fluttertoast.showToast(
+            backgroundColor: ColorTheme.greenDark,
+            msg: e.toString(),
+            toastLength: Toast.LENGTH_LONG);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,156 +91,175 @@ class _LoginState extends State<Login> {
                           fontSize: 16.0, color: ColorTheme.greenDark)),
                 ),
               ),
-              Container(
-                  padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-                  child: Column(
-                    children: <Widget>[
-                      isLoginByUsername == true
-                          ? TextField(
-                              controller: _username,
-                              decoration: InputDecoration(
-                                  labelText: 'Username',
-                                  prefixIcon: Icon(Icons.person),
-                                  labelStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey),
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(16.0)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      borderSide: BorderSide(
-                                          color: ColorTheme.greenDark))),
-                            )
-                          : TextField(
-                              controller: _nomorSeluler,
-                              decoration: InputDecoration(
-                                  labelText: 'Nomor Seluler',
-                                  prefixIcon: Icon(Icons.phone),
-                                  labelStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey),
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(16.0)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                      borderSide: BorderSide(
-                                          color: ColorTheme.greenDark))),
-                            ),
-                      SizedBox(height: 20.0),
-                      isLoginByUsername == true
-                          ? TextField(
-                              controller: _password,
-                              decoration: InputDecoration(
-                                  labelText: 'Password',
-                                  prefixIcon: Icon(Icons.vpn_key),
-                                  labelStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey),
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(16.0)),
-                                  focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: ColorTheme.greenDark))),
-                              obscureText: true,
-                            )
-                          : SizedBox.shrink(),
-                      SizedBox(height: 40.0),
-                      InkWell(
-                        onTap: () {
-                          if (isLoginByUsername) {
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) => App()));
-                          } else {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Verification()));
-                          }
-                        },
-                        child: Container(
-                          height: 40.0,
-                          child: Material(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: ColorTheme.greenDark,
-                            elevation: 7.0,
-                            child: Center(
-                              child: Text(
-                                'Masuk',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+              Form(
+                autovalidateMode: (isClickValidated)
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
+                key: _formKey,
+                child: Container(
+                    padding:
+                        EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+                    child: Column(
+                      children: <Widget>[
+                        isLoginByUsername == true
+                            ? textFieldModified(
+                                label: 'Username',
+                                hint: 'Kombinasi huruf dan angka.',
+                                icon: Icon(Icons.person),
+                                formatter: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp('[a-zA-Z0-9]')),
+                                ],
+                                validatorFunc: (value) {
+                                  if (value.isEmpty) {
+                                    return "Harus diisi";
+                                  } else if (value.length < 4) {
+                                    return "Minimum 4 karakter";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                controller: _username)
+                            : textFieldModified(
+                                label: 'Nomor Seluler',
+                                hint: 'Isi dengan nomor seluler anda',
+                                icon: Icon(Icons.call),
+                                typeKeyboard: TextInputType.number,
+                                formatter: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]')),
+                                ],
+                                validatorFunc: (value) {
+                                  if (value.isEmpty) {
+                                    return "Harus diisi";
+                                  } else if (value.length < 10) {
+                                    return "Minimum 10 digit";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                controller: _nomorSeluler),
+                        SizedBox(height: 20.0),
+                        isLoginByUsername == true
+                            ? textFieldModified(
+                                label: 'Password',
+                                hint: 'Isi password anda',
+                                icon: Icon(Icons.vpn_key),
+                                formatter: [
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp('[ ]')),
+                                ],
+                                isPasword: true,
+                                validatorFunc: (value) {
+                                  if (value.isEmpty) {
+                                    return "Harus diisi";
+                                  } else if (value.length < 4) {
+                                    return "Minimum 4 karakter";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                controller: _password)
+                            : SizedBox.shrink(),
+                        SizedBox(height: 40.0),
+                        InkWell(
+                          onTap: () {
+                            if (isLoginByUsername) {
+                              verifiedInput();
+                            } else {
+                              Fluttertoast.showToast(
+                                  backgroundColor: ColorTheme.greenDark,
+                                  msg: "Fitur On Going!",
+                                  toastLength: Toast.LENGTH_LONG);
+                              /*
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Verification()));*/
+                            }
+                          },
+                          child: Container(
+                            height: 40.0,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(20.0),
+                              color: ColorTheme.greenDark,
+                              elevation: 7.0,
+                              child: Center(
+                                child: Text(
+                                  'Masuk',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 20.0),
-                      InkWell(
-                        onTap: () {
-                          isLoginByUsername = !isLoginByUsername;
-                          setState(() {});
-                        },
-                        child: Container(
-                          height: 40.0,
-                          color: Colors.transparent,
+                        SizedBox(height: 20.0),
+                        InkWell(
+                          onTap: () {
+                            isLoginByUsername = !isLoginByUsername;
+                            setState(() {});
+                          },
                           child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: ColorTheme.greenDark,
-                                    style: BorderStyle.solid,
-                                    width: 1.0),
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(20.0)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                SizedBox(width: 10.0),
-                                Center(
-                                  child: isLoginByUsername
-                                      ? Text('Masuk dengan Nomor Seluler',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: ColorTheme.greenDark))
-                                      : Text('Masuk dengan Username',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: ColorTheme.greenDark)),
-                                )
-                              ],
+                            height: 40.0,
+                            color: Colors.transparent,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: ColorTheme.greenDark,
+                                      style: BorderStyle.solid,
+                                      width: 1.0),
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(width: 10.0),
+                                  Center(
+                                    child: isLoginByUsername
+                                        ? Text('Masuk dengan Nomor Seluler',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: ColorTheme.greenDark))
+                                        : Text('Masuk dengan Username',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: ColorTheme.greenDark)),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 15.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'Belum punya akun?',
-                          ),
-                          SizedBox(width: 5.0),
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Register()));
-                            },
-                            child: Text(
-                              'Daftar disini',
-                              style: TextStyle(
-                                  color: ColorTheme.greenDark,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline),
+                        SizedBox(height: 15.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'Belum punya akun?',
                             ),
-                          )
-                        ],
-                      )
-                    ],
-                  )),
+                            SizedBox(width: 5.0),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Register()));
+                              },
+                              child: Text(
+                                'Daftar disini',
+                                style: TextStyle(
+                                    color: ColorTheme.greenDark,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    )),
+              ),
             ],
           ),
         ),

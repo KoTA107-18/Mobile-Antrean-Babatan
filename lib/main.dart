@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_antrean_babatan/screen/loginScreen.dart';
+import 'package:mobile_antrean_babatan/screen/splashScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 import 'screen/antreScreen.dart';
@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Antrean Online Puskesmas Babatan',
+      title: 'Antrean Puskesmas Babatan',
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: Login(),
+      home: SplashScreen(),
     );
   }
 }

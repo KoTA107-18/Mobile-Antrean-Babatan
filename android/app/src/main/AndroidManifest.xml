@@ -2,7 +2,7 @@
     package="com.example.mobile_antrean_babatan">
    <application
         android:usesCleartextTraffic="true"
-        android:label="mobile_antrean_babatan"
+        android:label="Antrean Puskesmas Babatan"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
