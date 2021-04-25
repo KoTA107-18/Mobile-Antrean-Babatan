@@ -77,7 +77,7 @@ class _LoginState extends State<Login> {
               ),
               Container(
                 child: Center(
-                  child: Text('Selamat Datang.',
+                  child: Text('Selamat Datang',
                       style: TextStyle(
                           fontSize: 32.0,
                           fontWeight: FontWeight.bold,
@@ -86,7 +86,7 @@ class _LoginState extends State<Login> {
               ),
               Container(
                 child: Center(
-                  child: Text('Antrean Online Puskesmas Babatan.',
+                  child: Text('Antrean Online Puskesmas Babatan',
                       style: TextStyle(
                           fontSize: 16.0, color: ColorTheme.greenDark)),
                 ),

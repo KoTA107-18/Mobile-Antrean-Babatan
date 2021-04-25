@@ -16,7 +16,7 @@ class _EticketState extends State<Eticket> {
         leading: Icon(Icons.card_membership),
         title: Text("E-Ticket Pendaftaran"),
       ),
-      body: Column(
+      body: ListView(
         children: [
           SizedBox(
             height: 8.0,
@@ -199,7 +199,9 @@ class _EticketState extends State<Eticket> {
           Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                _showMaterialDialog();
+              },
               child: Container(
                 height: 40.0,
                 child: Material(
@@ -220,6 +222,43 @@ class _EticketState extends State<Eticket> {
         ],
       ),
     );
+  }
+
+  _showMaterialDialog() {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text("Cancel"),
+          content: Text("Anda yakin cancel antrean?"),
+          actions: <Widget>[
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: ColorTheme.greenDark, // background
+                onPrimary: Colors.white, // foreground
+              ),
+              child: Text(
+                'Ya',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.grey, // background
+                onPrimary: Colors.white, // foreground
+              ),
+              child: Text(
+                'Tidak',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ));
   }
 
   Widget ticketDetailsWidget(String firstTitle, String firstDesc,

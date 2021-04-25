@@ -132,24 +132,6 @@ class _HariIniState extends State<HariIni> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "Apa yang anda rasakan?",
-              style: TextStyle(fontSize: 18.0),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 0.0),
-            child: TextField(
-                controller: null,
-                decoration: InputDecoration(
-                    hintText: "Isi keluhan yang anda rasakan (Mis. Batuk)",
-                    labelText: "Keluhan Anda",
-                    prefixIcon: Icon(Icons.question_answer),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16.0)))),
-          ),
-          Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
             child: InkWell(
               onTap: () {},
