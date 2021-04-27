@@ -50,41 +50,25 @@ class _DashboardState extends State<Dashboard> {
                 Container(
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
-                      'Untuk melakukan pendaftaran di Puskesmas Babatan, silahkan tekan tombol Daftar',
+                      'Untuk melakukan pendaftaran antrean di Puskesmas Babatan, silahkan pilih menu E-Ticket.',
                       style: TextStyle(
                           fontSize: 16.0, color: ColorTheme.greenDark)),
                 ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: Text("Pendaftaran dapat dilakukan"),
+                ),
                 Container(
                   padding:
-                      EdgeInsets.only(left: 20.0, right: 20.0, bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: Text("Pendaftaran dapat dilakukan"),
-                          ),
-                          Container(
-                            child: Text(
-                              "Pukul 08.00 - 10.00 WIB",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ],
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: ColorTheme.greenDark, // background
-                          onPrimary: Colors.white, // foreground
-                        ),
-                        onPressed: () {},
-                        child: Text("Daftar"),
-                      ),
-                    ],
+                      EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+                  child: Text(
+                    "Pukul 08.00 - 10.00 WIB",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -124,11 +108,11 @@ class _DashboardState extends State<Dashboard> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(15))),
                               height: 75,
-                              width: 75,
+                              width: 100,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Saat Ini"),
+                                  Center(child: Text("Total Antrean")),
                                   Text("20",
                                       style: TextStyle(
                                           fontSize: 18.0,
