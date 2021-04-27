@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
       RequestApi.loginPasienUsername(_username.text, _password.text)
           .then((value) {
         Navigator.pop(context);
-        if (value) {
+        if (value != null) {
           SharedPref.saveUsername(_username.text).then((value) {
             Fluttertoast.showToast(
                 backgroundColor: ColorTheme.greenDark,
