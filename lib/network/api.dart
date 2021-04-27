@@ -11,8 +11,10 @@ class RequestApi {
 
   static Future<bool> registerPasien(Pasien pasien) async {
     var result =
-        await http.post(Uri.http(apiUrl, 'pasien'), body: pasien.toJson());
-    if (result.statusCode == 200) {
+        await http.post(Uri.http(apiUrl, 'api/register'), body: pasien.toJson());
+    print(Uri.http(apiUrl, 'register').toString());
+    print(result.statusCode);
+    if (result.statusCode == 201) {
       return true;
     } else {
       return false;
