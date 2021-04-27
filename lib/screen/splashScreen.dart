@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   var duration = const Duration(seconds: 3);
 
   Future<bool> isSession() async {
-    bool result = await SharedPref.isUsernameLogin();
+    bool result = await SharedPref.isLogin();
     return result;
   }
 

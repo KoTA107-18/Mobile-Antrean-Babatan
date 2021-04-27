@@ -1,17 +1,17 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPref {
-  static String _username = "KEY_USERNAME";
+  static String _ApiKey = "API_KEY";
 
-  static Future<void> saveUsername(String username) async {
+  static Future<void> saveApiKey(String apiKey) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(_username, username);
+    prefs.setString(_ApiKey, apiKey);
   }
 
-  static Future<bool> isUsernameLogin() async {
+  static Future<bool> isLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String username = prefs.getString(_username);
-    if(username != null){
+    String apiKey = prefs.getString(_ApiKey);
+    if(apiKey != null){
       return true;
     } else {
       return false;
