@@ -33,7 +33,8 @@ class _LoginState extends State<Login> {
           .then((value) {
         Navigator.pop(context);
         if (value != null) {
-          SharedPref.saveApiKey(value.toString()).then((value) {
+          SharedPref.saveLoginInfo(value.toString(), _username.text)
+              .then((value) {
             Fluttertoast.showToast(
                 backgroundColor: ColorTheme.greenDark,
                 msg: "Login berhasil!",
