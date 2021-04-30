@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mobile_antrean_babatan/model/pasien.dart';
-import 'package:mobile_antrean_babatan/network/api.dart';
+import 'package:mobile_antrean_babatan/repositories/api/api.dart';
+import 'package:mobile_antrean_babatan/repositories/model/pasien.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
 import 'package:mobile_antrean_babatan/utils/textFieldModified.dart';
@@ -294,31 +294,29 @@ class _RegisterState extends State<Register> {
           tglLahir: _tglLahir.text);
       RequestApi.registerPasien(pasien).then((value) {
         Navigator.pop(context);
-        if(value) {
+        if (value) {
           Fluttertoast.showToast(
               gravity: ToastGravity.CENTER,
               backgroundColor: ColorTheme.greenDark,
-              msg: "Registrasi berhasil!", toastLength: Toast.LENGTH_LONG);
+              msg: "Registrasi berhasil!",
+              toastLength: Toast.LENGTH_LONG);
           Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Login()));
+              context, MaterialPageRoute(builder: (context) => Login()));
         } else {
           Fluttertoast.showToast(
               gravity: ToastGravity.CENTER,
               backgroundColor: ColorTheme.greenDark,
-              msg: "Username atau Nomor Seluler anda sudah terdaftar!", toastLength: Toast.LENGTH_LONG);
+              msg: "Username atau Nomor Seluler anda sudah terdaftar!",
+              toastLength: Toast.LENGTH_LONG);
         }
-
       }).catchError((e) {
         Navigator.pop(context);
         Fluttertoast.showToast(
             gravity: ToastGravity.CENTER,
-          backgroundColor: ColorTheme.greenDark,
-            msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+            backgroundColor: ColorTheme.greenDark,
+            msg: e.toString(),
+            toastLength: Toast.LENGTH_LONG);
       });
     }
   }
-
-
 }

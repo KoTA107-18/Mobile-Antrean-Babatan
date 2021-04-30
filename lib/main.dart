@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_antrean_babatan/bloc/navbar/navbar_bloc.dart';
 import 'package:mobile_antrean_babatan/screen/splashScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
@@ -26,40 +28,43 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class App extends StatefulWidget {
-  @override
-  _AppState createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  int selectedIndex = 0;
+class App extends StatelessWidget {
   final screenList = [Dashboard(), Eticket(), Antre(), Riwayat(), Profil()];
-
-  void onTappedItem(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
+  final NavbarBloc navbarBloc = NavbarBloc(0);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: screenList.elementAt(selectedIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: selectedIndex,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.card_membership), label: 'E-Ticket'),
-            BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Antre'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.history), label: 'Riwayat'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
-          ],
-          selectedLabelStyle: TextStyle(fontSize: 14.0),
-          selectedItemColor: ColorTheme.greenDark,
-          onTap: onTappedItem,
-        ));
+    return BlocProvider(
+      create: (_) => navbarBloc,
+      child: BlocBuilder<NavbarBloc, int>(
+        builder: (context, index) {
+          return Scaffold(
+              body: screenList.elementAt(index),
+              bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                currentIndex: index,
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home), label: 'Beranda'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.card_membership), label: 'E-Ticket'),
+                  BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Antre'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.history), label: 'Riwayat'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.person), label: 'Profil'),
+                ],
+                selectedLabelStyle: TextStyle(fontSize: 14.0),
+                selectedItemColor: ColorTheme.greenDark,
+                onTap: (index) {
+                  if (index == 0) navbarBloc.add(NavbarEvent.goDashboard);
+                  if (index == 1) navbarBloc.add(NavbarEvent.goTicket);
+                  if (index == 2) navbarBloc.add(NavbarEvent.goAntre);
+                  if (index == 3) navbarBloc.add(NavbarEvent.goRiwayat);
+                  if (index == 4) navbarBloc.add(NavbarEvent.goProfil);
+                },
+              ));
+        },
+      ),
+    );
   }
 }

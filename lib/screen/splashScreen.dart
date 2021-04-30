@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_antrean_babatan/main.dart';
+import 'package:mobile_antrean_babatan/repositories/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/screen/loginScreen.dart';
-import 'package:mobile_antrean_babatan/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -42,38 +42,37 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.all(16.0),
-              child: Image(
-                height: 64.0,
-                image: AssetImage('asset/LogoPuskesmas.png'),
-              ),
-            ),
-            Container(
-              child: Center(
-                child: Text('Selamat Datang',
-                    style: TextStyle(
-                        fontSize: 32.0,
-                        fontWeight: FontWeight.bold,
-                        color: ColorTheme.greenDark)),
-              ),
-            ),
-            Container(
-              child: Center(
-                child: Text('Antrean Online Puskesmas Babatan',
-                    style: TextStyle(
-                        fontSize: 16.0, color: ColorTheme.greenDark)),
-              ),
-            ),
-            Container(
-                padding: EdgeInsets.fromLTRB(48.0, 16.0, 48.0, 16.0),
-                child: LinearProgressIndicator()),
-            Container(
-              child: Text("Ver 1.0.0"),
-            )
-          ],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.all(16.0),
+          child: Image(
+            height: 64.0,
+            image: AssetImage('asset/LogoPuskesmas.png'),
+          ),
+        ),
+        Container(
+          child: Center(
+            child: Text('Selamat Datang',
+                style: TextStyle(
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.bold,
+                    color: ColorTheme.greenDark)),
+          ),
+        ),
+        Container(
+          child: Center(
+            child: Text('Antrean Online Puskesmas Babatan',
+                style: TextStyle(fontSize: 16.0, color: ColorTheme.greenDark)),
+          ),
+        ),
+        Container(
+            padding: EdgeInsets.fromLTRB(48.0, 16.0, 48.0, 16.0),
+            child: LinearProgressIndicator()),
+        Container(
+          child: Text("Ver 1.0.0"),
+        )
+      ],
+    ));
   }
 }

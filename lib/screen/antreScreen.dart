@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mobile_antrean_babatan/model/poliklinik.dart';
-import 'package:mobile_antrean_babatan/model/ticket.dart';
-import 'package:mobile_antrean_babatan/network/api.dart';
-import 'package:mobile_antrean_babatan/session/sharedPref.dart';
+import 'package:mobile_antrean_babatan/repositories/api/api.dart';
+import 'package:mobile_antrean_babatan/repositories/model/poliklinik.dart';
+import 'package:mobile_antrean_babatan/repositories/model/ticket.dart';
+import 'package:mobile_antrean_babatan/repositories/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
 import 'package:mobile_antrean_babatan/utils/textFieldModified.dart';
@@ -102,7 +102,7 @@ class _AntreState extends State<Antre> {
                     value: _poliTujuan,
                     items: daftarPoli.map((value) {
                       return DropdownMenuItem(
-                        child: Text(value.nama_poli),
+                        child: Text(value.namaPoli),
                         value: value,
                       );
                     }).toList(),
@@ -206,7 +206,7 @@ class _AntreState extends State<Antre> {
                         loading(context);
                         if (isBooking) {
                         } else {
-                          if (_poliTujuan.status_poli == 1) {
+                          if (_poliTujuan.statusPoli == 1) {
                             // Jika poli dalam keadaan membuka pendaftaran.
                             SharedPref.getUsername().then((value) {
                               username = value;
@@ -219,14 +219,14 @@ class _AntreState extends State<Antre> {
                                       "${dateNow.year.toString()}-${dateNow.month.toString().padLeft(2, '0')}-${dateNow.day.toString().padLeft(2, '0')}";
                                   Ticket tiket = Ticket(
                                       username: username.toString(),
-                                      id_jadwal: null,
-                                      id_poli: _poliTujuan.id_poli,
-                                      kode_antrean: null,
-                                      tipe_booking: isBooking,
-                                      tgl_pelayanan: tanggal.toString(),
-                                      jam_mulai_dilayani: "NULL",
-                                      jam_selesai_dilayani: "NULL",
-                                      status_antrean: 1);
+                                      idJadwal: null,
+                                      idPoli: _poliTujuan.idPoli,
+                                      kodeAntrean: null,
+                                      tipeBooking: isBooking,
+                                      tglPelayanan: tanggal.toString(),
+                                      jamMulaiDilayani: "NULL",
+                                      jamSelesaiDilayani: "NULL",
+                                      statusAntrean: 1);
                                   RequestApi.registerAntreanHariIni(tiket)
                                       .then((value) {
                                     Navigator.pop(context);

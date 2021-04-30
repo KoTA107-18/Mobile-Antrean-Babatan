@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobile_antrean_babatan/repositories/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/screen/loginScreen.dart';
-import 'package:mobile_antrean_babatan/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 class Profil extends StatefulWidget {
@@ -100,7 +100,7 @@ class _ProfilState extends State<Profil> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
-                    SharedPref.deleteSharedPref().then((value){
+                    SharedPref.deleteSharedPref().then((value) {
                       Fluttertoast.showToast(
                           backgroundColor: ColorTheme.greenDark,
                           msg: "Logout berhasil!",
@@ -108,7 +108,6 @@ class _ProfilState extends State<Profil> {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => Login()));
                     });
-
                   },
                 ),
                 ElevatedButton(

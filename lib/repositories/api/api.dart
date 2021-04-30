@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mobile_antrean_babatan/model/pasien.dart';
-import 'package:mobile_antrean_babatan/model/ticket.dart';
+import 'package:mobile_antrean_babatan/repositories/model/pasien.dart';
+import 'package:mobile_antrean_babatan/repositories/model/ticket.dart';
 
 class RequestApi {
   static final String apiUrl = "rest-api-babatan.herokuapp.com";
@@ -32,13 +32,13 @@ class RequestApi {
 
   static Future<String> loginPasienUsername(
       String username, String password) async {
-    String api_token;
+    String apiToken;
     var uri = Uri.http(apiUrl, 'api/login/username',
         {"username": username, "password": password});
     var result = await http.post(uri);
     if (result.statusCode == 201) {
-      api_token = json.decode(result.body)['data']['api_token'];
-      return api_token;
+      apiToken = json.decode(result.body)['data']['api_token'];
+      return apiToken;
     } else {
       return null;
     }
@@ -55,9 +55,7 @@ class RequestApi {
   }
 
   static Future<bool> checkAlreadyRegisterQueue(String username) async {
-    var uri = Uri.http(apiUrl, 'ticket/check', {
-      "username" : username
-    });
+    var uri = Uri.http(apiUrl, 'ticket/check', {"username": username});
     var result = await http.get(uri);
     if (result.statusCode == 200) {
       return true;
