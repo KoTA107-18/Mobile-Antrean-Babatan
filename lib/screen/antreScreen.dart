@@ -7,6 +7,7 @@ import 'package:mobile_antrean_babatan/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
 import 'package:mobile_antrean_babatan/utils/textFieldModified.dart';
+import 'package:time_picker_widget/time_picker_widget.dart';
 
 class Antre extends StatefulWidget {
   @override
@@ -18,20 +19,23 @@ class _AntreState extends State<Antre> {
   int _radioValue = 0;
   DateTime selectedDate = DateTime.now();
   TextEditingController _tglBooking = TextEditingController();
+  TextEditingController _timeBooking = TextEditingController();
   Poliklinik _poliTujuan;
 
-  final List jam = [
-    "09.00 - 10.00 WIB",
-    "10.00 - 11.00 WIB",
-    "11.00 - 12.00 WIB",
-    "12.00 - 13.00 WIB",
-    "13.00 - 14.00 WIB"
-  ];
+  bool validateInput(bool isBooking) {
+    if (isBooking) {
+      return ((_radioValue != null) &&
+          (_poliTujuan != null) &&
+          (selectedDate != null) &&
+          (_timeBooking != null));
+    } else {
+      return ((_radioValue != null) && (_poliTujuan != null));
+    }
+  }
 
   void _handleRadioValueChange(int value) {
     setState(() {
       _radioValue = value;
-      _poliTujuan = null;
       switch (_radioValue) {
         case 0:
           break;
@@ -95,7 +99,7 @@ class _AntreState extends State<Antre> {
                         prefixIcon: Icon(Icons.local_hospital),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16.0))),
-                    value: daftarPoli[0],
+                    value: _poliTujuan,
                     items: daftarPoli.map((value) {
                       return DropdownMenuItem(
                         child: Text(value.nama_poli),
@@ -142,7 +146,7 @@ class _AntreState extends State<Antre> {
                                   isEnabled: false,
                                   label: 'Tanggal Lahir',
                                   icon: Icon(Icons.date_range),
-                                  controller: null),
+                                  controller: _tglBooking),
                             ),
                             SizedBox(width: 16.0),
                             ElevatedButton(
@@ -161,23 +165,35 @@ class _AntreState extends State<Antre> {
                     : SizedBox.shrink(),
                 (isBooking)
                     ? Container(
-                        padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-                        child: DropdownButtonFormField(
-                          decoration: InputDecoration(
-                              labelText: "Pilih Jam Booking",
-                              prefixIcon: Icon(Icons.local_hospital),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16.0))),
-                          //value: atasan,
-                          items: jam.map((value) {
-                            return DropdownMenuItem(
-                              child: Text(value),
-                              value: value,
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            //kata.atasan = value;
-                          },
+                        padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: textFieldModified(
+                                  isEnabled: false,
+                                  label: 'Pilih Jam Booking',
+                                  icon: Icon(Icons.timer),
+                                  controller: _timeBooking),
+                            ),
+                            SizedBox(width: 16.0),
+                            ElevatedButton(
+                                onPressed: () {
+                                  showCustomTimePicker(
+                                      context: context,
+                                      // It is a must if you provide selectableTimePredicate
+                                      onFailValidation: (context) =>
+                                          print('Unavailable selection'),
+                                      initialTime:
+                                          TimeOfDay(hour: 11, minute: 0),
+                                      selectableTimePredicate: (time) =>
+                                          time.hour >= 8 &&
+                                          time.hour < 15 &&
+                                          time.minute % 10 == 0).then((time) =>
+                                      setState(() => _timeBooking.text =
+                                          time?.format(context)));
+                                },
+                                child: Icon(Icons.timer))
+                          ],
                         ),
                       )
                     : SizedBox.shrink(),
@@ -185,62 +201,75 @@ class _AntreState extends State<Antre> {
                   padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                   child: InkWell(
                     onTap: () {
-                      if (isBooking) {
-                        // Jika melakukan booking.
-                      } else {
-                        // Jika tidak melakukan booking.
-                        // Jika semua form telah diisi.
-                        if (_poliTujuan != null && _radioValue != null) {
-                          // Jika semua telah diisi.
+                      String username;
+                      if (validateInput(isBooking)) {
+                        loading(context);
+                        if (isBooking) {
+                        } else {
                           if (_poliTujuan.status_poli == 1) {
                             // Jika poli dalam keadaan membuka pendaftaran.
-                            loading(context);
                             SharedPref.getUsername().then((value) {
-                              DateTime dateNow = DateTime.now();
-                              String tanggal =
-                                  "${dateNow.year.toString()}-${dateNow.month.toString().padLeft(2, '0')}-${dateNow.day.toString().padLeft(2, '0')}";
-                              Ticket tiket = Ticket(
-                                  username: value.toString(),
-                                  id_jadwal: null,
-                                  id_poli: _poliTujuan.id_poli,
-                                  kode_antrean: null,
-                                  tipe_booking: isBooking,
-                                  tgl_pelayanan: tanggal.toString(),
-                                  jam_mulai_dilayani: "NULL",
-                                  jam_selesai_dilayani: "NULL",
-                                  status_antrean: 1);
-                              RequestApi.registerAntreanHariIni(tiket)
+                              username = value;
+                              RequestApi.checkAlreadyRegisterQueue(value)
                                   .then((value) {
-                                Navigator.pop(context);
-                                if (value) {
+                                if (value == false) {
+                                  // Belum ambil antrean.
+                                  DateTime dateNow = DateTime.now();
+                                  String tanggal =
+                                      "${dateNow.year.toString()}-${dateNow.month.toString().padLeft(2, '0')}-${dateNow.day.toString().padLeft(2, '0')}";
+                                  Ticket tiket = Ticket(
+                                      username: username.toString(),
+                                      id_jadwal: null,
+                                      id_poli: _poliTujuan.id_poli,
+                                      kode_antrean: null,
+                                      tipe_booking: isBooking,
+                                      tgl_pelayanan: tanggal.toString(),
+                                      jam_mulai_dilayani: "NULL",
+                                      jam_selesai_dilayani: "NULL",
+                                      status_antrean: 1);
+                                  RequestApi.registerAntreanHariIni(tiket)
+                                      .then((value) {
+                                    Navigator.pop(context);
+                                    if (value) {
+                                      Navigator.pop(context);
+                                      Fluttertoast.showToast(
+                                          backgroundColor: ColorTheme.greenDark,
+                                          msg:
+                                              "Pendaftaran berhasil, silahkan cek E-Ticket!",
+                                          toastLength: Toast.LENGTH_LONG);
+                                    } else {
+                                      Navigator.pop(context);
+                                      Fluttertoast.showToast(
+                                          backgroundColor: ColorTheme.greenDark,
+                                          msg:
+                                              "Pendaftaran gagal, permasalahan Server!",
+                                          toastLength: Toast.LENGTH_LONG);
+                                    }
+                                  });
+                                } else {
+                                  Navigator.pop(context);
                                   Fluttertoast.showToast(
                                       backgroundColor: ColorTheme.greenDark,
                                       msg:
-                                          "Pendaftaran berhasil, silahkan cek E-Ticket!",
-                                      toastLength: Toast.LENGTH_LONG);
-                                } else {
-                                  Fluttertoast.showToast(
-                                      backgroundColor: ColorTheme.greenDark,
-                                      msg: "Pendaftaran gagal!",
+                                          "Anda masih memiliki Ticket yang berlangsung",
                                       toastLength: Toast.LENGTH_LONG);
                                 }
                               });
                             });
                           } else {
-                            // Jika poli tidak dalam keadaan membuka pendaftaran.
+                            Navigator.pop(context);
                             Fluttertoast.showToast(
                                 backgroundColor: ColorTheme.greenDark,
                                 msg:
-                                    "Maaf, Poliklinik sedang tidak membuka pendaftaran",
+                                    "Maaf, Poliklinik yang anda pilih tidak tersedia sekarang!",
                                 toastLength: Toast.LENGTH_LONG);
                           }
-                        } else {
-                          // Jika form ada yang tidak diisi.
-                          Fluttertoast.showToast(
-                              backgroundColor: ColorTheme.greenDark,
-                              msg: "Mohon isi form dengan lengkap",
-                              toastLength: Toast.LENGTH_LONG);
                         }
+                      } else {
+                        Fluttertoast.showToast(
+                            backgroundColor: ColorTheme.greenDark,
+                            msg: "Mohon lengkapi form yang disediakan",
+                            toastLength: Toast.LENGTH_LONG);
                       }
                     },
                     child: Container(

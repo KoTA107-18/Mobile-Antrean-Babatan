@@ -44,13 +44,25 @@ class RequestApi {
     }
   }
 
-  static getAllPoliklinik() async {
+  static Future getAllPoliklinik() async {
     var uri = Uri.http(apiUrl, 'poliklinik');
     var result = await http.get(uri);
     if (result.statusCode == 200) {
       return json.decode(result.body);
     } else {
       return null;
+    }
+  }
+
+  static Future<bool> checkAlreadyRegisterQueue(String username) async {
+    var uri = Uri.http(apiUrl, 'ticket/check', {
+      "username" : username
+    });
+    var result = await http.get(uri);
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

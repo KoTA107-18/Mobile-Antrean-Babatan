@@ -33,6 +33,7 @@ dependencies:
   http:
   shared_preferences:
   fluttertoast:
+  time_picker_widget:
 
 dev_dependencies:
   flutter_test:
