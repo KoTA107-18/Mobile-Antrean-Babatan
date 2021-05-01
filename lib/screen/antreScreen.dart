@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobile_antrean_babatan/bloc/antre/booking_bloc.dart';
+import 'package:mobile_antrean_babatan/bloc/antre/radio_bloc.dart';
 import 'package:mobile_antrean_babatan/repositories/api/api.dart';
 import 'package:mobile_antrean_babatan/repositories/model/poliklinik.dart';
 import 'package:mobile_antrean_babatan/repositories/model/ticket.dart';
@@ -15,34 +18,24 @@ class Antre extends StatefulWidget {
 }
 
 class _AntreState extends State<Antre> {
+  final RadioBloc radioBloc = RadioBloc(0);
+  final BookingBloc bookingBloc = BookingBloc(false);
   bool isBooking = false;
   int _radioValue = 0;
   DateTime selectedDate = DateTime.now();
   TextEditingController _tglBooking = TextEditingController();
   TextEditingController _timeBooking = TextEditingController();
-  Poliklinik _poliTujuan;
+  Poliklinik _PoliTujuan;
 
   bool validateInput(bool isBooking) {
     if (isBooking) {
       return ((_radioValue != null) &&
-          (_poliTujuan != null) &&
+          (_PoliTujuan != null) &&
           (selectedDate != null) &&
           (_timeBooking != null));
     } else {
-      return ((_radioValue != null) && (_poliTujuan != null));
+      return ((_radioValue != null) && (_PoliTujuan != null));
     }
-  }
-
-  void _handleRadioValueChange(int value) {
-    setState(() {
-      _radioValue = value;
-      switch (_radioValue) {
-        case 0:
-          break;
-        case 1:
-          break;
-      }
-    });
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -60,285 +53,357 @@ class _AntreState extends State<Antre> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.add),
-        title: Text("Pendaftaran Antrean"),
-      ),
-      body: FutureBuilder(
-        future: RequestApi.getAllPoliklinik(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var resultSnapshot = snapshot.data as List;
-            List<Poliklinik> daftarPoli = resultSnapshot
-                .map((aJson) => Poliklinik.fromJson(aJson))
-                .toList();
-            return ListView(
-              children: [
-                Center(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                    child: (isBooking)
-                        ? Text('Booking Antrean',
-                            style: TextStyle(
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.bold,
-                                color: ColorTheme.greenDark))
-                        : Text('Antre Pendaftaran Hari Ini',
-                            style: TextStyle(
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.bold,
-                                color: ColorTheme.greenDark)),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-                  child: DropdownButtonFormField(
-                    decoration: InputDecoration(
-                        labelText: "Poli Tujuan",
-                        prefixIcon: Icon(Icons.local_hospital),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16.0))),
-                    value: _poliTujuan,
-                    items: daftarPoli.map((value) {
-                      return DropdownMenuItem(
-                        child: Text(value.namaPoli),
-                        value: value,
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      _poliTujuan = value;
-                    },
-                  ),
-                ),
-                new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<RadioBloc>(create: (BuildContext context) => radioBloc),
+          BlocProvider<BookingBloc>(
+              create: (BuildContext context) => bookingBloc),
+        ],
+        child: Scaffold(
+          appBar: AppBar(
+            leading: Icon(Icons.add),
+            title: Text("Pendaftaran Antrean"),
+          ),
+          body: FutureBuilder(
+            future: RequestApi.getAllPoliklinik(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var resultSnapshot = snapshot.data as List;
+                List<Poliklinik> daftarPoli = resultSnapshot
+                    .map((aJson) => Poliklinik.fromJson(aJson))
+                    .toList();
+                return ListView(
                   children: [
-                    new Radio(
-                      value: 0,
-                      groupValue: _radioValue,
-                      onChanged: _handleRadioValueChange,
-                    ),
-                    new Text(
-                      'Umum',
-                      style: new TextStyle(fontSize: 16.0),
-                    ),
-                    new Radio(
-                      value: 1,
-                      groupValue: _radioValue,
-                      onChanged: _handleRadioValueChange,
-                    ),
-                    new Text(
-                      'BPJS',
-                      style: new TextStyle(
-                        fontSize: 16.0,
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                        child: (isBooking)
+                            ? Text('Booking Antrean',
+                                style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: ColorTheme.greenDark))
+                            : Text('Antre Pendaftaran Hari Ini',
+                                style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: ColorTheme.greenDark)),
                       ),
                     ),
-                  ],
-                ),
-                (isBooking)
-                    ? Container(
-                        padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                        child: Row(
-                          children: [
-                            Flexible(
-                              child: textFieldModified(
-                                  isEnabled: false,
-                                  label: 'Tanggal Lahir',
-                                  icon: Icon(Icons.date_range),
-                                  controller: _tglBooking),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                      child: DropdownButtonFormField(
+                        decoration: InputDecoration(
+                            labelText: "Poli Tujuan",
+                            prefixIcon: Icon(Icons.local_hospital),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16.0))),
+                        value: _PoliTujuan,
+                        items: daftarPoli.map((value) {
+                          return DropdownMenuItem(
+                            child: Text(value.namaPoli),
+                            value: value,
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          _PoliTujuan = value;
+                        },
+                      ),
+                    ),
+                    BlocBuilder<RadioBloc, int>(
+                        builder: (context, pilihanRadio) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          new Radio(
+                            value: 0,
+                            groupValue: pilihanRadio,
+                            onChanged: (result) {
+                              radioBloc.add(RadioEvent.jenisUmum);
+                            },
+                          ),
+                          new Text(
+                            'Umum',
+                            style: new TextStyle(fontSize: 16.0),
+                          ),
+                          new Radio(
+                            value: 1,
+                            groupValue: pilihanRadio,
+                            onChanged: (result) {
+                              radioBloc.add(RadioEvent.jenisBPJS);
+                            },
+                          ),
+                          new Text(
+                            'BPJS',
+                            style: new TextStyle(
+                              fontSize: 16.0,
                             ),
-                            SizedBox(width: 16.0),
-                            ElevatedButton(
-                                onPressed: () {
-                                  _selectDate(context).then((value) {
-                                    setState(() {
-                                      _tglBooking.text =
-                                          "${selectedDate.year.toString()}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
-                                    });
-                                  });
-                                },
-                                child: Icon(Icons.date_range))
-                          ],
-                        ),
-                      )
-                    : SizedBox.shrink(),
-                (isBooking)
-                    ? Container(
-                        padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                        child: Row(
+                          ),
+                        ],
+                      );
+                    }),
+                    BlocBuilder<BookingBloc, bool>(
+                        builder: (context, statusBooking) {
+                      if (statusBooking) {
+                        return Column(
                           children: [
-                            Flexible(
-                              child: textFieldModified(
-                                  isEnabled: false,
-                                  label: 'Pilih Jam Booking',
-                                  icon: Icon(Icons.timer),
-                                  controller: _timeBooking),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: textFieldModified(
+                                        isEnabled: false,
+                                        label: 'Tanggal Booking',
+                                        icon: Icon(Icons.date_range),
+                                        controller: _tglBooking),
+                                  ),
+                                  SizedBox(width: 16.0),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        _selectDate(context).then((value) {
+                                          _tglBooking.text =
+                                              "${selectedDate.year.toString()}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
+                                        });
+                                      },
+                                      child: Icon(Icons.date_range))
+                                ],
+                              ),
                             ),
-                            SizedBox(width: 16.0),
-                            ElevatedButton(
-                                onPressed: () {
-                                  showCustomTimePicker(
-                                      context: context,
-                                      // It is a must if you provide selectableTimePredicate
-                                      onFailValidation: (context) =>
-                                          print('Unavailable selection'),
-                                      initialTime:
-                                          TimeOfDay(hour: 11, minute: 0),
-                                      selectableTimePredicate: (time) =>
-                                          time.hour >= 8 &&
-                                          time.hour < 15 &&
-                                          time.minute % 10 == 0).then((time) =>
-                                      setState(() => _timeBooking.text =
-                                          time?.format(context)));
-                                },
-                                child: Icon(Icons.timer))
+                            Container(
+                              padding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: textFieldModified(
+                                        isEnabled: false,
+                                        label: 'Pilih Jam Booking',
+                                        icon: Icon(Icons.timer),
+                                        controller: _timeBooking),
+                                  ),
+                                  SizedBox(width: 16.0),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        showCustomTimePicker(
+                                            context: context,
+                                            // It is a must if you provide selectableTimePredicate
+                                            onFailValidation: (context) =>
+                                                print('Unavailable selection'),
+                                            initialTime:
+                                                TimeOfDay(hour: 11, minute: 0),
+                                            selectableTimePredicate: (time) =>
+                                                time.hour >= 8 &&
+                                                time.hour < 15 &&
+                                                time.minute % 10 ==
+                                                    0).then((time) => _timeBooking
+                                                .text =
+                                            "${time?.hour.toString().padLeft(2, '0')}:${time?.minute.toString().padLeft(2, '0')}");
+                                      },
+                                      child: Icon(Icons.timer))
+                                ],
+                              ),
+                            )
                           ],
-                        ),
-                      )
-                    : SizedBox.shrink(),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                  child: InkWell(
-                    onTap: () {
-                      String username;
-                      if (validateInput(isBooking)) {
-                        loading(context);
-                        if (isBooking) {
-                        } else {
-                          if (_poliTujuan.statusPoli == 1) {
-                            // Jika poli dalam keadaan membuka pendaftaran.
-                            SharedPref.getUsername().then((value) {
-                              username = value;
-                              RequestApi.checkAlreadyRegisterQueue(value)
-                                  .then((value) {
-                                if (value == false) {
-                                  // Belum ambil antrean.
-                                  DateTime dateNow = DateTime.now();
-                                  String tanggal =
-                                      "${dateNow.year.toString()}-${dateNow.month.toString().padLeft(2, '0')}-${dateNow.day.toString().padLeft(2, '0')}";
-                                  Ticket tiket = Ticket(
-                                      username: username.toString(),
-                                      idJadwal: null,
-                                      idPoli: _poliTujuan.idPoli,
-                                      kodeAntrean: null,
-                                      tipeBooking: isBooking,
-                                      tglPelayanan: tanggal.toString(),
-                                      jamMulaiDilayani: "NULL",
-                                      jamSelesaiDilayani: "NULL",
-                                      statusAntrean: 1);
-                                  RequestApi.registerAntreanHariIni(tiket)
-                                      .then((value) {
-                                    Navigator.pop(context);
-                                    if (value) {
+                        );
+                      } else {
+                        return SizedBox.shrink();
+                      }
+                    }),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                      child: InkWell(
+                        onTap: () {
+                          String username;
+                          if (validateInput(isBooking)) {
+                            loading(context);
+                            if (isBooking) {
+                              SharedPref.getUsername().then((value) {
+                                username = value;
+                                RequestApi.checkAlreadyRegisterQueue(value)
+                                    .then((value) {
+                                  if (value == false) {
+                                    // Belum ambil antrean.
+                                    DateTime dateNow = DateTime.now();
+                                    String tanggal =
+                                        "${dateNow.year.toString()}-${dateNow.month.toString().padLeft(2, '0')}-${dateNow.day.toString().padLeft(2, '0')}";
+                                    Ticket tiket = Ticket(
+                                        username: username.toString(),
+                                        idJadwal: null,
+                                        idPoli: _PoliTujuan.idPoli,
+                                        kodeAntrean: null,
+                                        tipeBooking: isBooking,
+                                        tglPelayanan: _tglBooking.toString(),
+                                        jamMulaiDilayani: "NULL",
+                                        jamSelesaiDilayani: "NULL",
+                                        statusAntrean: 1);
+                                    RequestApi.registerAntreanHariIni(tiket)
+                                        .then((value) {
                                       Navigator.pop(context);
-                                      Fluttertoast.showToast(
-                                          backgroundColor: ColorTheme.greenDark,
-                                          msg:
-                                              "Pendaftaran berhasil, silahkan cek E-Ticket!",
-                                          toastLength: Toast.LENGTH_LONG);
+                                      if (value) {
+                                        Navigator.pop(context);
+                                        Fluttertoast.showToast(
+                                            backgroundColor:
+                                                ColorTheme.greenDark,
+                                            msg:
+                                                "Pendaftaran berhasil, silahkan cek E-Ticket!",
+                                            toastLength: Toast.LENGTH_LONG);
+                                      } else {
+                                        Navigator.pop(context);
+                                        Fluttertoast.showToast(
+                                            backgroundColor:
+                                                ColorTheme.greenDark,
+                                            msg:
+                                                "Pendaftaran gagal, permasalahan Server!",
+                                            toastLength: Toast.LENGTH_LONG);
+                                      }
+                                    });
+                                  } else {
+                                    Navigator.pop(context);
+                                    Fluttertoast.showToast(
+                                        backgroundColor: ColorTheme.greenDark,
+                                        msg:
+                                            "Anda masih memiliki Ticket yang berlangsung",
+                                        toastLength: Toast.LENGTH_LONG);
+                                  }
+                                });
+                              });
+                            } else {
+                              if (_PoliTujuan.statusPoli == 1) {
+                                // Jika poli dalam keadaan membuka pendaftaran.
+                                SharedPref.getUsername().then((value) {
+                                  username = value;
+                                  RequestApi.checkAlreadyRegisterQueue(value)
+                                      .then((value) {
+                                    if (value == false) {
+                                      // Belum ambil antrean.
+                                      DateTime dateNow = DateTime.now();
+                                      String tanggal =
+                                          "${dateNow.year.toString()}-${dateNow.month.toString().padLeft(2, '0')}-${dateNow.day.toString().padLeft(2, '0')}";
+                                      Ticket tiket = Ticket(
+                                          username: username.toString(),
+                                          idJadwal: null,
+                                          idPoli: _PoliTujuan.idPoli,
+                                          kodeAntrean: null,
+                                          tipeBooking: isBooking,
+                                          tglPelayanan: tanggal.toString(),
+                                          jamMulaiDilayani: "NULL",
+                                          jamSelesaiDilayani: "NULL",
+                                          statusAntrean: 1);
+                                      RequestApi.registerAntreanHariIni(tiket)
+                                          .then((value) {
+                                        Navigator.pop(context);
+                                        if (value) {
+                                          Navigator.pop(context);
+                                          Fluttertoast.showToast(
+                                              backgroundColor:
+                                                  ColorTheme.greenDark,
+                                              msg:
+                                                  "Pendaftaran berhasil, silahkan cek E-Ticket!",
+                                              toastLength: Toast.LENGTH_LONG);
+                                        } else {
+                                          Navigator.pop(context);
+                                          Fluttertoast.showToast(
+                                              backgroundColor:
+                                                  ColorTheme.greenDark,
+                                              msg:
+                                                  "Pendaftaran gagal, permasalahan Server!",
+                                              toastLength: Toast.LENGTH_LONG);
+                                        }
+                                      });
                                     } else {
                                       Navigator.pop(context);
                                       Fluttertoast.showToast(
                                           backgroundColor: ColorTheme.greenDark,
                                           msg:
-                                              "Pendaftaran gagal, permasalahan Server!",
+                                              "Anda masih memiliki Ticket yang berlangsung",
                                           toastLength: Toast.LENGTH_LONG);
                                     }
                                   });
-                                } else {
-                                  Navigator.pop(context);
-                                  Fluttertoast.showToast(
-                                      backgroundColor: ColorTheme.greenDark,
-                                      msg:
-                                          "Anda masih memiliki Ticket yang berlangsung",
-                                      toastLength: Toast.LENGTH_LONG);
-                                }
-                              });
-                            });
+                                });
+                              } else {
+                                Navigator.pop(context);
+                                Fluttertoast.showToast(
+                                    backgroundColor: ColorTheme.greenDark,
+                                    msg:
+                                        "Maaf, Poliklinik yang anda pilih tidak tersedia sekarang!",
+                                    toastLength: Toast.LENGTH_LONG);
+                              }
+                            }
                           } else {
-                            Navigator.pop(context);
                             Fluttertoast.showToast(
                                 backgroundColor: ColorTheme.greenDark,
-                                msg:
-                                    "Maaf, Poliklinik yang anda pilih tidak tersedia sekarang!",
+                                msg: "Mohon lengkapi form yang disediakan",
                                 toastLength: Toast.LENGTH_LONG);
                           }
-                        }
-                      } else {
-                        Fluttertoast.showToast(
-                            backgroundColor: ColorTheme.greenDark,
-                            msg: "Mohon lengkapi form yang disediakan",
-                            toastLength: Toast.LENGTH_LONG);
-                      }
-                    },
-                    child: Container(
-                      height: 40.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: ColorTheme.greenDark,
-                        elevation: 7.0,
-                        child: Center(
-                          child: Text(
-                            'Daftar',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                        },
+                        child: Container(
+                          height: 40.0,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: ColorTheme.greenDark,
+                            elevation: 7.0,
+                            child: Center(
+                              child: Text(
+                                'Daftar',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        isBooking = !isBooking;
-                      });
-                    },
-                    child: Container(
-                      height: 40.0,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: ColorTheme.greenDark,
-                                style: BorderStyle.solid,
-                                width: 1.0),
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(width: 10.0),
-                            Center(
-                                child: (isBooking)
-                                    ? Text('Daftar Antrean Hari Ini',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: ColorTheme.greenDark))
-                                    : Text('Booking Antrean',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: ColorTheme.greenDark)))
-                          ],
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16.0, right: 16.0, top: 16.0),
+                      child: InkWell(
+                        onTap: () {
+                          isBooking = !isBooking;
+                          (isBooking)
+                              ? bookingBloc.add(BookingEvent.pilihBooking)
+                              : bookingBloc.add(BookingEvent.pilihHariIni);
+                        },
+                        child: Container(
+                          height: 40.0,
+                          color: Colors.transparent,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: ColorTheme.greenDark,
+                                    style: BorderStyle.solid,
+                                    width: 1.0),
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(20.0)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(width: 10.0),
+                                Center(
+                                    child: (isBooking)
+                                        ? Text('Daftar Antrean Hari Ini',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: ColorTheme.greenDark))
+                                        : Text('Booking Antrean',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: ColorTheme.greenDark)))
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                )
-              ],
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
+                    )
+                  ],
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        ));
   }
 }
