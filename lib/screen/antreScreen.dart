@@ -45,10 +45,9 @@ class _AntreState extends State<Antre> {
         firstDate: DateTime.now(),
         lastDate: new DateTime(
             DateTime.now().year, DateTime.now().month, DateTime.now().day + 7));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      });
+    if (picked != null && picked != selectedDate) {
+      selectedDate = picked;
+    }
   }
 
   @override
