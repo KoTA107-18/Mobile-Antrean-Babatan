@@ -227,9 +227,6 @@ class _AntreState extends State<Antre> {
                                     .then((value) {
                                   if (value == false) {
                                     // Belum ambil antrean.
-                                    DateTime dateNow = DateTime.now();
-                                    String tanggal =
-                                        "${dateNow.year.toString()}-${dateNow.month.toString().padLeft(2, '0')}-${dateNow.day.toString().padLeft(2, '0')}";
                                     Ticket tiket = Ticket(
                                         username: username.toString(),
                                         idJadwal: null,
@@ -297,7 +294,6 @@ class _AntreState extends State<Antre> {
                                           .then((value) {
                                         Navigator.pop(context);
                                         if (value) {
-                                          Navigator.pop(context);
                                           Fluttertoast.showToast(
                                               backgroundColor:
                                                   ColorTheme.greenDark,
@@ -305,7 +301,6 @@ class _AntreState extends State<Antre> {
                                                   "Pendaftaran berhasil, silahkan cek E-Ticket!",
                                               toastLength: Toast.LENGTH_LONG);
                                         } else {
-                                          Navigator.pop(context);
                                           Fluttertoast.showToast(
                                               backgroundColor:
                                                   ColorTheme.greenDark,

@@ -76,8 +76,8 @@ class RequestApi {
   }
 
   static Future<bool> updateStatusTicket(Ticket ticket) async {
-    var result = await http.put(Uri.http(apiUrl, 'ticket/daftar'),
-        body: ticket.toJson());
+    var result =
+        await http.put(Uri.http(apiUrl, 'ticket/ubah'), body: ticket.toJson());
     print(ticket.toJson());
     if (result.statusCode == 200) {
       return true;

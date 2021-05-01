@@ -304,15 +304,18 @@ class _EticketState extends State<Eticket> {
                     loading(context);
                     RequestApi.updateStatusTicket(ticket).then((value) {
                       Navigator.pop(context);
-                      (value)
-                          ? Fluttertoast.showToast(
-                              backgroundColor: ColorTheme.greenDark,
-                              msg: "Cancel berhasil!",
-                              toastLength: Toast.LENGTH_LONG)
-                          : Fluttertoast.showToast(
-                              backgroundColor: ColorTheme.greenDark,
-                              msg: "Cancel Gagal!",
-                              toastLength: Toast.LENGTH_LONG);
+                      if (value) {
+                        Fluttertoast.showToast(
+                            backgroundColor: ColorTheme.greenDark,
+                            msg: "Cancel berhasil!",
+                            toastLength: Toast.LENGTH_LONG);
+                        setState(() {});
+                      } else {
+                        Fluttertoast.showToast(
+                            backgroundColor: ColorTheme.greenDark,
+                            msg: "Cancel Gagal!",
+                            toastLength: Toast.LENGTH_LONG);
+                      }
                     }).catchError((e) {
                       Fluttertoast.showToast(
                           backgroundColor: ColorTheme.greenDark,
