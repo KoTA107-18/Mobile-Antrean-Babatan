@@ -25,16 +25,16 @@ class _AntreState extends State<Antre> {
   DateTime selectedDate = DateTime.now();
   TextEditingController _tglBooking = TextEditingController();
   TextEditingController _timeBooking = TextEditingController();
-  Poliklinik _PoliTujuan;
+  Poliklinik _poliTujuan;
 
   bool validateInput(bool isBooking) {
     if (isBooking) {
       return ((_radioValue != null) &&
-          (_PoliTujuan != null) &&
+          (_poliTujuan != null) &&
           (selectedDate != null) &&
           (_timeBooking != null));
     } else {
-      return ((_radioValue != null) && (_PoliTujuan != null));
+      return ((_radioValue != null) && (_poliTujuan != null));
     }
   }
 
@@ -102,7 +102,7 @@ class _AntreState extends State<Antre> {
                             prefixIcon: Icon(Icons.local_hospital),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16.0))),
-                        value: _PoliTujuan,
+                        value: _poliTujuan,
                         items: daftarPoli.map((value) {
                           return DropdownMenuItem(
                             child: Text(value.namaPoli),
@@ -110,7 +110,7 @@ class _AntreState extends State<Antre> {
                           );
                         }).toList(),
                         onChanged: (value) {
-                          _PoliTujuan = value;
+                          _poliTujuan = value;
                         },
                       ),
                     ),
@@ -230,10 +230,10 @@ class _AntreState extends State<Antre> {
                                     Ticket tiket = Ticket(
                                         username: username.toString(),
                                         idJadwal: null,
-                                        idPoli: _PoliTujuan.idPoli,
+                                        idPoli: _poliTujuan.idPoli,
                                         kodeAntrean: null,
                                         tipeBooking: isBooking,
-                                        tglPelayanan: _tglBooking.toString(),
+                                        tglPelayanan: _tglBooking.text,
                                         jamMulaiDilayani: "NULL",
                                         jamSelesaiDilayani: "NULL",
                                         statusAntrean: 1);
@@ -241,7 +241,6 @@ class _AntreState extends State<Antre> {
                                         .then((value) {
                                       Navigator.pop(context);
                                       if (value) {
-                                        Navigator.pop(context);
                                         Fluttertoast.showToast(
                                             backgroundColor:
                                                 ColorTheme.greenDark,
@@ -249,7 +248,6 @@ class _AntreState extends State<Antre> {
                                                 "Pendaftaran berhasil, silahkan cek E-Ticket!",
                                             toastLength: Toast.LENGTH_LONG);
                                       } else {
-                                        Navigator.pop(context);
                                         Fluttertoast.showToast(
                                             backgroundColor:
                                                 ColorTheme.greenDark,
@@ -269,7 +267,7 @@ class _AntreState extends State<Antre> {
                                 });
                               });
                             } else {
-                              if (_PoliTujuan.statusPoli == 1) {
+                              if (_poliTujuan.statusPoli == 1) {
                                 // Jika poli dalam keadaan membuka pendaftaran.
                                 SharedPref.getUsername().then((value) {
                                   username = value;
@@ -283,7 +281,7 @@ class _AntreState extends State<Antre> {
                                       Ticket tiket = Ticket(
                                           username: username.toString(),
                                           idJadwal: null,
-                                          idPoli: _PoliTujuan.idPoli,
+                                          idPoli: _poliTujuan.idPoli,
                                           kodeAntrean: null,
                                           tipeBooking: isBooking,
                                           tglPelayanan: tanggal.toString(),

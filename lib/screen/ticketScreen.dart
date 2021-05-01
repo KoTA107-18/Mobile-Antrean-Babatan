@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ticket_widget/flutter_ticket_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mobile_antrean_babatan/repositories/api/api.dart';
 import 'package:mobile_antrean_babatan/repositories/model/ticket.dart';
 import 'package:mobile_antrean_babatan/repositories/session/sharedPref.dart';
@@ -23,7 +24,6 @@ class _EticketState extends State<Eticket> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorTheme.greenLight,
         appBar: AppBar(
           leading: Icon(Icons.card_membership),
           title: Text("E-Ticket Pendaftaran"),
@@ -272,12 +272,54 @@ class _EticketState extends State<Eticket> {
               }
               if ((snapshot.connectionState == ConnectionState.done) &&
                   (snapshot.data == null)) {
-                return Center(
-                  child: Text("Anda belum mengambil tiket"),
+                return Stack(
+                  children: [
+                    Center(
+                      child: Container(
+                          height: MediaQuery.of(context).size.height / 5,
+                          decoration: BoxDecoration(
+                              color: ColorTheme.greenLight,
+                              shape: BoxShape.circle)),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height / 4,
+                          child: Lottie.asset(
+                            'asset/not_found.json',
+                            repeat: false,
+                            reverse: false,
+                            animate: true,
+                          ),
+                        ),
+                        Center(
+                          child: Text('Anda belum mengambil antrean.',
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorTheme.greenDark)),
+                        )
+                      ],
+                    )
+                  ],
                 );
               } else {
-                return Center(
-                  child: CircularProgressIndicator(),
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: CircularProgressIndicator(),
+                    ),
+                    SizedBox(height: 8.0),
+                    Center(
+                      child: Text('Tuggu sebentar ...',
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: ColorTheme.greenDark)),
+                    )
+                  ],
                 );
               }
             }));
@@ -305,11 +347,12 @@ class _EticketState extends State<Eticket> {
                     RequestApi.updateStatusTicket(ticket).then((value) {
                       Navigator.pop(context);
                       if (value) {
-                        Fluttertoast.showToast(
-                            backgroundColor: ColorTheme.greenDark,
-                            msg: "Cancel berhasil!",
-                            toastLength: Toast.LENGTH_LONG);
-                        setState(() {});
+                        setState(() {
+                          Fluttertoast.showToast(
+                              backgroundColor: ColorTheme.greenDark,
+                              msg: "Cancel berhasil!",
+                              toastLength: Toast.LENGTH_LONG);
+                        });
                       } else {
                         Fluttertoast.showToast(
                             backgroundColor: ColorTheme.greenDark,

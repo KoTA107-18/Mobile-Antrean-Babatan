@@ -35,6 +35,7 @@ dependencies:
   fluttertoast:
   time_picker_widget:
   flutter_bloc:
+  lottie:
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +56,7 @@ flutter:
   assets:
      - asset/LogoPuskesmas.png
      - asset/Avatar.png
+     - asset/not_found.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -36,39 +36,50 @@ class _DashboardState extends State<Dashboard> {
               borderRadius: BorderRadius.circular(15.0),
             ),
             margin: EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                Container(
-                  padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                  child: Text('Bagaimana Kabar Anda?',
-                      style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                          color: ColorTheme.greenDark)),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Text(
-                      'Untuk melakukan pendaftaran antrean di Puskesmas Babatan, silahkan pilih menu E-Ticket.',
-                      style: TextStyle(
-                          fontSize: 16.0, color: ColorTheme.greenDark)),
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Text("Pendaftaran dapat dilakukan"),
-                ),
-                Container(
-                  padding:
-                      EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-                  child: Text(
-                    "Pukul 08.00 - 10.00 WIB",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                        child: Text('Bagaimana Kabar Anda?',
+                            style: TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold,
+                                color: ColorTheme.greenDark)),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                        child: Text(
+                            'Untuk melakukan pendaftaran antrean di Puskesmas Babatan, silahkan pilih menu Antre.',
+                            style: TextStyle(
+                                fontSize: 16.0, color: ColorTheme.greenDark)),
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                        child: Text("Pendaftaran dapat dilakukan"),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 20.0, right: 20.0, bottom: 20.0),
+                        child: Text(
+                          "Pukul 08.00 - 10.00 WIB",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                Container(
+                  width: 80.0,
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: Image.asset('asset/LogoPuskesmas.png'),
+                )
               ],
             ),
           ),
