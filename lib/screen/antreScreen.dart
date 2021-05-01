@@ -76,17 +76,22 @@ class _AntreState extends State<Antre> {
                     Center(
                       child: Container(
                         padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                        child: (isBooking)
-                            ? Text('Booking Antrean',
+                        child: BlocBuilder<BookingBloc, bool>(
+                            builder: (context, statusBooking) {
+                          if (statusBooking) {
+                            return Text('Booking Antrean',
                                 style: TextStyle(
                                     fontSize: 22.0,
                                     fontWeight: FontWeight.bold,
-                                    color: ColorTheme.greenDark))
-                            : Text('Antre Pendaftaran Hari Ini',
+                                    color: ColorTheme.greenDark));
+                          } else {
+                            return Text('Antre Pendaftaran Hari Ini',
                                 style: TextStyle(
                                     fontSize: 22.0,
                                     fontWeight: FontWeight.bold,
-                                    color: ColorTheme.greenDark)),
+                                    color: ColorTheme.greenDark));
+                          }
+                        }),
                       ),
                     ),
                     Container(

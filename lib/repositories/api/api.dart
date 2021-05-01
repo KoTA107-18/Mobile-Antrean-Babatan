@@ -63,4 +63,26 @@ class RequestApi {
       return false;
     }
   }
+
+  static Future getTicket(String username) async {
+    var uri = Uri.http(apiUrl, 'ticket/check', {"username": username});
+    var result = await http.get(uri);
+    print(result.statusCode);
+    if (result.statusCode == 200) {
+      return json.decode(result.body);
+    } else {
+      return null;
+    }
+  }
+
+  static Future<bool> updateStatusTicket(Ticket ticket) async {
+    var result = await http.put(Uri.http(apiUrl, 'ticket/daftar'),
+        body: ticket.toJson());
+    print(ticket.toJson());
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
