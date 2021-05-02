@@ -24,6 +24,7 @@ class _EticketState extends State<Eticket> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorTheme.greenLight,
         appBar: AppBar(
           leading: Icon(Icons.card_membership),
           title: Text("E-Ticket Pendaftaran"),
@@ -272,35 +273,24 @@ class _EticketState extends State<Eticket> {
               }
               if ((snapshot.connectionState == ConnectionState.done) &&
                   (snapshot.data == null)) {
-                return Stack(
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                      child: Container(
-                          height: MediaQuery.of(context).size.height / 5,
-                          decoration: BoxDecoration(
-                              color: ColorTheme.greenLight,
-                              shape: BoxShape.circle)),
+                    Container(
+                      height: MediaQuery.of(context).size.height / 4,
+                      child: Lottie.asset(
+                        'asset/not_found.json',
+                        repeat: false,
+                        reverse: false,
+                        animate: true,
+                      ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height / 4,
-                          child: Lottie.asset(
-                            'asset/not_found.json',
-                            repeat: false,
-                            reverse: false,
-                            animate: true,
-                          ),
-                        ),
-                        Center(
-                          child: Text('Anda belum mengambil antrean.',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: ColorTheme.greenDark)),
-                        )
-                      ],
+                    Center(
+                      child: Text('Anda belum mengambil antrean.',
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: ColorTheme.greenDark)),
                     )
                   ],
                 );
