@@ -1,23 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mobile_antrean_babatan/repositories/model/pasien.dart';
-import 'package:mobile_antrean_babatan/repositories/model/ticket.dart';
+import 'package:mobile_antrean_babatan/repositories/model/kartu.dart';
 
 class RequestApi {
   static final String apiUrl = "rest-api-babatan.herokuapp.com";
   static Future<List<dynamic>> getPasien() async {
     var result = await http.get(Uri.http(apiUrl, 'pasien'));
     return json.decode(result.body)['data'];
-  }
-
-  static Future<bool> registerAntreanHariIni(Ticket ticket) async {
-    var result = await http.post(Uri.http(apiUrl, 'ticket/daftar'),
-        body: ticket.toJson());
-    if (result.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   static Future<bool> registerPasien(Pasien pasien) async {
@@ -89,7 +79,17 @@ class RequestApi {
     }
   }
 
-  static Future<bool> updateStatusTicket(Ticket ticket) async {
+  static Future<bool> registerAntreanHariIni(KartuAntre ticket) async {
+    var result = await http.post(Uri.http(apiUrl, 'ticket/daftar'),
+        body: ticket.toJson());
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<bool> updateStatusTicket(KartuAntre ticket) async {
     var result =
         await http.put(Uri.http(apiUrl, 'ticket/ubah'), body: ticket.toJson());
     print(ticket.toJson());

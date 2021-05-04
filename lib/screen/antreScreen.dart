@@ -5,7 +5,7 @@ import 'package:mobile_antrean_babatan/bloc/antre/booking_bloc.dart';
 import 'package:mobile_antrean_babatan/bloc/antre/radio_bloc.dart';
 import 'package:mobile_antrean_babatan/repositories/api/api.dart';
 import 'package:mobile_antrean_babatan/repositories/model/poliklinik.dart';
-import 'package:mobile_antrean_babatan/repositories/model/ticket.dart';
+import 'package:mobile_antrean_babatan/repositories/model/kartu.dart';
 import 'package:mobile_antrean_babatan/repositories/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
@@ -220,6 +220,7 @@ class _AntreState extends State<Antre> {
                           String username;
                           if (validateInput(isBooking)) {
                             loading(context);
+                            String daftarAntrean = "${DateTime.now().hour.toString().padLeft(2, '0')}:${DateTime.now().minute.toString().padLeft(2, '0')}";
                             if (isBooking) {
                               SharedPref.getUsername().then((value) {
                                 username = value;
@@ -227,13 +228,14 @@ class _AntreState extends State<Antre> {
                                     .then((value) {
                                   if (value == false) {
                                     // Belum ambil antrean.
-                                    Ticket tiket = Ticket(
-                                        username: username.toString(),
-                                        idJadwal: null,
+                                    KartuAntre tiket = KartuAntre(
                                         idPoli: _poliTujuan.idPoli,
-                                        kodeAntrean: null,
+                                        idHari: selectedDate.weekday,
+                                        username: username.toString(),
+                                        nomorAntrean: null,
                                         tipeBooking: isBooking,
                                         tglPelayanan: _tglBooking.text,
+                                        jamDaftarAntrean: daftarAntrean,
                                         jamMulaiDilayani: "NULL",
                                         jamSelesaiDilayani: "NULL",
                                         statusAntrean: 1);
@@ -278,13 +280,14 @@ class _AntreState extends State<Antre> {
                                       DateTime dateNow = DateTime.now();
                                       String tanggal =
                                           "${dateNow.year.toString()}-${dateNow.month.toString().padLeft(2, '0')}-${dateNow.day.toString().padLeft(2, '0')}";
-                                      Ticket tiket = Ticket(
-                                          username: username.toString(),
-                                          idJadwal: null,
+                                      KartuAntre tiket = KartuAntre(
                                           idPoli: _poliTujuan.idPoli,
-                                          kodeAntrean: null,
+                                          idHari: DateTime.now().weekday,
+                                          username: username.toString(),
+                                          nomorAntrean: null,
                                           tipeBooking: isBooking,
                                           tglPelayanan: tanggal.toString(),
+                                          jamDaftarAntrean: daftarAntrean,
                                           jamMulaiDilayani: "NULL",
                                           jamSelesaiDilayani: "NULL",
                                           statusAntrean: 1);

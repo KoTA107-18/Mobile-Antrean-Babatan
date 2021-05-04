@@ -6,7 +6,7 @@ import 'package:mobile_antrean_babatan/utils/color.dart';
 
 import 'screen/antreScreen.dart';
 import 'screen/dashboardScreen.dart';
-import 'screen/ticketScreen.dart';
+import 'screen/kartuAntreanScreen.dart';
 import 'screen/profilScreen.dart';
 import 'screen/riwayatScreen.dart';
 
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 }
 
 class App extends StatelessWidget {
-  final screenList = [Dashboard(), Eticket(), Antre(), Riwayat(), Profil()];
+  final screenList = [Dashboard(), KartuAntreanScreen(), Antre(), Riwayat(), Profil()];
   final NavbarBloc navbarBloc = NavbarBloc(0);
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,9 @@ class App extends StatelessWidget {
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home), label: 'Beranda'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.card_membership), label: 'E-Ticket'),
-                  BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Antre'),
+                      icon: Icon(Icons.card_membership), label: 'Kartu Antre'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.add), label: 'Antre'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.history), label: 'Riwayat'),
                   BottomNavigationBarItem(

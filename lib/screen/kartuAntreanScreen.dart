@@ -3,17 +3,17 @@ import 'package:flutter_ticket_widget/flutter_ticket_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mobile_antrean_babatan/repositories/api/api.dart';
-import 'package:mobile_antrean_babatan/repositories/model/ticket.dart';
+import 'package:mobile_antrean_babatan/repositories/model/kartu.dart';
 import 'package:mobile_antrean_babatan/repositories/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
 
-class Eticket extends StatefulWidget {
+class KartuAntreanScreen extends StatefulWidget {
   @override
-  _EticketState createState() => _EticketState();
+  _KartuAntreanScreenState createState() => _KartuAntreanScreenState();
 }
 
-class _EticketState extends State<Eticket> {
+class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
   String usernameUser;
   Future getTicket() async {
     String username = await SharedPref.getUsername();
@@ -27,7 +27,7 @@ class _EticketState extends State<Eticket> {
       backgroundColor: ColorTheme.greenLight,
         appBar: AppBar(
           leading: Icon(Icons.card_membership),
-          title: Text("E-Ticket Pendaftaran"),
+          title: Text("Kartu Antre"),
         ),
         body: FutureBuilder(
             future: getTicket(),
@@ -233,16 +233,17 @@ class _EticketState extends State<Eticket> {
                       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                       child: InkWell(
                         onTap: () {
-                          Ticket ticket = Ticket(
-                              username: usernameUser,
-                              idJadwal: snapshot.data[0]["id_jadwal"],
+                          KartuAntre ticket = KartuAntre(
                               idPoli: snapshot.data[0]["id_poli"],
-                              kodeAntrean: snapshot.data[0]["kode_antrean"],
+                              idHari: snapshot.data[0]["id_hari"],
+                              username: usernameUser,
+                              nomorAntrean: snapshot.data[0]["nomor_antrean"],
                               tipeBooking:
                                   (snapshot.data[0]["tipe_booking"] == 1)
                                       ? true
                                       : false,
                               tglPelayanan: snapshot.data[0]["tgl_pelayanan"],
+                              jamDaftarAntrean: snapshot.data[0]["jam_daftar_antrean"],
                               jamMulaiDilayani: snapshot.data[0]
                                   ["jam_mulai_dilayani"],
                               jamSelesaiDilayani: snapshot.data[0]
@@ -315,7 +316,7 @@ class _EticketState extends State<Eticket> {
             }));
   }
 
-  _showMaterialDialog(Ticket ticket) {
+  _showMaterialDialog(KartuAntre ticket) {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
