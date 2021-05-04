@@ -21,7 +21,7 @@ class RequestApi {
   }
 
   static Future<bool> registerPasien(Pasien pasien) async {
-    var result = await http.post(Uri.http(apiUrl, 'api/register'),
+    var result = await http.post(Uri.http(apiUrl, 'api/pasien/register'),
         body: pasien.toJson());
     if (result.statusCode == 201) {
       return true;
@@ -33,12 +33,26 @@ class RequestApi {
   static Future<String> loginPasienUsername(
       String username, String password) async {
     String apiToken;
-    var uri = Uri.http(apiUrl, 'api/login/username',
+    var uri = Uri.http(apiUrl, 'api/pasien/login/username',
         {"username": username, "password": password});
     var result = await http.post(uri);
     if (result.statusCode == 201) {
       apiToken = json.decode(result.body)['data']['api_token'];
+      print(apiToken);
       return apiToken;
+    } else {
+      return null;
+    }
+  }
+
+  static Future logoutPasien(
+      String apiToken) async {
+    var uri = Uri.http(apiUrl, 'api/pasien/logout');
+    var result = await http.post(uri, headers: {
+      'Authorization' : 'bearer $apiToken'
+    });
+    if (result.statusCode == 200) {
+      return true;
     } else {
       return null;
     }
