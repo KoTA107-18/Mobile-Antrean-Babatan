@@ -24,7 +24,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorTheme.greenLight,
+        backgroundColor: Colors.teal[50],
         appBar: AppBar(
           leading: Icon(Icons.card_membership),
           title: Text("Kartu Antre"),

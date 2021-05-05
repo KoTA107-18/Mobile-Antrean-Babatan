@@ -22,7 +22,7 @@ class _RiwayatState extends State<Riwayat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorTheme.greenLight,
+        backgroundColor: Colors.teal[50],
         appBar: AppBar(
           leading: Icon(Icons.history),
           title: Text("Riwayat Antrean"),
