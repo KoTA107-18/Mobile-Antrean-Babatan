@@ -234,7 +234,7 @@ class _AntreState extends State<Antre> {
                                         idPoli: _poliTujuan.idPoli,
                                         idHari: selectedDate.weekday,
                                         username: username.toString(),
-                                        nomorAntrean: null,
+                                        nomorAntrean: 0,
                                         tipeBooking: (isBooking) ? 1 : 0,
                                         tglPelayanan: _tglBooking.text,
                                         jamDaftarAntrean: daftarAntrean,
@@ -287,12 +287,12 @@ class _AntreState extends State<Antre> {
                                           idPoli: _poliTujuan.idPoli,
                                           idHari: DateTime.now().weekday,
                                           username: username.toString(),
-                                          nomorAntrean: null,
+                                          nomorAntrean: 0,
                                           tipeBooking: (isBooking) ? 1 : 0,
                                           tglPelayanan: tanggal.toString(),
                                           jamDaftarAntrean: daftarAntrean,
-                                          jamMulaiDilayani: null,
-                                          jamSelesaiDilayani: null,
+                                          jamMulaiDilayani: "NULL",
+                                          jamSelesaiDilayani: "NULL",
                                           statusAntrean: 1);
                                       RequestApi.registerAntreanHariIni(tiket)
                                           .then((value) {

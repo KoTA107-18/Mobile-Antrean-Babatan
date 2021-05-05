@@ -50,8 +50,8 @@ class KartuAntre {
       "tipe_booking": tipeBooking.toString(),
       "tgl_pelayanan": tglPelayanan.toString(),
       "jam_daftar_antrean": jamDaftarAntrean.toString(),
-      "jam_mulai_dilayani": jamMulaiDilayani,
-      "jam_selesai_dilayani": jamSelesaiDilayani,
+      "jam_mulai_dilayani": jamMulaiDilayani.toString(),
+      "jam_selesai_dilayani": jamSelesaiDilayani.toString(),
       "status_antrean": statusAntrean.toString(),
     };
   }
