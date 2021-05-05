@@ -238,7 +238,7 @@ class _AntreState extends State<Antre> {
                                         tipeBooking: (isBooking) ? 1 : 0,
                                         tglPelayanan: _tglBooking.text,
                                         jamDaftarAntrean: daftarAntrean,
-                                        jamMulaiDilayani: "NULL",
+                                        jamMulaiDilayani: _timeBooking.text.toString(),
                                         jamSelesaiDilayani: "NULL",
                                         statusAntrean: 1);
                                     RequestApi.registerAntreanHariIni(tiket)
