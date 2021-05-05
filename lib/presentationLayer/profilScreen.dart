@@ -52,6 +52,7 @@ class Profil extends StatelessWidget {
     return BlocProvider(
       create: (context) => _profilBloc,
       child: BlocListener<ProfilBloc, ProfilState>(
+        bloc: _profilBloc,
         listener: (context, state) {
           if (state is ProfilStateLogoutLoading) {
             loading(context);
