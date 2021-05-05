@@ -82,6 +82,9 @@ class RequestApi {
   static Future<bool> registerAntreanHariIni(KartuAntre ticket) async {
     var result = await http.post(Uri.http(apiUrl, 'ticket/daftar'),
         body: ticket.toJson());
+    print(result.statusCode);
+    print(result.body);
+
     if (result.statusCode == 200) {
       return true;
     } else {

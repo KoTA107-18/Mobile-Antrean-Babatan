@@ -183,7 +183,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                     const EdgeInsets.only(top: 8.0, left: 12.0),
                     child: Text(
                       '#' +
-                          kartuAntre.nomorAntrean.toString(),
+                          kartuAntre.idJadwalPasien.toString(),
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 20.0,

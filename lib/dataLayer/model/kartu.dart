@@ -1,4 +1,5 @@
 class KartuAntre {
+  int idJadwalPasien;
   int idHari;
   int idPoli;
   String username;
@@ -11,7 +12,8 @@ class KartuAntre {
   int statusAntrean;
 
   KartuAntre(
-      {this.idHari,
+      {this.idJadwalPasien,
+      this.idHari,
       this.idPoli,
       this.username,
       this.nomorAntrean,
@@ -24,6 +26,7 @@ class KartuAntre {
 
   factory KartuAntre.fromJson(Map<String, dynamic> map) {
     return KartuAntre(
+      idJadwalPasien: map["id_jadwal_pasien"],
       idHari: map["id_hari"],
       idPoli: map["id_poli"],
       username: map["username"],
@@ -39,6 +42,7 @@ class KartuAntre {
 
   Map<String, dynamic> toJson() {
     return {
+      "id_jadwal_pasien": idJadwalPasien.toString(),
       "id_hari": idHari.toString(),
       "id_poli": idPoli.toString(),
       "username": username.toString(),
@@ -46,8 +50,8 @@ class KartuAntre {
       "tipe_booking": tipeBooking.toString(),
       "tgl_pelayanan": tglPelayanan.toString(),
       "jam_daftar_antrean": jamDaftarAntrean.toString(),
-      "jam_mulai_dilayani": jamMulaiDilayani.toString(),
-      "jam_selesai_dilayani": jamSelesaiDilayani.toString(),
+      "jam_mulai_dilayani": jamMulaiDilayani,
+      "jam_selesai_dilayani": jamSelesaiDilayani,
       "status_antrean": statusAntrean.toString(),
     };
   }

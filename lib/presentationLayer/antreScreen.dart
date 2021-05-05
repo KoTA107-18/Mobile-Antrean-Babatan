@@ -220,7 +220,8 @@ class _AntreState extends State<Antre> {
                           String username;
                           if (validateInput(isBooking)) {
                             loading(context);
-                            String daftarAntrean = "${DateTime.now().hour.toString().padLeft(2, '0')}:${DateTime.now().minute.toString().padLeft(2, '0')}";
+                            String daftarAntrean =
+                                "${DateTime.now().hour.toString().padLeft(2, '0')}:${DateTime.now().minute.toString().padLeft(2, '0')}";
                             if (isBooking) {
                               SharedPref.getUsername().then((value) {
                                 username = value;
@@ -229,6 +230,7 @@ class _AntreState extends State<Antre> {
                                   if (value == false) {
                                     // Belum ambil antrean.
                                     KartuAntre tiket = KartuAntre(
+                                        idJadwalPasien: 0,
                                         idPoli: _poliTujuan.idPoli,
                                         idHari: selectedDate.weekday,
                                         username: username.toString(),
@@ -281,6 +283,7 @@ class _AntreState extends State<Antre> {
                                       String tanggal =
                                           "${dateNow.year.toString()}-${dateNow.month.toString().padLeft(2, '0')}-${dateNow.day.toString().padLeft(2, '0')}";
                                       KartuAntre tiket = KartuAntre(
+                                          idJadwalPasien: 0,
                                           idPoli: _poliTujuan.idPoli,
                                           idHari: DateTime.now().weekday,
                                           username: username.toString(),
@@ -288,8 +291,8 @@ class _AntreState extends State<Antre> {
                                           tipeBooking: (isBooking) ? 1 : 0,
                                           tglPelayanan: tanggal.toString(),
                                           jamDaftarAntrean: daftarAntrean,
-                                          jamMulaiDilayani: "NULL",
-                                          jamSelesaiDilayani: "NULL",
+                                          jamMulaiDilayani: null,
+                                          jamSelesaiDilayani: null,
                                           statusAntrean: 1);
                                       RequestApi.registerAntreanHariIni(tiket)
                                           .then((value) {

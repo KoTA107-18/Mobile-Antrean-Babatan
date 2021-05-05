@@ -36,6 +36,7 @@ class App extends StatelessWidget {
     return BlocProvider(
       create: (_) => navbarBloc,
       child: BlocBuilder<NavbarBloc, int>(
+        bloc: navbarBloc,
         builder: (context, index) {
           return Scaffold(
               body: screenList.elementAt(index),
