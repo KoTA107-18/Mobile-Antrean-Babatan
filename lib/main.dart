@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_antrean_babatan/bloc/navbar/navbar_bloc.dart';
-import 'package:mobile_antrean_babatan/screen/splashScreen.dart';
+import 'package:mobile_antrean_babatan/blocLayer/navbar/navbar_bloc.dart';
+import 'package:mobile_antrean_babatan/presentationLayer/splashScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
-import 'screen/antreScreen.dart';
-import 'screen/dashboardScreen.dart';
-import 'screen/kartuAntreanScreen.dart';
-import 'screen/profilScreen.dart';
-import 'screen/riwayatScreen.dart';
+import 'presentationLayer/antreScreen.dart';
+import 'presentationLayer/dashboardScreen.dart';
+import 'presentationLayer/kartuAntreanScreen.dart';
+import 'presentationLayer/profilScreen.dart';
+import 'presentationLayer/riwayatScreen.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ticket_widget/flutter_ticket_widget.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mobile_antrean_babatan/bloc/kartuAntrean/kartu_antrean_bloc.dart';
-import 'package:mobile_antrean_babatan/repositories/api/api.dart';
-import 'package:mobile_antrean_babatan/repositories/model/kartu.dart';
-import 'package:mobile_antrean_babatan/repositories/session/sharedPref.dart';
+import 'package:mobile_antrean_babatan/blocLayer/kartuAntrean/kartu_antrean_bloc.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/kartu.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
-import 'package:mobile_antrean_babatan/utils/loading.dart';
 
 class KartuAntreanScreen extends StatefulWidget {
   @override

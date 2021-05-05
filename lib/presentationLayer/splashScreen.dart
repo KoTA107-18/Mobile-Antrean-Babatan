@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_antrean_babatan/main.dart';
-import 'package:mobile_antrean_babatan/repositories/session/sharedPref.dart';
-import 'package:mobile_antrean_babatan/screen/loginScreen.dart';
+import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
+import 'package:mobile_antrean_babatan/presentationLayer/loginScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 class SplashScreen extends StatefulWidget {

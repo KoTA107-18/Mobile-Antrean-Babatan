@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mobile_antrean_babatan/bloc/profil/profil_bloc.dart';
-import 'package:mobile_antrean_babatan/screen/loginScreen.dart';
+import 'package:mobile_antrean_babatan/blocLayer/profil/profil_bloc.dart';
+import 'package:mobile_antrean_babatan/presentationLayer/loginScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
 

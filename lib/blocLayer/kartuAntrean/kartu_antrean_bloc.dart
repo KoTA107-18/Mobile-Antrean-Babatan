@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:mobile_antrean_babatan/repositories/api/api.dart';
-import 'package:mobile_antrean_babatan/repositories/model/kartu.dart';
-import 'package:mobile_antrean_babatan/repositories/session/sharedPref.dart';
+import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/kartu.dart';
+import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
 
 part 'kartu_antrean_event.dart';
 part 'kartu_antrean_state.dart';

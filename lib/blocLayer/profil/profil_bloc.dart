@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:mobile_antrean_babatan/repositories/api/api.dart';
-import 'package:mobile_antrean_babatan/repositories/session/sharedPref.dart';
+import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
+import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
 
 part 'profil_event.dart';
 part 'profil_state.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_antrean_babatan/bloc/dashboard/dashboard_bloc.dart';
-import 'package:mobile_antrean_babatan/repositories/model/poliklinik.dart';
+import 'package:mobile_antrean_babatan/blocLayer/dashboard/dashboard_bloc.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/poliklinik.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 class Dashboard extends StatefulWidget {

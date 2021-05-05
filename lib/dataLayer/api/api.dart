@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mobile_antrean_babatan/repositories/model/pasien.dart';
-import 'package:mobile_antrean_babatan/repositories/model/kartu.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/kartu.dart';
 
 class RequestApi {
   static final String apiUrl = "rest-api-babatan.herokuapp.com";

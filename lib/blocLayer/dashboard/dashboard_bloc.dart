@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:mobile_antrean_babatan/repositories/api/api.dart';
-import 'package:mobile_antrean_babatan/repositories/model/poliklinik.dart';
+import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/poliklinik.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
