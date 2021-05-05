@@ -3,7 +3,7 @@ class KartuAntre {
   int idPoli;
   String username;
   int nomorAntrean;
-  bool tipeBooking;
+  int tipeBooking;
   String tglPelayanan;
   String jamDaftarAntrean;
   String jamMulaiDilayani;
