@@ -243,7 +243,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 4.0),
                                     child: Text(
-                                      jadwalPasien.nomorAntrean.toString(),
+                                      (jadwalPasien.nomorAntrean == null) ? 0.toString() : jadwalPasien.nomorAntrean.toString(),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontWeight:
@@ -271,7 +271,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 4.0),
                                     child: Text(
-                                      "NN:NN WIB",
+                                      jadwalPasien.jamDaftarAntrean + " WIB",
                                       style: TextStyle(
                                         fontSize: 24.0,
                                         fontWeight: FontWeight.bold,

@@ -10,7 +10,7 @@ part 'kartu_antrean_event.dart';
 part 'kartu_antrean_state.dart';
 
 class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
-  String username;
+  int idPasien;
   String messageError;
   JadwalPasien kartuAntre;
   KartuAntreanBloc() : super(KartuAntreanStateLoading());
@@ -22,8 +22,8 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
     if(event is KartuAntreanEventGetKartu){
       yield KartuAntreanStateLoading();
       try {
-        username = await SharedPref.getUsername();
-        await RequestApi.getTicket(username).then((value){
+        idPasien = await SharedPref.getIdPasien();
+        await RequestApi.getKartuAntrean(idPasien).then((value){
           if(value != null){
             kartuAntre = new JadwalPasien.fromJson(value[0]);
           }

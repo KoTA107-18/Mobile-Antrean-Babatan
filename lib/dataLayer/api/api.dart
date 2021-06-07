@@ -82,8 +82,8 @@ class RequestApi {
     }
   }
 
-  static Future getTicket(String username) async {
-    var uri = Uri.http(apiUrl, 'ticket/check', {"username": username});
+  static Future getKartuAntrean(int idPasien) async {
+    var uri = Uri.http(apiUrl, 'antrean/pasien/${idPasien.toString()}');
     var result = await http.get(uri);
     print(result.statusCode);
     if (result.statusCode == 200) {
