@@ -1,4 +1,8 @@
 part of 'riwayat_bloc.dart';
 
 @immutable
-abstract class RiwayatEvent {}
+abstract class RiwayatEvent {
+  const RiwayatEvent();
+}
+
+class RiwayatEventGetJadwalPasien extends RiwayatEvent {}

@@ -36,16 +36,14 @@ class RequestApi {
     }
   }
 
-  static Future<String> loginPasienUsername(
+  static Future loginPasienUsername(
       String username, String password) async {
     String apiToken;
     var uri = Uri.http(apiUrl, 'api/pasien/login/username',
         {"username": username, "password": password});
     var result = await http.post(uri);
     if (result.statusCode == 201) {
-      apiToken = json.decode(result.body)['data']['api_token'];
-      print(apiToken);
-      return apiToken;
+      return json.decode(result.body);
     } else {
       return null;
     }

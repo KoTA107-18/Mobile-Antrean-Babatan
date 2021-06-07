@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/responseLogin.dart';
 import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
@@ -33,7 +34,8 @@ class _LoginState extends State<Login> {
           .then((value) {
         Navigator.pop(context);
         if (value != null) {
-          SharedPref.saveLoginInfo(value.toString(), _username.text)
+          ResponseLogin resultSnapshot = ResponseLogin.fromJson(value);
+          SharedPref.saveLoginInfo(value.toString(), _username.text, resultSnapshot.data.pasien.idPasien)
               .then((value) {
             Fluttertoast.showToast(
                 backgroundColor: ColorTheme.greenDark,
