@@ -100,13 +100,7 @@ class RequestApi {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(jadwalPasien.toJson()));
-    print(result.statusCode);
-    print(result.body);
-    if (result.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
+    return json.decode(result.body);
   }
 
   static Future<bool> registerAntreanHariIni(JadwalPasien ticket) async {

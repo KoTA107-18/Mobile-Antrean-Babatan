@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/apiResponse.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/poliklinik.dart';
 import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/hari.dart';
@@ -65,20 +66,34 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
     }
 
     if (event is AntreEventRegister) {
-      yield AntreStateGetPoliLoading();
+      yield AntreStateRegisterLoading(daftarPoli: daftarPoli);
       int idPasien = await SharedPref.getIdPasien();
-      if (isBooking) {
-      } else {
-        tanggalPelayanan = DateTime.now();
-        jadwalPasien = JadwalPasien(
-          hari: convertNumDayToCode(tanggalPelayanan.weekday),
-          idPoli: poliklinikTujuan.idPoli,
-          idPasien: idPasien,
-          tipeBooking: 0,
-          jenisPasien: jenisPasien
-        );
-        await RequestApi.insertAntrean(jadwalPasien);
+      try {
+        if (isBooking) {
+          jadwalPasien = JadwalPasien(
+              hari: convertNumDayToCode(tanggalPelayanan.weekday),
+              idPoli: poliklinikTujuan.idPoli,
+              idPasien: idPasien,
+              tipeBooking: 1,
+              jenisPasien: jenisPasien,
+              tglPelayanan: tanggal.text,
+              jamMulaiDilayani: jam.text);
+        } else {
+          tanggalPelayanan = DateTime.now();
+          jadwalPasien = JadwalPasien(
+              hari: convertNumDayToCode(tanggalPelayanan.weekday),
+              idPoli: poliklinikTujuan.idPoli,
+              idPasien: idPasien,
+              tipeBooking: 0,
+              jenisPasien: jenisPasien);
+        }
+        var resultSnapshot = await RequestApi.insertAntrean(jadwalPasien);
+        var response = ApiResponse.fromJson(resultSnapshot);
+        yield AntreStateSendMessage(daftarPoli: daftarPoli, message: response.message);
+      } catch (e) {
+        yield AntreStateSendMessage(daftarPoli: daftarPoli, message: e.toString());
       }
+
     }
   }
 

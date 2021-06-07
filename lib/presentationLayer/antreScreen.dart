@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_antrean_babatan/blocLayer/antre/antre_bloc.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/poliklinik.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
+import 'package:mobile_antrean_babatan/utils/loading.dart';
 import 'package:mobile_antrean_babatan/utils/textFieldModified.dart';
 import 'package:time_picker_widget/time_picker_widget.dart';
 
@@ -29,8 +31,18 @@ class _AntreState extends State<Antre> {
           leading: Icon(Icons.add),
           title: Text("Pendaftaran Antrean"),
         ),
-        body: BlocBuilder<AntreBloc, AntreState>(
+        body: BlocConsumer<AntreBloc, AntreState>(
           bloc: _antreBloc,
+          listener: (context, state){
+            if(state is AntreStateRegisterLoading){
+              loading(context);
+            }
+
+            if(state is AntreStateSendMessage){
+              Navigator.pop(context);
+              Fluttertoast.showToast(msg: state.message, toastLength: Toast.LENGTH_LONG);
+            }
+          },
           builder: (context, state) {
             if (state is AntreStateGetPoliSuccess) {
               return viewNonBooking(state.daftarPoli);
@@ -41,6 +53,18 @@ class _AntreState extends State<Antre> {
                 return viewNonBooking(state.daftarPoli);
               }
             } else if (state is AntreStateChooseRegistType) {
+              if (_antreBloc.isBooking) {
+                return viewBooking(state.daftarPoli);
+              } else {
+                return viewNonBooking(state.daftarPoli);
+              }
+            } else if (state is AntreStateRegisterLoading) {
+              if (_antreBloc.isBooking) {
+                return viewBooking(state.daftarPoli);
+              } else {
+                return viewNonBooking(state.daftarPoli);
+              }
+            } else if (state is AntreStateSendMessage) {
               if (_antreBloc.isBooking) {
                 return viewBooking(state.daftarPoli);
               } else {
@@ -282,6 +306,7 @@ class _AntreState extends State<Antre> {
                       onPressed: () {
                         _selectDate(context).then((value) {
                           if (value != null) {
+                            _antreBloc.tanggalPelayanan = value;
                             _antreBloc.tanggal.text =
                                 "${value.year.toString()}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')}";
                           }
@@ -315,6 +340,7 @@ class _AntreState extends State<Antre> {
                                 time.hour < 15 &&
                                 time.minute % 12 == 0).then((value){
                                   if(value != null){
+                                    _antreBloc.jamBooking = value;
                                     _antreBloc.jam.text = "${value.hour.toString().padLeft(2, '0')}:${value.minute.toString().padLeft(2, '0')}";
                                   }
                         });
