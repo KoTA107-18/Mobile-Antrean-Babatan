@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ticket_widget/flutter_ticket_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mobile_antrean_babatan/blocLayer/kartuAntrean/kartu_antrean_bloc.dart';
-import 'package:mobile_antrean_babatan/dataLayer/model/kartu.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 class KartuAntreanScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class KartuAntreanScreen extends StatefulWidget {
 class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
   KartuAntreanBloc _kartuAntreanBloc = KartuAntreanBloc();
 
-  _showMaterialDialog(KartuAntre ticket) {
+  _showMaterialDialog(JadwalPasien ticket) {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -108,7 +108,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
     );
   }
 
-  ListView kartuAntrean(KartuAntre kartuAntre){
+  ListView kartuAntrean(JadwalPasien jadwalPasien){
     return ListView(
       children: [
         SizedBox(
@@ -172,7 +172,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        kartuAntre.idPoli.toString(),
+                        jadwalPasien.idPoli.toString(),
                         style:
                         TextStyle(color: ColorTheme.greenDark),
                       ),
@@ -183,7 +183,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                     const EdgeInsets.only(top: 8.0, left: 12.0),
                     child: Text(
                       '#' +
-                          kartuAntre.idJadwalPasien.toString(),
+                          jadwalPasien.idPasien.toString(),
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 20.0,
@@ -195,12 +195,12 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                     child: Column(
                       children: <Widget>[
                         ticketDetailsWidget('Nama Lengkap',
-                            'Unknown', 'Tanggal Lahir', 'Unknown'),
+                            jadwalPasien.namaLengkap, 'Tanggal Lahir', jadwalPasien.tglLahir),
                         SizedBox(
                           height: 8.0,
                         ),
                         ticketDetailsWidget(
-                            'Kepala Keluarga', 'Unknown', '', ''),
+                            'Kepala Keluarga', jadwalPasien.kepalaKeluarga, '', ''),
                       ],
                     ),
                   ),
@@ -213,7 +213,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                   ),
                   Center(
                       child: Text(
-                          kartuAntre.tglPelayanan,
+                          jadwalPasien.tglPelayanan,
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -243,7 +243,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 4.0),
                                     child: Text(
-                                      kartuAntre.nomorAntrean.toString(),
+                                      jadwalPasien.nomorAntrean.toString(),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontWeight:
@@ -307,7 +307,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: InkWell(
             onTap: () {
-              _showMaterialDialog(kartuAntre);
+              _showMaterialDialog(jadwalPasien);
             },
             child: Container(
               height: 40.0,

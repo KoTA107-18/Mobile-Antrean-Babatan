@@ -8,7 +8,7 @@ abstract class KartuAntreanState {
 class KartuAntreanStateLoading extends KartuAntreanState {}
 
 class KartuAntreanStateSuccess extends KartuAntreanState {
-  final KartuAntre kartuAntre;
+  final JadwalPasien kartuAntre;
   KartuAntreanStateSuccess({@required this.kartuAntre});
 }
 

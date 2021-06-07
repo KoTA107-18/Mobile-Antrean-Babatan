@@ -1,10 +1,26 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
-import 'package:mobile_antrean_babatan/dataLayer/model/kartu.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
 
 class RequestApi {
   static final String apiUrl = "rest-api-babatan.herokuapp.com";
+
+  /*
+    Method for functional Jadwal Pasien.
+  */
+
+  static Future getAntreanRiwayat(String idPasien) async {
+    var uri = Uri.https(apiUrl, 'antrean/pasien/riwayat/$idPasien');
+    var result = await http.get(uri);
+    if (result.statusCode == 200) {
+      return json.decode(result.body);
+    } else {
+      return null;
+    }
+  }
+
+
   static Future<List<dynamic>> getPasien() async {
     var result = await http.get(Uri.http(apiUrl, 'pasien'));
     return json.decode(result.body)['data'];
@@ -79,7 +95,7 @@ class RequestApi {
     }
   }
 
-  static Future<bool> registerAntreanHariIni(KartuAntre ticket) async {
+  static Future<bool> registerAntreanHariIni(JadwalPasien ticket) async {
     var result = await http.post(Uri.http(apiUrl, 'ticket/daftar'),
         body: ticket.toJson());
     print(result.statusCode);
@@ -92,7 +108,7 @@ class RequestApi {
     }
   }
 
-  static Future<bool> updateStatusTicket(KartuAntre ticket) async {
+  static Future<bool> updateStatusTicket(JadwalPasien ticket) async {
     var result =
         await http.put(Uri.http(apiUrl, 'ticket/ubah'), body: ticket.toJson());
     if (result.statusCode == 200) {

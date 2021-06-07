@@ -8,12 +8,12 @@ class Pasien {
   String tglLahir;
   Pasien(
       {this.username,
-      this.noHandphone,
-      this.kepalaKeluarga,
-      this.namaLengkap,
-      this.password,
-      this.alamat,
-      this.tglLahir});
+        this.noHandphone,
+        this.kepalaKeluarga,
+        this.namaLengkap,
+        this.password,
+        this.alamat,
+        this.tglLahir});
   factory Pasien.fromJson(Map<String, dynamic> map) {
     return Pasien(
         username: map["username"],

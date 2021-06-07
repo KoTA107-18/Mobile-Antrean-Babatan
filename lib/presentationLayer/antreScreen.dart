@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_antrean_babatan/blocLayer/antre/booking_bloc.dart';
 import 'package:mobile_antrean_babatan/blocLayer/antre/radio_bloc.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/poliklinik.dart';
-import 'package:mobile_antrean_babatan/dataLayer/model/kartu.dart';
-import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
-import 'package:mobile_antrean_babatan/utils/loading.dart';
 import 'package:mobile_antrean_babatan/utils/textFieldModified.dart';
 import 'package:time_picker_widget/time_picker_widget.dart';
 
@@ -217,6 +213,7 @@ class _AntreState extends State<Antre> {
                       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                       child: InkWell(
                         onTap: () {
+                          /*
                           String username;
                           if (validateInput(isBooking)) {
                             loading(context);
@@ -229,7 +226,7 @@ class _AntreState extends State<Antre> {
                                     .then((value) {
                                   if (value == false) {
                                     // Belum ambil antrean.
-                                    KartuAntre tiket = KartuAntre(
+                                    JadwalPasien tiket = JadwalPasien(
                                         idJadwalPasien: 0,
                                         idPoli: _poliTujuan.idPoli,
                                         idHari: selectedDate.weekday,
@@ -282,7 +279,7 @@ class _AntreState extends State<Antre> {
                                       DateTime dateNow = DateTime.now();
                                       String tanggal =
                                           "${dateNow.year.toString()}-${dateNow.month.toString().padLeft(2, '0')}-${dateNow.day.toString().padLeft(2, '0')}";
-                                      KartuAntre tiket = KartuAntre(
+                                      JadwalPasien tiket = JadwalPasien(
                                           idJadwalPasien: 0,
                                           idPoli: _poliTujuan.idPoli,
                                           idHari: DateTime.now().weekday,
@@ -337,7 +334,7 @@ class _AntreState extends State<Antre> {
                                 backgroundColor: ColorTheme.greenDark,
                                 msg: "Mohon lengkapi form yang disediakan",
                                 toastLength: Toast.LENGTH_LONG);
-                          }
+                          }*/
                         },
                         child: Container(
                           height: 40.0,

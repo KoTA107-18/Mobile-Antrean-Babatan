@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
-import 'package:mobile_antrean_babatan/dataLayer/model/kartu.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
 import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
 
 part 'kartu_antrean_event.dart';
@@ -12,7 +12,7 @@ part 'kartu_antrean_state.dart';
 class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
   String username;
   String messageError;
-  KartuAntre kartuAntre;
+  JadwalPasien kartuAntre;
   KartuAntreanBloc() : super(KartuAntreanStateLoading());
 
   @override
@@ -25,7 +25,7 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
         username = await SharedPref.getUsername();
         await RequestApi.getTicket(username).then((value){
           if(value != null){
-            kartuAntre = new KartuAntre.fromJson(value[0]);
+            kartuAntre = new JadwalPasien.fromJson(value[0]);
           }
         });
         if(kartuAntre == null){
