@@ -35,7 +35,9 @@ class _LoginState extends State<Login> {
         Navigator.pop(context);
         if (value != null) {
           ResponseLogin resultSnapshot = ResponseLogin.fromJson(value);
-          SharedPref.saveLoginInfo(value.toString(), _username.text, resultSnapshot.data.pasien.idPasien)
+          SharedPref.saveLoginInfo(
+              resultSnapshot.data.apiToken,
+              _username.text, resultSnapshot.data.pasien.idPasien)
               .then((value) {
             Fluttertoast.showToast(
                 backgroundColor: ColorTheme.greenDark,

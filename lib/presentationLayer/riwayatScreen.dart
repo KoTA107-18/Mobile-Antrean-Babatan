@@ -74,7 +74,6 @@ class _RiwayatState extends State<Riwayat> {
                   child: Text(state.errMessage),
                 );
               } else {
-                print(_riwayatBloc.state);
                 return Center(
                   child: CircularProgressIndicator(),
                 );
