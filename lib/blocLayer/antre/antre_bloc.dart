@@ -4,10 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
-import 'package:mobile_antrean_babatan/dataLayer/model/JadwalPasien.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/poliklinik.dart';
 import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
 import 'package:mobile_antrean_babatan/utils/hari.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
 
 part 'antre_event.dart';
 part 'antre_state.dart';
@@ -23,6 +23,7 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
   // Variabel Penampung Input.
   bool isBooking = false;
   Poliklinik poliklinikTujuan;
+  JadwalPasien jadwalPasien;
   int jenisPasien = 0;
   DateTime tanggalPelayanan;
   TimeOfDay jamBooking;
@@ -65,18 +66,18 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
 
     if (event is AntreEventRegister) {
       yield AntreStateGetPoliLoading();
-      JadwalPasien jadwalPasien;
       int idPasien = await SharedPref.getIdPasien();
       if (isBooking) {
-
       } else {
         tanggalPelayanan = DateTime.now();
         jadwalPasien = JadwalPasien(
-            hari: convertNumDayToCode(tanggalPelayanan.weekday),
-            idPoli: poliklinikTujuan.idPoli,
-            idPasien: idPasien,
-            tipeBooking: 0,
-            jenisPasien: jenisPasien);
+          hari: convertNumDayToCode(tanggalPelayanan.weekday),
+          idPoli: poliklinikTujuan.idPoli,
+          idPasien: idPasien,
+          tipeBooking: 0,
+          jenisPasien: jenisPasien
+        );
+        await RequestApi.insertAntrean(jadwalPasien);
       }
     }
   }

@@ -93,6 +93,22 @@ class RequestApi {
     }
   }
 
+  static Future insertAntrean(JadwalPasien jadwalPasien) async {
+    var uri = Uri.http(apiUrl, 'antrean');
+    var result = await http.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(jadwalPasien.toJson()));
+    print(result.statusCode);
+    print(result.body);
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static Future<bool> registerAntreanHariIni(JadwalPasien ticket) async {
     var result = await http.post(Uri.http(apiUrl, 'ticket/daftar'),
         body: ticket.toJson());
