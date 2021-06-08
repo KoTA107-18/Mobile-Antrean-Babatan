@@ -8,7 +8,7 @@ abstract class DashboardState {
 class DashboardStateLoading extends DashboardState {}
 
 class DashboardStateSuccess extends DashboardState {
-  final List<Poliklinik> daftarPoli;
+  final List<InfoPoliklinik> daftarPoli;
   DashboardStateSuccess({@required this.daftarPoli});
 }
 

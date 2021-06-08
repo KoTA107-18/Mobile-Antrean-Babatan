@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:mobile_antrean_babatan/main.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
-import '../main.dart';
 
 class Verification extends StatefulWidget {
+  String noHandphone;
+  Verification(this.noHandphone);
+
   @override
   _VerificationState createState() => _VerificationState();
 }
 
 class _VerificationState extends State<Verification> {
+  bool isVerification = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,7 +35,7 @@ class _VerificationState extends State<Verification> {
               Container(
                 padding: EdgeInsets.only(left: 32.0, right: 32.0),
                 child: Text(
-                    'Kami mengirimkan SMS berupa kode dengan 4 digit angka ke nomor anda. Harap masukkan kode yang anda terima.',
+                    'Kami mengirimkan SMS ke nomor ${widget.noHandphone} berupa kode dengan 4 digit angka ke nomor anda. Harap masukkan kode yang anda terima.',
                     textAlign: TextAlign.justify,
                     style:
                         TextStyle(fontSize: 16.0, color: ColorTheme.greenDark)),
@@ -53,8 +58,12 @@ class _VerificationState extends State<Verification> {
               SizedBox(height: 32.0),
               InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => App()));
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => App(),
+                      ),
+                      (Route<dynamic> route) => false);
                 },
                 child: Container(
                   padding: EdgeInsets.only(left: 32.0, right: 32.0),

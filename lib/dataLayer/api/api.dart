@@ -10,6 +10,21 @@ class RequestApi {
     Method for functional Jadwal Pasien.
   */
 
+  static Future getInfoPoliklinik() async {
+    /*
+    Endpoint : rest-api-babatan.herokuapp.com/antrean/info
+    Method Type : GET
+    Desc : Get All Poliklinik in Database
+    */
+    var uri = Uri.https(apiUrl, 'antrean/info');
+    var result = await http.get(uri);
+    if (result.statusCode == 200) {
+      return json.decode(result.body);
+    } else {
+      return null;
+    }
+  }
+
   static Future getAntreanRiwayat(String idPasien) async {
     var uri = Uri.https(apiUrl, 'antrean/pasien/riwayat/$idPasien');
     var result = await http.get(uri);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_antrean_babatan/blocLayer/dashboard/dashboard_bloc.dart';
-import 'package:mobile_antrean_babatan/dataLayer/model/poliklinik.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/InfoPoliklinik.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 class Dashboard extends StatefulWidget {
@@ -68,12 +68,12 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  ListView daftarPoliklinik(List<Poliklinik> daftarPoli){
+  ListView daftarPoliklinik(List<InfoPoliklinik> daftarPoli){
     return ListView.builder(
         itemCount: daftarPoli.length,
         itemBuilder: (BuildContext context, int index) {
           return Card(
-            color: (daftarPoli[index].statusPoli == 1) ? Colors.white : Colors.white70,
+              //color: (daftarPoli[index].statusPoli == 1) ? Colors.white : Colors.white70,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
@@ -95,7 +95,7 @@ class _DashboardState extends State<Dashboard> {
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold),
                         ),
-                        Text("Nomor Antrian saat ini : NULL",
+                        Text("Nomor Antrian saat ini : " + daftarPoli[index].nomorAntrean.toString(),
                             style: TextStyle(fontSize: 16.0)),
                       ],
                     ),
@@ -114,7 +114,7 @@ class _DashboardState extends State<Dashboard> {
                         MainAxisAlignment.center,
                         children: [
                           Center(child: Text("Total Antrean")),
-                          Text("-",
+                          Text(daftarPoli[index].totalAntrean.toString(),
                               style: TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold)),

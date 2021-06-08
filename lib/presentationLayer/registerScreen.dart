@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
+import 'package:mobile_antrean_babatan/presentationLayer/verificationScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
 import 'package:mobile_antrean_babatan/utils/textFieldModified.dart';
@@ -24,6 +25,7 @@ class _RegisterState extends State<Register> {
   TextEditingController _passwordTwo = TextEditingController();
   TextEditingController _nomorHandphone = TextEditingController();
   bool isClickValidated = false;
+  bool isVerifiedNumber = false;
   DateTime selectedDate = DateTime.now();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -222,6 +224,13 @@ class _RegisterState extends State<Register> {
                         SizedBox(height: 20.0),
                         InkWell(
                           onTap: () {
+                            /*
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Verification(_nomorHandphone.text),
+                                ));
+                            _awaitReturnValueFromSecondScreen(context);*/
                             verifiedInput();
                           },
                           child: Container(
@@ -276,6 +285,18 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Verification(_nomorHandphone.text),
+        ));
+    setState(() {
+      isVerifiedNumber = result;
+      print(isVerifiedNumber);
+    });
   }
 
   void verifiedInput() {
