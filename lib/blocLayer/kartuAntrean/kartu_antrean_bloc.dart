@@ -42,8 +42,8 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
       yield KartuAntreanStateLoading();
       try {
         bool result = false;
-        kartuAntre.statusAntrean = 4;
-        result = await RequestApi.updateStatusTicket(kartuAntre);
+        kartuAntre.statusAntrean = 5;
+        result = await RequestApi.updateJadwalPasien(kartuAntre);
         if(result){
           yield KartuAntreanStateEmpty(message: "Anda belum mengambil antrean.");
         } else {

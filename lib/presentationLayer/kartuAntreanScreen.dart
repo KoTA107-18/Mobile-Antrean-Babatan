@@ -172,7 +172,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        jadwalPasien.idPoli.toString(),
+                        jadwalPasien.namaPoli,
                         style:
                         TextStyle(color: ColorTheme.greenDark),
                       ),

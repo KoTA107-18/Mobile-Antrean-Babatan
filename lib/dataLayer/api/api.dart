@@ -116,9 +116,13 @@ class RequestApi {
     }
   }
 
-  static Future<bool> updateStatusTicket(JadwalPasien ticket) async {
+  static Future<bool> updateJadwalPasien(JadwalPasien jadwalPasien) async {
     var result =
-        await http.put(Uri.http(apiUrl, 'ticket/ubah'), body: ticket.toJson());
+        await http.put(Uri.http(apiUrl, 'antrean'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(jadwalPasien.toJson()));
     if (result.statusCode == 200) {
       return true;
     } else {
