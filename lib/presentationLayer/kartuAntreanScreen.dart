@@ -163,7 +163,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    width: 120.0,
+                    width: 150.0,
                     height: 25.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.0),
@@ -271,7 +271,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 4.0),
                                     child: Text(
-                                      jadwalPasien.jamDaftarAntrean + " WIB",
+                                      "00:00" + " WIB",
                                       style: TextStyle(
                                         fontSize: 24.0,
                                         fontWeight: FontWeight.bold,
