@@ -88,9 +88,11 @@ class _AntreState extends State<Antre> {
   Future<DateTime> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: new DateTime(
+        initialDate: DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day + 1),
+        firstDate: DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day + 1),
+        lastDate: DateTime(
             DateTime.now().year, DateTime.now().month, DateTime.now().day + 7));
     return picked;
   }
@@ -336,13 +338,13 @@ class _AntreState extends State<Antre> {
                                 print('Unavailable selection'),
                             initialTime: TimeOfDay(hour: 11, minute: 0),
                             selectableTimePredicate: (time) =>
-                                time.hour >= 8 &&
-                                time.hour < 15 &&
-                                time.minute % 12 == 0).then((value){
-                                  if(value != null){
-                                    _antreBloc.jamBooking = value;
-                                    _antreBloc.jam.text = "${value.hour.toString().padLeft(2, '0')}:${value.minute.toString().padLeft(2, '0')}";
-                                  }
+                            time.hour >= 0 &&
+                                time.hour < 24 &&
+                                time.minute % 60 == 0).then((value){
+                          if(value != null){
+                            _antreBloc.jamBooking = value;
+                            _antreBloc.jam.text = "${value.hour.toString().padLeft(2, '0')}:${value.minute.toString().padLeft(2, '0')}";
+                          }
                         });
                       },
                       child: Icon(Icons.timer))

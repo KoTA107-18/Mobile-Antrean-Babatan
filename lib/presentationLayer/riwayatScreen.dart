@@ -12,18 +12,6 @@ class Riwayat extends StatefulWidget {
 
 class _RiwayatState extends State<Riwayat> {
   RiwayatBloc _riwayatBloc = RiwayatBloc();
-  final List<String> names = <String>[
-    'Manish',
-    'Jitender',
-    'Pankaj',
-    'Aarti',
-    'Nighat',
-    'Mohit',
-    'Ruchika',
-    'Nighat',
-    'Mohit',
-    'Ruchika',
-  ];
 
   @override
   void initState() {
@@ -87,6 +75,7 @@ class _RiwayatState extends State<Riwayat> {
     return ListView.builder(
         itemCount: jadwalPasien.length,
         itemBuilder: (BuildContext context, int index) {
+          String status = (jadwalPasien[index].statusAntrean == 3) ? "Selesai Dilayani" : "Cancel";
           return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
@@ -125,8 +114,7 @@ class _RiwayatState extends State<Riwayat> {
                           "Tanggal Pelayanan : " +
                               jadwalPasien[index].tglPelayanan.toString(),
                           style: TextStyle(fontSize: 16.0)),
-                      Text("Status : " +
-                          jadwalPasien[index].statusAntrean.toString()),
+                      Text("Status : " + status),
                     ],
                   )
                 ],
