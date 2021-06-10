@@ -1,18 +1,106 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/apiResponse.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
 import 'package:mobile_antrean_babatan/main.dart';
+import 'package:mobile_antrean_babatan/presentationLayer/loginScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
+import 'package:mobile_antrean_babatan/utils/loading.dart';
 
 class Verification extends StatefulWidget {
-  String noHandphone;
-  Verification(this.noHandphone);
+  Pasien pasien;
+  Verification(this.pasien);
 
   @override
   _VerificationState createState() => _VerificationState();
 }
 
 class _VerificationState extends State<Verification> {
-  bool isVerification = false;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String _verificationCode;
+  bool _onEditing = true;
+  String _code;
+
+  @override
+  void initState() {
+    super.initState();
+    _verifyPhone();
+  }
+
+  _verificationAfterInput(String code) async {
+    try {
+      await auth
+          .signInWithCredential(PhoneAuthProvider.credential(
+              verificationId: _verificationCode, smsCode: code))
+          .then((value) async {
+        if (value.user != null) {
+          loading(context);
+          RequestApi.registerPasien(widget.pasien).then((value) {
+            var response = ApiResponse.fromJson(value);
+            if (response.success) {
+              Navigator.pop(context);
+              Fluttertoast.showToast(
+                  msg: response.message.toString(),
+                  toastLength: Toast.LENGTH_LONG);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                  (route) => false);
+            } else {
+              Navigator.pop(context);
+              Fluttertoast.showToast(
+                  msg: response.message.toString(),
+                  toastLength: Toast.LENGTH_LONG);
+            }
+          }).catchError((e) {
+            Navigator.pop(context);
+            Fluttertoast.showToast(
+                msg: e.toString(), toastLength: Toast.LENGTH_LONG);
+          });
+        }
+      });
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: "Invalid OTP", toastLength: Toast.LENGTH_LONG);
+    }
+  }
+
+  _verifyPhone() async {
+    await auth.verifyPhoneNumber(
+        phoneNumber: '+${widget.pasien.noHandphone}',
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await FirebaseAuth.instance
+              .signInWithCredential(credential)
+              .then((value) async {
+            if (value.user != null) {
+              Fluttertoast.showToast(
+                  msg: "Verifikasi Otomatis Berhasil, silahkan Login!",
+                  toastLength: Toast.LENGTH_LONG);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                  (route) => false);
+            }
+          });
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          print(e.message);
+        },
+        codeSent: (String verficationID, int resendToken) {
+          setState(() {
+            _verificationCode = verficationID;
+          });
+        },
+        codeAutoRetrievalTimeout: (String verificationID) {
+          setState(() {
+            _verificationCode = verificationID;
+          });
+        },
+        timeout: Duration(seconds: 120));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +123,7 @@ class _VerificationState extends State<Verification> {
               Container(
                 padding: EdgeInsets.only(left: 32.0, right: 32.0),
                 child: Text(
-                    'Kami mengirimkan SMS ke nomor ${widget.noHandphone} berupa kode dengan 4 digit angka ke nomor anda. Harap masukkan kode yang anda terima.',
+                    'Kami mengirimkan SMS ke nomor anda berupa kode dengan 6 digit angka ke nomor anda. Harap masukkan kode yang anda terima.',
                     textAlign: TextAlign.justify,
                     style:
                         TextStyle(fontSize: 16.0, color: ColorTheme.greenDark)),
@@ -47,23 +135,19 @@ class _VerificationState extends State<Verification> {
                         TextStyle(fontSize: 20.0, color: ColorTheme.greenDark),
                     underlineColor: ColorTheme.greenDark,
                     keyboardType: TextInputType.number,
-                    length: 4,
+                    length: 6,
                     onCompleted: (String value) {
-                      setState(() {});
+                      _code = value;
+                      _verificationAfterInput(_code);
                     },
                     onEditing: (bool value) {
-                      setState(() {});
+                      _onEditing = value;
                     }),
               ),
               SizedBox(height: 32.0),
               InkWell(
                 onTap: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => App(),
-                      ),
-                      (Route<dynamic> route) => false);
+                  _verificationAfterInput(_code);
                 },
                 child: Container(
                   padding: EdgeInsets.only(left: 32.0, right: 32.0),

@@ -54,14 +54,20 @@ class RequestApi {
     return json.decode(result.body)['data'];
   }
 
-  static Future<bool> registerPasien(Pasien pasien) async {
+  static Future validasiDataUnik(Pasien pasien) async {
+    var uri = Uri.http(apiUrl, 'pasien/validasi');
+    var result = await http.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(pasien.toJson()));
+    return json.decode(result.body);
+  }
+
+  static Future registerPasien(Pasien pasien) async {
     var result = await http.post(Uri.http(apiUrl, 'api/pasien/register'),
         body: pasien.toJson());
-    if (result.statusCode == 201) {
-      return true;
-    } else {
-      return false;
-    }
+    return json.decode(result.body);
   }
 
   static Future loginPasienUsername(String username, String password) async {

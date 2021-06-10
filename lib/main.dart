@@ -1,7 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_antrean_babatan/blocLayer/navbar/navbar_bloc.dart';
 import 'package:mobile_antrean_babatan/presentationLayer/splashScreen.dart';
+import 'package:mobile_antrean_babatan/presentationLayer/verificationScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 import 'presentationLayer/antreScreen.dart';
@@ -11,6 +13,7 @@ import 'presentationLayer/profilScreen.dart';
 import 'presentationLayer/riwayatScreen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -23,13 +26,53 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: SplashScreen(),
+      home: FirebaseInitialization(),
+    );
+  }
+}
+
+class FirebaseInitialization extends StatefulWidget {
+  @override
+  _FirebaseInitializationState createState() => _FirebaseInitializationState();
+}
+
+class _FirebaseInitializationState extends State<FirebaseInitialization> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FutureBuilder(
+        // Initialize FlutterFire:
+        future: _initialization,
+        builder: (context, snapshot) {
+          // Check for errors
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          }
+          // Once complete, show your application
+          if (snapshot.connectionState == ConnectionState.done) {
+            return SplashScreen();
+          }
+          // Otherwise, show something whilst waiting for initialization to complete
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
     );
   }
 }
 
 class App extends StatelessWidget {
-  final screenList = [Dashboard(), KartuAntreanScreen(), Antre(), Riwayat(), Profil()];
+  final screenList = [
+    Dashboard(),
+    KartuAntreanScreen(),
+    Antre(),
+    Riwayat(),
+    Profil()
+  ];
   final NavbarBloc navbarBloc = NavbarBloc(0);
   @override
   Widget build(BuildContext context) {

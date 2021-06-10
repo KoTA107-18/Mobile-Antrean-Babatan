@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/apiResponse.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
 import 'package:mobile_antrean_babatan/presentationLayer/verificationScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
@@ -204,7 +205,7 @@ class _RegisterState extends State<Register> {
                         SizedBox(height: 20.0),
                         textFieldModified(
                             label: 'Nomor Seluler',
-                            hint: 'Isi dengan nomor seluler anda',
+                            hint: 'Contoh : 6281122224444',
                             icon: Icon(Icons.call),
                             typeKeyboard: TextInputType.number,
                             formatter: [
@@ -216,6 +217,8 @@ class _RegisterState extends State<Register> {
                                 return "Harus diisi";
                               } else if (value.length < 10) {
                                 return "Minimum 10 digit";
+                              } else if (value.substring(0,2) != "62"){
+                                return "Format tidak sesuai, awali dengan 62";
                               } else {
                                 return null;
                               }
@@ -287,18 +290,6 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void _awaitReturnValueFromSecondScreen(BuildContext context) async {
-    final result = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Verification(_nomorHandphone.text),
-        ));
-    setState(() {
-      isVerifiedNumber = result;
-      print(isVerifiedNumber);
-    });
-  }
-
   void verifiedInput() {
     setState(() {
       isClickValidated = true;
@@ -313,28 +304,25 @@ class _RegisterState extends State<Register> {
           password: _password.text,
           alamat: _alamat.text,
           tglLahir: _tglLahir.text);
-      RequestApi.registerPasien(pasien).then((value) {
-        Navigator.pop(context);
-        if (value) {
+
+      RequestApi.validasiDataUnik(pasien).then((value){
+        var response = ApiResponse.fromJson(value);
+        if(response.success){
+          Navigator.pop(context);
           Fluttertoast.showToast(
-              gravity: ToastGravity.CENTER,
-              backgroundColor: ColorTheme.greenDark,
-              msg: "Registrasi berhasil!",
+              msg: response.message.toString(),
               toastLength: Toast.LENGTH_LONG);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Login()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Verification(pasien)));
         } else {
+          Navigator.pop(context);
           Fluttertoast.showToast(
-              gravity: ToastGravity.CENTER,
-              backgroundColor: ColorTheme.greenDark,
-              msg: "Username atau Nomor Seluler anda sudah terdaftar!",
+              msg: response.message.toString(),
               toastLength: Toast.LENGTH_LONG);
         }
       }).catchError((e) {
         Navigator.pop(context);
         Fluttertoast.showToast(
-            gravity: ToastGravity.CENTER,
-            backgroundColor: ColorTheme.greenDark,
             msg: e.toString(),
             toastLength: Toast.LENGTH_LONG);
       });
