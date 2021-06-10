@@ -38,10 +38,11 @@ class _VerificationState extends State<Verification> {
           .then((value) async {
         if (value.user != null) {
           loading(context);
-          RequestApi.registerPasien(widget.pasien).then((value) {
+          RequestApi.registerPasien(widget.pasien).then((value) async {
             var response = ApiResponse.fromJson(value);
             if (response.success) {
               Navigator.pop(context);
+              await auth.signOut();
               Fluttertoast.showToast(
                   msg: response.message.toString(),
                   toastLength: Toast.LENGTH_LONG);
@@ -79,6 +80,7 @@ class _VerificationState extends State<Verification> {
               Fluttertoast.showToast(
                   msg: "Verifikasi Otomatis Berhasil, silahkan Login!",
                   toastLength: Toast.LENGTH_LONG);
+              await auth.signOut();
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => Login()),
