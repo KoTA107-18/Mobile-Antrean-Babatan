@@ -9,7 +9,8 @@ class KartuAntreanStateLoading extends KartuAntreanState {}
 
 class KartuAntreanStateSuccess extends KartuAntreanState {
   final JadwalPasien kartuAntre;
-  KartuAntreanStateSuccess({@required this.kartuAntre});
+  final String estimasi;
+  KartuAntreanStateSuccess({@required this.kartuAntre, this.estimasi});
 }
 
 class KartuAntreanStateFailed extends KartuAntreanState {

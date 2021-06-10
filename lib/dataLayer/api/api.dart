@@ -10,6 +10,20 @@ class RequestApi {
     Method for functional Jadwal Pasien.
   */
 
+  static Future getEstimasi(JadwalPasien jadwalPasien) async {
+    var uri = Uri.https(apiUrl, 'antrean/estimasi', {
+      'id_poli' : jadwalPasien.idPoli.toString(),
+      'tgl_pelayanan' : jadwalPasien.tglPelayanan.toString(),
+      'jam_booking' : jadwalPasien.jamBooking.toString()
+    });
+    var result = await http.get(uri);
+    if (result.statusCode == 200) {
+      return json.decode(result.body);
+    } else {
+      return null;
+    }
+  }
+
   static Future getInfoPoliklinik() async {
     /*
     Endpoint : rest-api-babatan.herokuapp.com/antrean/info
@@ -35,7 +49,6 @@ class RequestApi {
     }
   }
 
-
   static Future<List<dynamic>> getPasien() async {
     var result = await http.get(Uri.http(apiUrl, 'pasien'));
     return json.decode(result.body)['data'];
@@ -51,8 +64,7 @@ class RequestApi {
     }
   }
 
-  static Future loginPasienUsername(
-      String username, String password) async {
+  static Future loginPasienUsername(String username, String password) async {
     String apiToken;
     var uri = Uri.http(apiUrl, 'api/pasien/login/username',
         {"username": username, "password": password});
@@ -64,12 +76,10 @@ class RequestApi {
     }
   }
 
-  static Future logoutPasien(
-      String apiToken) async {
+  static Future logoutPasien(String apiToken) async {
     var uri = Uri.http(apiUrl, 'api/pasien/logout');
-    var result = await http.post(uri, headers: {
-      'Authorization' : 'bearer $apiToken'
-    });
+    var result =
+        await http.post(uri, headers: {'Authorization': 'bearer $apiToken'});
     if (result.statusCode == 200) {
       return true;
     } else {
@@ -132,12 +142,11 @@ class RequestApi {
   }
 
   static Future<bool> updateJadwalPasien(JadwalPasien jadwalPasien) async {
-    var result =
-        await http.put(Uri.http(apiUrl, 'antrean'),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode(jadwalPasien.toJson()));
+    var result = await http.put(Uri.http(apiUrl, 'antrean'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(jadwalPasien.toJson()));
     if (result.statusCode == 200) {
       return true;
     } else {

@@ -108,7 +108,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
     );
   }
 
-  ListView kartuAntrean(JadwalPasien jadwalPasien){
+  ListView kartuAntrean(JadwalPasien jadwalPasien, String estimasi){
     return ListView(
       children: [
         SizedBox(
@@ -270,8 +270,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         top: 4.0),
-                                    child: Text(
-                                      jadwalPasien.jamBooking + " WIB",
+                                    child: Text("± " + jadwalPasien.jamBooking.toString() + " WIB",
                                       style: TextStyle(
                                         fontSize: 24.0,
                                         fontWeight: FontWeight.bold,
@@ -355,7 +354,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
           body: BlocBuilder<KartuAntreanBloc, KartuAntreanState>(
             builder: (context, state) {
               if (state is KartuAntreanStateSuccess) {
-                return kartuAntrean(state.kartuAntre);
+                return kartuAntrean(state.kartuAntre, state.estimasi);
               } else if (state is KartuAntreanStateFailed){
                 return Center(
                   child: Text(state.errMessage),

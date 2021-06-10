@@ -31,7 +31,8 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
         if(kartuAntre == null){
           yield KartuAntreanStateEmpty(message: "Anda belum mengambil antrean.");
         } else {
-          yield KartuAntreanStateSuccess(kartuAntre: kartuAntre);
+          var estimasi = await RequestApi.getEstimasi(kartuAntre);
+          yield KartuAntreanStateSuccess(kartuAntre: kartuAntre, estimasi: estimasi);
         }
       } catch (e) {
         yield KartuAntreanStateFailed(errMessage: e.toString());

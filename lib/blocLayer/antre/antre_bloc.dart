@@ -77,7 +77,7 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
               tipeBooking: 1,
               jenisPasien: jenisPasien,
               tglPelayanan: tanggal.text,
-              jamMulaiDilayani: jam.text);
+              jamBooking: jam.text);
         } else {
           tanggalPelayanan = DateTime.now();
           jadwalPasien = JadwalPasien(
