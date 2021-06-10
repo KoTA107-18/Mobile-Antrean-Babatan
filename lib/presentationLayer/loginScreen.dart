@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/apiResponse.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/responseLogin.dart';
 import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
+import 'package:mobile_antrean_babatan/presentationLayer/verificationScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
 import 'package:mobile_antrean_babatan/utils/textFieldModified.dart';
@@ -24,7 +27,7 @@ class _LoginState extends State<Login> {
   bool isLoginByUsername = true;
   bool isClickValidated = false;
 
-  void verifiedInput() {
+  void verifiedInputRegister() {
     setState(() {
       isClickValidated = true;
     });
@@ -57,6 +60,34 @@ class _LoginState extends State<Login> {
         Navigator.pop(context);
         Fluttertoast.showToast(
             backgroundColor: ColorTheme.greenDark,
+            msg: e.toString(),
+            toastLength: Toast.LENGTH_LONG);
+      });
+    }
+  }
+
+  void verifiedInputLogin() {
+    setState(() {
+      isClickValidated = true;
+    });
+    if (_formKey.currentState.validate()) {
+      loading(context);
+      Pasien pasien = Pasien(noHandphone: _nomorSeluler.text.toString());
+      RequestApi.validasiPasien(pasien).then((value){
+        var response = ApiResponse.fromJson(value);
+        if(response.success){
+          Navigator.pop(context);
+          Fluttertoast.showToast(
+              msg: "Nomor ini tidak terdaftar pada Aplikasi.",
+              toastLength: Toast.LENGTH_LONG);
+        } else {
+          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Verification(pasien, false)));
+        }
+      }).catchError((e) {
+        Navigator.pop(context);
+        Fluttertoast.showToast(
             msg: e.toString(),
             toastLength: Toast.LENGTH_LONG);
       });
@@ -140,6 +171,8 @@ class _LoginState extends State<Login> {
                                     return "Harus diisi";
                                   } else if (value.length < 10) {
                                     return "Minimum 10 digit";
+                                  } else if (value.substring(0, 2) != "62") {
+                                    return "Format tidak sesuai, awali dengan 62";
                                   } else {
                                     return null;
                                   }
@@ -171,17 +204,9 @@ class _LoginState extends State<Login> {
                         InkWell(
                           onTap: () {
                             if (isLoginByUsername) {
-                              verifiedInput();
+                              verifiedInputRegister();
                             } else {
-                              Fluttertoast.showToast(
-                                  backgroundColor: ColorTheme.greenDark,
-                                  msg: "Fitur On Going!",
-                                  toastLength: Toast.LENGTH_LONG);
-                              /*
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Verification()));*/
+                              verifiedInputLogin();
                             }
                           },
                           child: Container(

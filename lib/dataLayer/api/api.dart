@@ -32,6 +32,13 @@ class RequestApi {
     return json.decode(result.body);
   }
 
+  static Future loginPasienHandphone(String noHandphone) async {
+    var uri = Uri.http(apiUrl, 'api/pasien/login/nohp',
+        {"no_handphone": noHandphone});
+    var result = await http.post(uri);
+    return json.decode(result.body);
+  }
+
   static Future logoutPasien(String apiToken) async {
     var uri = Uri.http(apiUrl, 'api/pasien/logout');
     var result =

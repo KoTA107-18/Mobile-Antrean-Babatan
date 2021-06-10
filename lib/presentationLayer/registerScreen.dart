@@ -313,7 +313,7 @@ class _RegisterState extends State<Register> {
               msg: response.message.toString(),
               toastLength: Toast.LENGTH_LONG);
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Verification(pasien)));
+              context, MaterialPageRoute(builder: (context) => Verification(pasien, true)));
         } else {
           Navigator.pop(context);
           Fluttertoast.showToast(
