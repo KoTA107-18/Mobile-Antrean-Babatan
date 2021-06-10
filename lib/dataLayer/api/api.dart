@@ -7,14 +7,47 @@ class RequestApi {
   static final String apiUrl = "rest-api-babatan.herokuapp.com";
 
   /*
+    Method for functional Pasien.
+  */
+  static Future validasiPasien(Pasien pasien) async {
+    var uri = Uri.http(apiUrl, 'pasien/validasi');
+    var result = await http.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(pasien.toJson()));
+    return json.decode(result.body);
+  }
+
+  static Future registerPasien(Pasien pasien) async {
+    var result = await http.post(Uri.http(apiUrl, 'api/pasien/register'),
+        body: pasien.toJson());
+    return json.decode(result.body);
+  }
+
+  static Future loginPasienUsername(String username, String password) async {
+    var uri = Uri.http(apiUrl, 'api/pasien/login/username',
+        {"username": username, "password": password});
+    var result = await http.post(uri);
+    return json.decode(result.body);
+  }
+
+  static Future logoutPasien(String apiToken) async {
+    var uri = Uri.http(apiUrl, 'api/pasien/logout');
+    var result =
+        await http.post(uri, headers: {'Authorization': 'bearer $apiToken'});
+    return json.decode(result.body);
+  }
+
+  /*
     Method for functional Jadwal Pasien.
   */
 
   static Future getEstimasi(JadwalPasien jadwalPasien) async {
     var uri = Uri.https(apiUrl, 'antrean/estimasi', {
-      'id_poli' : jadwalPasien.idPoli.toString(),
-      'tgl_pelayanan' : jadwalPasien.tglPelayanan.toString(),
-      'jam_booking' : jadwalPasien.jamBooking.toString()
+      'id_poli': jadwalPasien.idPoli.toString(),
+      'tgl_pelayanan': jadwalPasien.tglPelayanan.toString(),
+      'jam_booking': jadwalPasien.jamBooking.toString()
     });
     var result = await http.get(uri);
     if (result.statusCode == 200) {
@@ -46,70 +79,6 @@ class RequestApi {
       return json.decode(result.body);
     } else {
       return null;
-    }
-  }
-
-  static Future<List<dynamic>> getPasien() async {
-    var result = await http.get(Uri.http(apiUrl, 'pasien'));
-    return json.decode(result.body)['data'];
-  }
-
-  static Future validasiDataUnik(Pasien pasien) async {
-    var uri = Uri.http(apiUrl, 'pasien/validasi');
-    var result = await http.post(uri,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(pasien.toJson()));
-    return json.decode(result.body);
-  }
-
-  static Future registerPasien(Pasien pasien) async {
-    var result = await http.post(Uri.http(apiUrl, 'api/pasien/register'),
-        body: pasien.toJson());
-    return json.decode(result.body);
-  }
-
-  static Future loginPasienUsername(String username, String password) async {
-    String apiToken;
-    var uri = Uri.http(apiUrl, 'api/pasien/login/username',
-        {"username": username, "password": password});
-    var result = await http.post(uri);
-    if (result.statusCode == 201) {
-      return json.decode(result.body);
-    } else {
-      return null;
-    }
-  }
-
-  static Future logoutPasien(String apiToken) async {
-    var uri = Uri.http(apiUrl, 'api/pasien/logout');
-    var result =
-        await http.post(uri, headers: {'Authorization': 'bearer $apiToken'});
-    if (result.statusCode == 200) {
-      return true;
-    } else {
-      return null;
-    }
-  }
-
-  static Future getAllPoliklinik() async {
-    var uri = Uri.http(apiUrl, 'poliklinik');
-    var result = await http.get(uri);
-    if (result.statusCode == 200) {
-      return json.decode(result.body);
-    } else {
-      return null;
-    }
-  }
-
-  static Future<bool> checkAlreadyRegisterQueue(String username) async {
-    var uri = Uri.http(apiUrl, 'ticket/check', {"username": username});
-    var result = await http.get(uri);
-    if (result.statusCode == 200) {
-      return true;
-    } else {
-      return false;
     }
   }
 
@@ -157,6 +126,20 @@ class RequestApi {
       return true;
     } else {
       return false;
+    }
+  }
+
+  /*
+    Method for functional Poliklinik.
+  */
+
+  static Future getAllPoliklinik() async {
+    var uri = Uri.http(apiUrl, 'poliklinik');
+    var result = await http.get(uri);
+    if (result.statusCode == 200) {
+      return json.decode(result.body);
+    } else {
+      return null;
     }
   }
 }

@@ -23,14 +23,14 @@ class ResponseLogin {
 }
 
 class Data {
-  Pasien pasien;
+  PasienLogin pasien;
   String apiToken;
 
   Data({this.pasien, this.apiToken});
 
   Data.fromJson(Map<String, dynamic> json) {
     pasien =
-    json['pasien'] != null ? new Pasien.fromJson(json['pasien']) : null;
+    json['pasien'] != null ? new PasienLogin.fromJson(json['pasien']) : null;
     apiToken = json['api_token'];
   }
 
@@ -44,7 +44,7 @@ class Data {
   }
 }
 
-class Pasien {
+class PasienLogin {
   int idPasien;
   String username;
   String noHandphone;
@@ -54,7 +54,7 @@ class Pasien {
   String namaLengkap;
   int jenisPasien;
 
-  Pasien(
+  PasienLogin(
       {this.idPasien,
         this.username,
         this.noHandphone,
@@ -64,7 +64,7 @@ class Pasien {
         this.namaLengkap,
         this.jenisPasien});
 
-  Pasien.fromJson(Map<String, dynamic> json) {
+  PasienLogin.fromJson(Map<String, dynamic> json) {
     idPasien = json['id_pasien'];
     username = json['username'];
     noHandphone = json['no_handphone'];

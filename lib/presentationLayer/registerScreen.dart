@@ -305,7 +305,7 @@ class _RegisterState extends State<Register> {
           alamat: _alamat.text,
           tglLahir: _tglLahir.text);
 
-      RequestApi.validasiDataUnik(pasien).then((value){
+      RequestApi.validasiPasien(pasien).then((value){
         var response = ApiResponse.fromJson(value);
         if(response.success){
           Navigator.pop(context);
