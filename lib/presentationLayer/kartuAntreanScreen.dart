@@ -271,7 +271,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 4.0),
                                     child: Text(
-                                      "00:00" + " WIB",
+                                      jadwalPasien.jamBooking + " WIB",
                                       style: TextStyle(
                                         fontSize: 24.0,
                                         fontWeight: FontWeight.bold,
