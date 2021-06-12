@@ -302,7 +302,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        Padding(
+        (jadwalPasien.statusAntrean != 2) ? Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: InkWell(
             onTap: () {
@@ -325,7 +325,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
               ),
             ),
           ),
-        )
+        ) : SizedBox.shrink()
       ],
     );
   }
