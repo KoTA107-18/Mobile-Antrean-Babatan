@@ -7,7 +7,7 @@ import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/apiResponse.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/poliklinik.dart';
 import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
-import 'package:mobile_antrean_babatan/utils/hari.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/hari.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
 
 part 'antre_event.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mobile_antrean_babatan/blocLayer/riwayat/riwayat_bloc.dart';
+import 'package:mobile_antrean_babatan/blocLayer/antrean/riwayat/riwayat_bloc.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/JadwalPasien.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 

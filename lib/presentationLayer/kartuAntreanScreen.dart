@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ticket_widget/flutter_ticket_widget.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mobile_antrean_babatan/blocLayer/kartuAntrean/kartu_antrean_bloc.dart';
+import 'package:mobile_antrean_babatan/blocLayer/antrean/kartuAntrean/kartu_antrean_bloc.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
