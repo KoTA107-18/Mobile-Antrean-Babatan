@@ -12,6 +12,8 @@ import 'presentationLayer/kartuAntreanScreen.dart';
 import 'presentationLayer/profilScreen.dart';
 import 'presentationLayer/riwayatScreen.dart';
 
+import 'package:dcdg/dcdg.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());

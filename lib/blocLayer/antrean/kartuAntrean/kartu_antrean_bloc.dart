@@ -31,7 +31,7 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
         if(kartuAntre == null){
           yield KartuAntreanStateEmpty(message: "Anda belum mengambil antrean.");
         } else {
-          var estimasi = await RequestApi.getEstimasi(kartuAntre);
+          var estimasi = await RequestApi.getAntreanEstimasi(kartuAntre);
           yield KartuAntreanStateSuccess(kartuAntre: kartuAntre, estimasi: estimasi);
         }
       } catch (e) {
@@ -44,7 +44,7 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
       try {
         bool result = false;
         kartuAntre.statusAntrean = 5;
-        result = await RequestApi.updateJadwalPasien(kartuAntre);
+        result = await RequestApi.updateAntrean(kartuAntre);
         if(result){
           yield KartuAntreanStateEmpty(message: "Anda belum mengambil antrean.");
         } else {

@@ -1,0 +1,521 @@
+@startuml
+set namespaceSeparator ::
+
+class "mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanBloc" {
+  +int* idPasien
+  +String* messageError
+  +JadwalPasien* kartuAntre
+  +Stream<KartuAntreanState*>* mapEventToState()
+}
+
+"mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanBloc" o-- "mobile_antrean_babatan::dataLayer::model::jadwalPasien.dart::JadwalPasien"
+
+abstract class "mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanEvent" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanEventGetKartu" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanEventCancelAntrean" {
+}
+
+abstract class "mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanState" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanStateLoading" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanStateSuccess" {
+  +JadwalPasien* kartuAntre
+  +String* estimasi
+}
+
+"mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanStateSuccess" o-- "mobile_antrean_babatan::dataLayer::model::jadwalPasien.dart::JadwalPasien"
+
+class "mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanStateFailed" {
+  +String* errMessage
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanStateEmpty" {
+  +String* message
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::riwayat::riwayat_bloc.dart::RiwayatBloc" {
+  +List<JadwalPasien*>* jadwalPasien
+  +Stream<RiwayatState*>* mapEventToState()
+}
+
+abstract class "mobile_antrean_babatan::blocLayer::antrean::riwayat::riwayat_bloc.dart::RiwayatEvent" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::riwayat::riwayat_bloc.dart::RiwayatEventGetJadwalPasien" {
+}
+
+abstract class "mobile_antrean_babatan::blocLayer::antrean::riwayat::riwayat_bloc.dart::RiwayatState" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::riwayat::riwayat_bloc.dart::RiwayatStateLoading" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::riwayat::riwayat_bloc.dart::RiwayatStateSuccess" {
+  +List<JadwalPasien*>* jadwalPasien
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::riwayat::riwayat_bloc.dart::RiwayatStateFailed" {
+  +String* errMessage
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreBloc" {
+  +List<Poliklinik*>* daftarPoli
+  +TextEditingController* tanggal
+  +TextEditingController* jam
+  +bool* isBooking
+  +Poliklinik* poliklinikTujuan
+  +JadwalPasien* jadwalPasien
+  +int* jenisPasien
+  +DateTime* tanggalPelayanan
+  +TimeOfDay* jamBooking
+  +Stream<AntreState*>* mapEventToState()
+  +String* convertNumDayToCode()
+}
+
+"mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreBloc" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreBloc" o-- "mobile_antrean_babatan::dataLayer::model::poliklinik.dart::Poliklinik"
+"mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreBloc" o-- "mobile_antrean_babatan::dataLayer::model::jadwalPasien.dart::JadwalPasien"
+"mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreBloc" o-- "flutter::src::material::time.dart::TimeOfDay"
+
+abstract class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreEvent" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreEventGetPoliklinik" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreEventChooseType" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreEventChooseRegistType" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreEventRegister" {
+}
+
+abstract class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreState" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreStateGetPoliLoading" {
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreStateGetPoliSuccess" {
+  +List<Poliklinik*>* daftarPoli
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreStateGetPoliFailed" {
+  +String* errMessage
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreStateChooseType" {
+  +List<Poliklinik*>* daftarPoli
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreStateChooseRegistType" {
+  +List<Poliklinik*>* daftarPoli
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreStateRegisterLoading" {
+  +List<Poliklinik*>* daftarPoli
+}
+
+class "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreStateSendMessage" {
+  +List<Poliklinik*>* daftarPoli
+  +String* message
+}
+
+class "mobile_antrean_babatan::blocLayer::dashboard::dashboard_bloc.dart::DashboardBloc" {
+  +String* messageError
+  +List<InfoPoliklinik*>* daftarPoli
+  +Stream<DashboardState*>* mapEventToState()
+}
+
+abstract class "mobile_antrean_babatan::blocLayer::dashboard::dashboard_bloc.dart::DashboardEvent" {
+}
+
+class "mobile_antrean_babatan::blocLayer::dashboard::dashboard_bloc.dart::DashboardEventGetPoli" {
+}
+
+abstract class "mobile_antrean_babatan::blocLayer::dashboard::dashboard_bloc.dart::DashboardState" {
+}
+
+class "mobile_antrean_babatan::blocLayer::dashboard::dashboard_bloc.dart::DashboardStateLoading" {
+}
+
+class "mobile_antrean_babatan::blocLayer::dashboard::dashboard_bloc.dart::DashboardStateSuccess" {
+  +List<InfoPoliklinik*>* daftarPoli
+}
+
+class "mobile_antrean_babatan::blocLayer::dashboard::dashboard_bloc.dart::DashboardStateFailed" {
+  +String* messageFailed
+}
+
+class "mobile_antrean_babatan::blocLayer::navbar::navbar_bloc.dart::NavbarEvent" {
+  +int* index
+  {static} +List<NavbarEvent*>* values
+  {static} +NavbarEvent* goDashboard
+  {static} +NavbarEvent* goTicket
+  {static} +NavbarEvent* goAntre
+  {static} +NavbarEvent* goRiwayat
+  {static} +NavbarEvent* goProfil
+}
+
+"mobile_antrean_babatan::blocLayer::navbar::navbar_bloc.dart::NavbarEvent" o-- "mobile_antrean_babatan::blocLayer::navbar::navbar_bloc.dart::NavbarEvent"
+
+class "mobile_antrean_babatan::blocLayer::navbar::navbar_bloc.dart::NavbarBloc" {
+  +Stream<int*>* mapEventToState()
+}
+
+class "mobile_antrean_babatan::blocLayer::profil::profil_bloc.dart::ProfilBloc" {
+  +String* apiKey
+  +Stream<ProfilState*>* mapEventToState()
+}
+
+abstract class "mobile_antrean_babatan::blocLayer::profil::profil_bloc.dart::ProfilEvent" {
+}
+
+class "mobile_antrean_babatan::blocLayer::profil::profil_bloc.dart::ProfilEventLogout" {
+}
+
+abstract class "mobile_antrean_babatan::blocLayer::profil::profil_bloc.dart::ProfilState" {
+}
+
+class "mobile_antrean_babatan::blocLayer::profil::profil_bloc.dart::ProfilInitial" {
+}
+
+class "mobile_antrean_babatan::blocLayer::profil::profil_bloc.dart::ProfilStateLogoutLoading" {
+}
+
+class "mobile_antrean_babatan::blocLayer::profil::profil_bloc.dart::ProfilStateLogoutSuccess" {
+  +String* message
+}
+
+class "mobile_antrean_babatan::blocLayer::profil::profil_bloc.dart::ProfilStateLogoutFailed" {
+  +String* errMessage
+}
+
+class "mobile_antrean_babatan::dataLayer::api::api.dart::RequestApi" {
+  {static} +String* apiUrl
+  {static} +Future<dynamic>* validasiPasien()
+  {static} +Future<dynamic>* registerPasien()
+  {static} +Future<dynamic>* loginPasienUsername()
+  {static} +Future<dynamic>* loginPasienHandphone()
+  {static} +Future<dynamic>* logoutPasien()
+  {static} +Future<dynamic>* getEstimasi()
+  {static} +Future<dynamic>* getInfoPoliklinik()
+  {static} +Future<dynamic>* getAntreanRiwayat()
+  {static} +Future<dynamic>* getKartuAntrean()
+  {static} +Future<dynamic>* insertAntrean()
+  {static} +Future<bool*>* registerAntreanHariIni()
+  {static} +Future<bool*>* updateJadwalPasien()
+  {static} +Future<dynamic>* getAllPoliklinik()
+}
+
+class "mobile_antrean_babatan::dataLayer::model::apiResponse.dart::ApiResponse" {
+  +bool* success
+  +String* message
+  +T* data
+  +Map<String*, dynamic>* toJson()
+}
+
+class "mobile_antrean_babatan::dataLayer::model::hari.dart::Hari" {
+  {static} +String* SENIN
+  {static} +String* SELASA
+  {static} +String* RABU
+  {static} +String* KAMIS
+  {static} +String* JUMAT
+  {static} +String* SABTU
+  {static} +String* MINGGU
+}
+
+class "mobile_antrean_babatan::dataLayer::model::InfoPoliklinik.dart::InfoPoliklinik" {
+  +int* totalAntrean
+  +int* antreanSementara
+  +int* nomorAntrean
+  +int* idPoli
+  +String* namaPoli
+  +Map<String*, dynamic>* toJson()
+}
+
+class "mobile_antrean_babatan::dataLayer::model::jadwal.dart::Jadwal" {
+  +int* idPoli
+  +String* hari
+  +String* jamBukaBooking
+  +String* jamTutupBooking
+  +Map<String*, dynamic>* toJson()
+}
+
+class "mobile_antrean_babatan::dataLayer::model::jadwalPasien.dart::JadwalPasien" {
+  +int* nomorAntrean
+  +int* tipeBooking
+  +String* tglPelayanan
+  +String* jamBooking
+  +String* waktuDaftarAntrean
+  +String* jamMulaiDilayani
+  +String* jamSelesaiDilayani
+  +int* statusAntrean
+  +String* hari
+  +int* idPoli
+  +String* namaPoli
+  +int* idPasien
+  +String* username
+  +String* noHandphone
+  +String* kepalaKeluarga
+  +String* namaLengkap
+  +String* alamat
+  +String* tglLahir
+  +int* jenisPasien
+  +Map<String*, dynamic>* toJson()
+}
+
+class "mobile_antrean_babatan::dataLayer::model::pasien.dart::Pasien" {
+  +String* username
+  +String* noHandphone
+  +String* kepalaKeluarga
+  +String* namaLengkap
+  +String* password
+  +String* alamat
+  +String* tglLahir
+  +Map<String*, dynamic>* toJson()
+}
+
+class "mobile_antrean_babatan::dataLayer::model::poliklinik.dart::Poliklinik" {
+  +int* idPoli
+  +String* namaPoli
+  +String* descPoli
+  +int* statusPoli
+  +int* rerataWaktuPelayanan
+  +List<Jadwal*>* jadwal
+  +Map<String*, dynamic>* toJson()
+  +String* jadwalToString()
+}
+
+class "mobile_antrean_babatan::dataLayer::model::responseLogin.dart::ResponseLogin" {
+  +bool* success
+  +String* message
+  +Data* data
+  +Map<String*, dynamic>* toJson()
+}
+
+"mobile_antrean_babatan::dataLayer::model::responseLogin.dart::ResponseLogin" o-- "mobile_antrean_babatan::dataLayer::model::responseLogin.dart::Data"
+
+class "mobile_antrean_babatan::dataLayer::model::responseLogin.dart::Data" {
+  +PasienLogin* pasien
+  +String* apiToken
+  +Map<String*, dynamic>* toJson()
+}
+
+"mobile_antrean_babatan::dataLayer::model::responseLogin.dart::Data" o-- "mobile_antrean_babatan::dataLayer::model::responseLogin.dart::PasienLogin"
+
+class "mobile_antrean_babatan::dataLayer::model::responseLogin.dart::PasienLogin" {
+  +int* idPasien
+  +String* username
+  +String* noHandphone
+  +String* kepalaKeluarga
+  +String* tglLahir
+  +String* alamat
+  +String* namaLengkap
+  +int* jenisPasien
+  +Map<String*, dynamic>* toJson()
+}
+
+class "mobile_antrean_babatan::dataLayer::model::statusAntrean.dart::StatusAntrean" {
+  {static} +int* BELUM_DILAYANI
+  {static} +int* SEDANG_DILAYANI
+  {static} +int* SUDAH_DILAYANI
+  {static} +int* DILEWATI
+  {static} +int* DIBATALKAN
+}
+
+class "mobile_antrean_babatan::dataLayer::session::sharedPref.dart::SharedPref" {
+  {static} -String* _apiKey
+  {static} -String* _usernameKey
+  {static} -String* _idPasienKey
+  {static} +Future<void>* saveLoginInfo()
+  {static} +Future<bool*>* isLogin()
+  {static} +Future<String*>* getUsername()
+  {static} +Future<String*>* getApiKey()
+  {static} +Future<int*>* getIdPasien()
+  {static} +Future<void>* deleteSharedPref()
+}
+
+class "mobile_antrean_babatan::main.dart::MyApp" {
+  +Widget* build()
+}
+
+class "mobile_antrean_babatan::main.dart::FirebaseInitialization" {
+  +_FirebaseInitializationState* createState()
+}
+
+class "mobile_antrean_babatan::main.dart::_FirebaseInitializationState" {
+  -Future<FirebaseApp*>* _initialization
+  +Widget* build()
+}
+
+class "mobile_antrean_babatan::main.dart::App" {
+  +List<Widget*>* screenList
+  +NavbarBloc* navbarBloc
+  +Widget* build()
+}
+
+"mobile_antrean_babatan::main.dart::App" o-- "mobile_antrean_babatan::blocLayer::navbar::navbar_bloc.dart::NavbarBloc"
+
+class "mobile_antrean_babatan::presentationLayer::antreScreen.dart::Antre" {
+  +_AntreState* createState()
+}
+
+class "mobile_antrean_babatan::presentationLayer::antreScreen.dart::_AntreState" {
+  -AntreBloc* _antreBloc
+  +void initState()
+  +Widget* build()
+  -Future<DateTime*>* _selectDate()
+  +ListView* viewNonBooking()
+  +ListView* viewBooking()
+}
+
+"mobile_antrean_babatan::presentationLayer::antreScreen.dart::_AntreState" o-- "mobile_antrean_babatan::blocLayer::antrean::tambahAntrean::antre_bloc.dart::AntreBloc"
+
+class "mobile_antrean_babatan::presentationLayer::dashboardScreen.dart::Dashboard" {
+  +_DashboardState* createState()
+}
+
+class "mobile_antrean_babatan::presentationLayer::dashboardScreen.dart::_DashboardState" {
+  -DashboardBloc* _dashboardBloc
+  +Card* cardHeader()
+  +ListView* daftarPoliklinik()
+  +void initState()
+  +Widget* build()
+}
+
+"mobile_antrean_babatan::presentationLayer::dashboardScreen.dart::_DashboardState" o-- "mobile_antrean_babatan::blocLayer::dashboard::dashboard_bloc.dart::DashboardBloc"
+
+class "mobile_antrean_babatan::presentationLayer::kartuAntreanScreen.dart::KartuAntreanScreen" {
+  +_KartuAntreanScreenState* createState()
+}
+
+class "mobile_antrean_babatan::presentationLayer::kartuAntreanScreen.dart::_KartuAntreanScreenState" {
+  -KartuAntreanBloc* _kartuAntreanBloc
+  -dynamic _showMaterialDialog()
+  +Widget* ticketDetailsWidget()
+  +ListView* kartuAntrean()
+  +void initState()
+  +Widget* build()
+}
+
+"mobile_antrean_babatan::presentationLayer::kartuAntreanScreen.dart::_KartuAntreanScreenState" o-- "mobile_antrean_babatan::blocLayer::antrean::kartuAntrean::kartu_antrean_bloc.dart::KartuAntreanBloc"
+
+class "mobile_antrean_babatan::presentationLayer::loginScreen.dart::Login" {
+  +_LoginState* createState()
+}
+
+class "mobile_antrean_babatan::presentationLayer::loginScreen.dart::_LoginState" {
+  -GlobalKey<FormState*>* _formKey
+  -TextEditingController* _username
+  -TextEditingController* _password
+  -TextEditingController* _nomorSeluler
+  +bool* isLoginByUsername
+  +bool* isClickValidated
+  +void verifiedInputRegister()
+  +void verifiedInputLogin()
+  +Widget* build()
+}
+
+"mobile_antrean_babatan::presentationLayer::loginScreen.dart::_LoginState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"mobile_antrean_babatan::presentationLayer::loginScreen.dart::_LoginState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+
+class "mobile_antrean_babatan::presentationLayer::profilScreen.dart::Profil" {
+  -ProfilBloc* _profilBloc
+  -dynamic _showMaterialDialog()
+  +Widget* build()
+}
+
+"mobile_antrean_babatan::presentationLayer::profilScreen.dart::Profil" o-- "mobile_antrean_babatan::blocLayer::profil::profil_bloc.dart::ProfilBloc"
+
+class "mobile_antrean_babatan::presentationLayer::registerScreen.dart::Register" {
+  +_RegisterState* createState()
+}
+
+class "mobile_antrean_babatan::presentationLayer::registerScreen.dart::_RegisterState" {
+  -GlobalKey<FormState*>* _formKey
+  -TextEditingController* _namaLengkap
+  -TextEditingController* _tglLahir
+  -TextEditingController* _alamat
+  -TextEditingController* _kepalaKeluarga
+  -TextEditingController* _username
+  -TextEditingController* _password
+  -TextEditingController* _passwordTwo
+  -TextEditingController* _nomorHandphone
+  +bool* isClickValidated
+  +bool* isVerifiedNumber
+  +DateTime* selectedDate
+  -Future<void>* _selectDate()
+  +Widget* build()
+  +void verifiedInput()
+}
+
+"mobile_antrean_babatan::presentationLayer::registerScreen.dart::_RegisterState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"mobile_antrean_babatan::presentationLayer::registerScreen.dart::_RegisterState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+
+class "mobile_antrean_babatan::presentationLayer::riwayatScreen.dart::Riwayat" {
+  +_RiwayatState* createState()
+}
+
+class "mobile_antrean_babatan::presentationLayer::riwayatScreen.dart::_RiwayatState" {
+  -RiwayatBloc* _riwayatBloc
+  +void initState()
+  +Widget* build()
+  +ListView* elementJadwal()
+}
+
+"mobile_antrean_babatan::presentationLayer::riwayatScreen.dart::_RiwayatState" o-- "mobile_antrean_babatan::blocLayer::antrean::riwayat::riwayat_bloc.dart::RiwayatBloc"
+
+class "mobile_antrean_babatan::presentationLayer::splashScreen.dart::SplashScreen" {
+  +_SplashScreenState* createState()
+}
+
+class "mobile_antrean_babatan::presentationLayer::splashScreen.dart::_SplashScreenState" {
+  +Duration* duration
+  +Future<bool*>* isSession()
+  +void changePage()
+  +void afterFirstLayout()
+  +void initState()
+  +Widget* build()
+}
+
+class "mobile_antrean_babatan::presentationLayer::verificationScreen.dart::Verification" {
+  +bool* isRegister
+  +Pasien* pasien
+  +_VerificationState* createState()
+}
+
+"mobile_antrean_babatan::presentationLayer::verificationScreen.dart::Verification" o-- "mobile_antrean_babatan::dataLayer::model::pasien.dart::Pasien"
+
+class "mobile_antrean_babatan::presentationLayer::verificationScreen.dart::_VerificationState" {
+  +FirebaseAuth* auth
+  -String* _verificationCode
+  -bool* _onEditing
+  -String* _code
+  +void initState()
+  -dynamic _verificationRegister()
+  -dynamic _verificationLogin()
+  -dynamic _verifyPhone()
+  +Widget* build()
+}
+
+"mobile_antrean_babatan::presentationLayer::verificationScreen.dart::_VerificationState" o-- "firebase_auth::firebase_auth.dart::FirebaseAuth"
+
+class "mobile_antrean_babatan::utils::color.dart::ColorTheme" {
+  {static} +Color* greenDark
+  {static} +Color* greenLight
+}
+
+"mobile_antrean_babatan::utils::color.dart::ColorTheme" o-- "dart::ui::Color"
+
+
+@enduml
