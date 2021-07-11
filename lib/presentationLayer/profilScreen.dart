@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_antrean_babatan/blocLayer/profil/profil_bloc.dart';
+import 'package:mobile_antrean_babatan/presentationLayer/bantuanScreen.dart';
+import 'package:mobile_antrean_babatan/presentationLayer/dataDiriScreen.dart';
 import 'package:mobile_antrean_babatan/presentationLayer/loginScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 import 'package:mobile_antrean_babatan/utils/loading.dart';
@@ -94,10 +96,8 @@ class Profil extends StatelessWidget {
                 margin: EdgeInsets.only(left: 16.0, right: 16.0),
                 child: InkWell(
                   onTap: () {
-                    Fluttertoast.showToast(
-                        backgroundColor: ColorTheme.greenDark,
-                        msg: "On Going!",
-                        toastLength: Toast.LENGTH_SHORT);
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => DataDiriScreen()));
                   },
                   child: ListTile(
                     leading: Icon(Icons.file_copy),
@@ -112,10 +112,8 @@ class Profil extends StatelessWidget {
                 margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
                 child: InkWell(
                   onTap: () {
-                    Fluttertoast.showToast(
-                        backgroundColor: ColorTheme.greenDark,
-                        msg: "On Going!",
-                        toastLength: Toast.LENGTH_SHORT);
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => BantuanScreen()));
                   },
                   child: ListTile(
                     leading: Icon(Icons.help),

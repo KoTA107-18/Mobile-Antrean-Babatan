@@ -2,55 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ticket_widget/flutter_ticket_widget.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mobile_antrean_babatan/blocLayer/antrean/kartuAntrean/kartu_antrean_bloc.dart';
+import 'package:mobile_antrean_babatan/blocLayer/antrean/kartuRiwayatAntrean/kartu_riwayat_bloc.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
-class KartuAntreanScreen extends StatefulWidget {
+class KartuRiwayatScreen extends StatefulWidget {
   @override
-  _KartuAntreanScreenState createState() => _KartuAntreanScreenState();
+  _KartuRiwayatScreenState createState() => _KartuRiwayatScreenState();
 }
 
-class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
-  KartuAntreanBloc _kartuAntreanBloc = KartuAntreanBloc();
-
-  _showMaterialDialog(JadwalPasien ticket) {
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text("Cancel"),
-          content: Text("Anda yakin cancel antrean?"),
-          actions: <Widget>[
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: ColorTheme.greenDark, // background
-                onPrimary: Colors.white, // foreground
-              ),
-              child: Text(
-                'Ya',
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                _kartuAntreanBloc.add(KartuAntreanEventCancelAntrean());
-              },
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.grey, // background
-                onPrimary: Colors.white, // foreground
-              ),
-              child: Text(
-                'Tidak',
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ));
-  }
+class _KartuRiwayatScreenState extends State<KartuRiwayatScreen> {
+  KartuRiwayatBloc _kartuRiwayatBloc = KartuRiwayatBloc();
 
   Widget ticketDetailsWidget(String firstTitle, String firstDesc,
       String secondTitle, String secondDesc) {
@@ -108,7 +70,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
     );
   }
 
-  ListView kartuAntrean(JadwalPasien jadwalPasien, String estimasi){
+  ListView kartuAntrean(JadwalPasien jadwalPasien){
     return ListView(
       children: [
         SizedBox(
@@ -262,7 +224,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                                 CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "Estimasi Pelayanan",
+                                    "Jam Pelayanan",
                                     style: TextStyle(
                                       color: Colors.grey,
                                     ),
@@ -270,7 +232,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         top: 4.0),
-                                    child: Text("± " + estimasi.toString() + " WIB",
+                                    child: Text("± " + jadwalPasien.jamBooking.toString() + " WIB",
                                       style: TextStyle(
                                         fontSize: 24.0,
                                         fontWeight: FontWeight.bold,
@@ -291,55 +253,26 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Text(
-            "Catatan : Jangan lupa membawa dokumen pendukung seperti KTP, KK, BPJS dan lain sebagainya",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: ColorTheme.greenDark,
-                fontSize: 14.0,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-        (jadwalPasien.statusAntrean != 2) ? Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-          child: InkWell(
-            onTap: () {
-              _showMaterialDialog(jadwalPasien);
-            },
-            child: Container(
-              height: 40.0,
-              child: Material(
-                borderRadius: BorderRadius.circular(20.0),
-                color: Colors.red,
-                elevation: 7.0,
-                child: Center(
-                  child: Text(
-                    'Batalkan',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ) : SizedBox.shrink()
       ],
     );
   }
 
   @override
   void initState() {
-    _kartuAntreanBloc.add(KartuAntreanEventGetKartu());
+    // _kartuRiwayatBloc.add(KartuRiwayatEventGetKartu());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text("Halaman detail riwayat Antrean"),
+      ),
+    );
+    /*
     return BlocProvider(
-      create: (_) => _kartuAntreanBloc,
+      create: (_) => _kartuRiwayatBloc,
       child: Scaffold(
           backgroundColor: Colors.teal[50],
           appBar: AppBar(
@@ -347,19 +280,20 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
             title: Text("Kartu Antre"),
             actions: [
               IconButton(icon: Icon(Icons.refresh), onPressed: (){
-                _kartuAntreanBloc.add(KartuAntreanEventGetKartu());
+                _kartuRiwayatBloc.add(KartuRiwayatEventGetKartu());
               })
             ],
           ),
-          body: BlocBuilder<KartuAntreanBloc, KartuAntreanState>(
+
+          body: BlocBuilder<KartuRiwayatBloc, KartuRiwayatState>(
             builder: (context, state) {
-              if (state is KartuAntreanStateSuccess) {
-                return kartuAntrean(state.kartuAntre, state.estimasi);
-              } else if (state is KartuAntreanStateFailed){
+              if (state is KartuRiwayatStateSuccess) {
+                return kartuAntrean(state.kartuAntre);
+              } else if (state is KartuRiwayatStateFailed){
                 return Center(
                   child: Text(state.errMessage),
                 );
-              } else if (state is KartuAntreanStateEmpty){
+              } else if (state is KartuRiwayatStateEmpty){
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -401,6 +335,6 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
               }
             },
           )),
-    );
+    );*/
   }
 }
