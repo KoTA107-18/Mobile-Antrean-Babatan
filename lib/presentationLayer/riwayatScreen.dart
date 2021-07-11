@@ -80,7 +80,7 @@ class _RiwayatState extends State<Riwayat> {
           return InkWell(
             onTap: (){
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => KartuRiwayatScreen()));
+                  context, MaterialPageRoute(builder: (context) => KartuRiwayatScreen(jadwalPasien[index])));
             },
             child: Card(
                 shape: RoundedRectangleBorder(
