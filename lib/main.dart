@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_antrean_babatan/blocLayer/navbar/navbar_bloc.dart';
 import 'package:mobile_antrean_babatan/presentationLayer/splashScreen.dart';
-import 'package:mobile_antrean_babatan/presentationLayer/verificationScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 import 'presentationLayer/antreScreen.dart';
@@ -11,8 +10,6 @@ import 'presentationLayer/dashboardScreen.dart';
 import 'presentationLayer/kartuAntreanScreen.dart';
 import 'presentationLayer/profilScreen.dart';
 import 'presentationLayer/riwayatScreen.dart';
-
-import 'package:dcdg/dcdg.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

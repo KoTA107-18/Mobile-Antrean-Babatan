@@ -7,17 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:843976990421:android:e641df823c08e7d3a9cc5c",
+        "mobilesdk_app_id": "1:843976990421:android:dc83f7cbd6a9972aa9cc5c",
         "android_client_info": {
-          "package_name": "com.example.mobile_antrean_babatan"
+          "package_name": "com.kota107.mobile_antrean_babatan"
         }
       },
       "oauth_client": [
         {
-          "client_id": "843976990421-2emftc62ngm7nt87pepvqhpa8uh5psj8.apps.googleusercontent.com",
+          "client_id": "843976990421-6amedpo6b3io0l3rtoek01i1q5ifvkt6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.mobile_antrean_babatan",
+            "package_name": "com.kota107.mobile_antrean_babatan",
+            "certificate_hash": "762288fe744834de446f24992b1e65890038e561"
+          }
+        },
+        {
+          "client_id": "843976990421-knm8ilp8npse2e015u7m12u6tb8fciia.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kota107.mobile_antrean_babatan",
             "certificate_hash": "23ade05514eb161c2c222d698d6bbcf549f23149"
           }
         },

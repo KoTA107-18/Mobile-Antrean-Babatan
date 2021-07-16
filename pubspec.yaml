@@ -36,9 +36,8 @@ dependencies:
   time_picker_widget:
   flutter_bloc:
   lottie:
-  firebase_core: "0.7.0"
-  firebase_auth: "^0.20.1"
-  dcdg: ^3.1.1
+  firebase_core:
+  firebase_auth:
 
 dev_dependencies:
   flutter_test:
