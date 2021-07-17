@@ -35,7 +35,6 @@ class _LoginState extends State<Login> {
       loading(context);
       RequestApi.loginPasienUsername(_username.text, _password.text)
           .then((value) {
-        Navigator.pop(context);
         if (value != null) {
           ResponseLogin resultSnapshot = ResponseLogin.fromJson(value);
           SharedPref.saveLoginInfo(
@@ -43,6 +42,7 @@ class _LoginState extends State<Login> {
                   resultSnapshot.data.pasien.username,
                   resultSnapshot.data.pasien.idPasien)
               .then((value) {
+            Navigator.pop(context);
             Fluttertoast.showToast(
                 backgroundColor: ColorTheme.greenDark,
                 msg: "Login berhasil!",
@@ -51,12 +51,14 @@ class _LoginState extends State<Login> {
                 context, MaterialPageRoute(builder: (context) => App()));
           });
         } else {
+          Navigator.pop(context);
           Fluttertoast.showToast(
               backgroundColor: ColorTheme.greenDark,
               msg: "Login gagal!",
               toastLength: Toast.LENGTH_LONG);
         }
       }).catchError((e) {
+        print(e.toString());
         Navigator.pop(context);
         Fluttertoast.showToast(
             backgroundColor: ColorTheme.greenDark,

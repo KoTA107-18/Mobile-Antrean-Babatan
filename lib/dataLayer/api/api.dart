@@ -4,7 +4,7 @@ import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
 
 class RequestApi {
-  static final String apiUrl = "rest-api-babatan.herokuapp.com";
+  static final String apiUrl = "apibabatan.kota107.xyz";
 
   /*
     Method for functional Pasien.

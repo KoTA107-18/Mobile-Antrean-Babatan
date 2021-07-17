@@ -7,8 +7,8 @@ class ResponseLogin {
 
   ResponseLogin.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    message = json['message'].toString();
+    data = Data.fromJson(json['data']);
   }
 
   Map<String, dynamic> toJson() {
@@ -29,9 +29,8 @@ class Data {
   Data({this.pasien, this.apiToken});
 
   Data.fromJson(Map<String, dynamic> json) {
-    pasien =
-    json['pasien'] != null ? new PasienLogin.fromJson(json['pasien']) : null;
-    apiToken = json['api_token'];
+    pasien = PasienLogin.fromJson(json['pasien']);
+    apiToken = json['api_token'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -61,18 +60,16 @@ class PasienLogin {
         this.kepalaKeluarga,
         this.tglLahir,
         this.alamat,
-        this.namaLengkap,
-        this.jenisPasien});
+        this.namaLengkap});
 
   PasienLogin.fromJson(Map<String, dynamic> json) {
-    idPasien = json['id_pasien'];
-    username = json['username'];
-    noHandphone = json['no_handphone'];
-    kepalaKeluarga = json['kepala_keluarga'];
-    tglLahir = json['tgl_lahir'];
-    alamat = json['alamat'];
-    namaLengkap = json['nama_lengkap'];
-    jenisPasien = json['jenis_pasien'];
+    idPasien = int.parse(json['id_pasien']);
+    username = json['username'].toString();
+    noHandphone = json['no_handphone'].toString();
+    kepalaKeluarga = json['kepala_keluarga'].toString();
+    tglLahir = json['tgl_lahir'].toString();
+    alamat = json['alamat'].toString();
+    namaLengkap = json['nama_lengkap'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -84,7 +81,6 @@ class PasienLogin {
     data['tgl_lahir'] = this.tglLahir;
     data['alamat'] = this.alamat;
     data['nama_lengkap'] = this.namaLengkap;
-    data['jenis_pasien'] = this.jenisPasien;
     return data;
   }
 }
