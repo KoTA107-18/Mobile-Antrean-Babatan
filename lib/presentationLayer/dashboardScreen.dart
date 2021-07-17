@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_antrean_babatan/blocLayer/dashboard/dashboard_bloc.dart';
@@ -50,7 +52,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 Container(
                   padding:
-                      EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+                  EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
                   child: Text(
                     "PADA MENU ANTRE",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -69,17 +71,18 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  ListView daftarPoliklinik(List<InfoPoliklinik> daftarPoli){
+  ListView daftarPoliklinik(List<InfoPoliklinik> daftarPoli) {
     return ListView.builder(
         itemCount: daftarPoli.length,
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
-            onTap: (){
+            onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => DetailPoliklinikScreen(daftarPoli[index])));
+                  context, MaterialPageRoute(builder: (context) =>
+                  DetailPoliklinikScreen(daftarPoli[index])));
             },
             child: Card(
-                //color: (daftarPoli[index].statusPoli == 1) ? Colors.white : Colors.white70,
+              //color: (daftarPoli[index].statusPoli == 1) ? Colors.white : Colors.white70,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
@@ -101,7 +104,8 @@ class _DashboardState extends State<Dashboard> {
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Text("Nomor Antrian saat ini : " + daftarPoli[index].nomorAntrean.toString(),
+                          Text("Nomor Antrian saat ini : " +
+                              daftarPoli[index].nomorAntrean.toString(),
                               style: TextStyle(fontSize: 16.0)),
                         ],
                       ),
@@ -144,53 +148,63 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => _dashboardBloc,
-      child: Scaffold(
-        backgroundColor: Colors.teal[50],
-        appBar: AppBar(
-          leading: Icon(Icons.home),
-          title: Text("Daftar Poliklinik"),
-          actions: [
-            IconButton(icon: Icon(Icons.refresh), onPressed: (){
-              _dashboardBloc.add(DashboardEventGetPoli());
-            })
-          ],
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            cardHeader(),
-            Expanded(
-              child: BlocBuilder<DashboardBloc, DashboardState>(
-                bloc: _dashboardBloc,
-                builder: (context, state) {
-                  if (state is DashboardStateSuccess) {
-                    return daftarPoliklinik(state.daftarPoli);
-                  } else if (state is DashboardStateFailed) {
-                    return Center(
-                      child: Text(state.messageFailed),
-                    );
-                  } else {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: CircularProgressIndicator(),
-                        ),
-                        SizedBox(height: 8.0),
-                        Center(
-                          child: Text('Tuggu sebentar ...',
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: ColorTheme.greenDark)),
-                        )
-                      ],
-                    );
-                  }
-                },
+      child: BlocListener<DashboardBloc, DashboardState>(
+        bloc: _dashboardBloc,
+        listener: (context, state) {
+          if(state is DashboardStateSuccess){
+            Timer.periodic(Duration(milliseconds: 5000), (timer) {
+              _dashboardBloc.add(DashboardEventGetPoliSilent());
+            });
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Colors.teal[50],
+          appBar: AppBar(
+            leading: Icon(Icons.home),
+            title: Text("Daftar Poliklinik"),
+            actions: [
+              IconButton(icon: Icon(Icons.refresh), onPressed: () {
+                _dashboardBloc.add(DashboardEventGetPoli());
+              })
+            ],
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              cardHeader(),
+              Expanded(
+                child: BlocBuilder<DashboardBloc, DashboardState>(
+                  bloc: _dashboardBloc,
+                  builder: (context, state) {
+                    if (state is DashboardStateSuccess) {
+                      return daftarPoliklinik(state.daftarPoli);
+                    } else if (state is DashboardStateFailed) {
+                      return Center(
+                        child: Text(state.messageFailed),
+                      );
+                    } else {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: CircularProgressIndicator(),
+                          ),
+                          SizedBox(height: 8.0),
+                          Center(
+                            child: Text('Tuggu sebentar ...',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: ColorTheme.greenDark)),
+                          )
+                        ],
+                      );
+                    }
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

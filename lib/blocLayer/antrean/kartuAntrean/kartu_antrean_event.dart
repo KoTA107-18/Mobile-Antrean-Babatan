@@ -8,3 +8,5 @@ abstract class KartuAntreanEvent {
 class KartuAntreanEventGetKartu extends KartuAntreanEvent {}
 
 class KartuAntreanEventCancelAntrean extends KartuAntreanEvent {}
+
+class KartuAntreanEventGetKartuSilent extends KartuAntreanEvent {}

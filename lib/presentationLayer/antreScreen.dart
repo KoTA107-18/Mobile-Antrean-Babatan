@@ -336,7 +336,7 @@ class _AntreState extends State<Antre> {
                             context: context,
                             onFailValidation: (context) =>
                                 print('Unavailable selection'),
-                            initialTime: TimeOfDay(hour: 11, minute: 0),
+                            initialTime: TimeOfDay(hour: 8, minute: 0),
                             selectableTimePredicate: (time) =>
                             time.hour >= 0 &&
                                 time.hour < 24 &&

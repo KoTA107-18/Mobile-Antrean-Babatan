@@ -34,5 +34,23 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         yield DashboardStateFailed(messageFailed: e.toString());
       }
     }
+
+    if(event is DashboardEventGetPoliSilent){
+      List<InfoPoliklinik> daftarPoliNew = [];
+      try {
+        await RequestApi.getInfoPoliklinik().then((snapshot) {
+          if (snapshot != null) {
+            var resultSnapshot = snapshot as List;
+            daftarPoliNew = resultSnapshot
+                .map((aJson) => InfoPoliklinik.fromJson(aJson))
+                .toList();
+            daftarPoli = daftarPoliNew;
+          }
+        });
+        yield DashboardStateSuccess(daftarPoli: daftarPoli);
+      } catch (e) {
+        yield DashboardStateSuccess(daftarPoli: daftarPoli);
+      }
+    }
   }
 }

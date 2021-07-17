@@ -13,6 +13,7 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
   int idPasien;
   String messageError;
   JadwalPasien kartuAntre;
+  var estimasi;
   KartuAntreanBloc() : super(KartuAntreanStateLoading());
 
   @override
@@ -31,7 +32,7 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
         if(kartuAntre == null){
           yield KartuAntreanStateEmpty(message: "Anda belum mengambil antrean.");
         } else {
-          var estimasi = await RequestApi.getAntreanEstimasi(kartuAntre);
+          estimasi = await RequestApi.getAntreanEstimasi(kartuAntre);
           yield KartuAntreanStateSuccess(kartuAntre: kartuAntre, estimasi: estimasi);
         }
       } catch (e) {
@@ -54,6 +55,27 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
         yield KartuAntreanStateFailed(errMessage: e.toString());
       }
 
+    }
+
+    if(event is KartuAntreanEventGetKartuSilent){
+      JadwalPasien kartuAntreBaru;
+      try {
+        await RequestApi.getKartuAntrean(idPasien).then((value){
+          if(value != null){
+            kartuAntreBaru = new JadwalPasien.fromJson(value[0]);
+          }
+        });
+        if(kartuAntreBaru == null){
+          yield KartuAntreanStateEmpty(message: "Anda belum mengambil antrean.");
+        } else {
+          var estimasiNew = await RequestApi.getAntreanEstimasi(kartuAntreBaru);
+          estimasi = estimasiNew;
+          kartuAntre = kartuAntreBaru;
+          yield KartuAntreanStateSuccess(kartuAntre: kartuAntre, estimasi: estimasi);
+        }
+      } catch (e) {
+        yield KartuAntreanStateSuccess(kartuAntre: kartuAntre, estimasi: estimasi);
+      }
     }
   }
 }

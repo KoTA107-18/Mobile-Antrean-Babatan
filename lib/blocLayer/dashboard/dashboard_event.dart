@@ -6,3 +6,5 @@ abstract class DashboardEvent {
 }
 
 class DashboardEventGetPoli extends DashboardEvent {}
+
+class DashboardEventGetPoliSilent extends DashboardEvent {}
