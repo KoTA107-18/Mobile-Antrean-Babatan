@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mobile_antrean_babatan/blocLayer/navbar/navbar_bloc.dart';
 import 'package:mobile_antrean_babatan/presentationLayer/splashScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
@@ -64,7 +65,12 @@ class _FirebaseInitializationState extends State<FirebaseInitialization> {
   }
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   final screenList = [
     Dashboard(),
     KartuAntreanScreen(),
@@ -73,8 +79,49 @@ class App extends StatelessWidget {
     Profil()
   ];
   final NavbarBloc navbarBloc = NavbarBloc(0);
+  FlutterLocalNotificationsPlugin fltrNotification;
+
+  @override
+  void initState() {
+    super.initState();
+    var androidInitilize = new AndroidInitializationSettings('app_icon');
+    var iOSinitilize = new IOSInitializationSettings();
+    var initilizationsSettings =
+    new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
+    fltrNotification = new FlutterLocalNotificationsPlugin();
+    fltrNotification.initialize(initilizationsSettings,
+        onSelectNotification: notificationSelected);
+  }
+
+  Future notificationSelected(String payload) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Text("Notification : $payload"),
+      ),
+    );
+  }
+
+  Future _showNotification() async {
+    var androidDetails = new AndroidNotificationDetails(
+        "Channel ID", "Desi programmer", "This is my channel",
+        importance: Importance.max);
+    var iSODetails = new IOSNotificationDetails();
+    var generalNotificationDetails =
+    new NotificationDetails(android: androidDetails, iOS: iSODetails);
+
+    var scheduledTime = DateTime.now().add(Duration(seconds : 15));
+    fltrNotification.schedule(1, "Times Up", "Habis",
+    scheduledTime, generalNotificationDetails);
+    /*
+    await fltrNotification.show(
+        0, "Task", "You created a Task",
+        generalNotificationDetails, payload: "Task");*/
+  }
+
   @override
   Widget build(BuildContext context) {
+    _showNotification();
     return BlocProvider(
       create: (_) => navbarBloc,
       child: BlocBuilder<NavbarBloc, int>(
