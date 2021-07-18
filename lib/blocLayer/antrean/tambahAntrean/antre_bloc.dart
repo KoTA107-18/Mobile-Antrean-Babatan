@@ -22,6 +22,8 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
   TextEditingController jam = TextEditingController();
 
   // Variabel Penampung Input.
+  String latitudeData = "";
+  String longitudeData = "";
   bool isBooking = false;
   Poliklinik poliklinikTujuan;
   JadwalPasien jadwalPasien;
@@ -39,6 +41,7 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
         await RequestApi.getAllPoliklinik().then((snapshot) {
           if (snapshot != null) {
             var resultSnapshot = snapshot as List;
+            print(resultSnapshot.toString());
             daftarPoli = resultSnapshot
                 .map((aJson) => Poliklinik.fromJson(aJson))
                 .toList();
@@ -89,8 +92,10 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
         }
         var resultSnapshot = await RequestApi.insertAntrean(jadwalPasien);
         var response = ApiResponse.fromJson(resultSnapshot);
+        print("ERROR : " + response.message.toString());
         yield AntreStateSendMessage(daftarPoli: daftarPoli, message: response.message);
       } catch (e) {
+        print("ERROR : " + e.toString());
         yield AntreStateSendMessage(daftarPoli: daftarPoli, message: e.toString());
       }
 

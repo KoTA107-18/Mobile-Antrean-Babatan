@@ -16,6 +16,8 @@ class JadwalPasien {
   String kepalaKeluarga;
   String namaLengkap;
   String alamat;
+  String latitude;
+  String longitude;
   String tglLahir;
   int jenisPasien;
 
@@ -37,6 +39,8 @@ class JadwalPasien {
         this.kepalaKeluarga,
         this.namaLengkap,
         this.alamat,
+        this.latitude,
+        this.longitude,
         this.tglLahir,
         this.jenisPasien});
 
@@ -58,6 +62,8 @@ class JadwalPasien {
     kepalaKeluarga = json['kepala_keluarga'].toString();
     namaLengkap = json['nama_lengkap'].toString();
     alamat = json['alamat'].toString();
+    latitude = json['latitude'].toString();
+    longitude = json['longitude'].toString();
     tglLahir = json['tgl_lahir'].toString();
     jenisPasien = (json['jenis_pasien'] == null) ? 0 : int.parse(json['jenis_pasien']);
   }
@@ -81,6 +87,8 @@ class JadwalPasien {
     data['kepala_keluarga'] = this.kepalaKeluarga;
     data['nama_lengkap'] = this.namaLengkap;
     data['alamat'] = this.alamat;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
     data['tgl_lahir'] = this.tglLahir;
     data['jenis_pasien'] = this.jenisPasien;
     return data;

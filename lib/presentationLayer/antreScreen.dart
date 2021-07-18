@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mobile_antrean_babatan/blocLayer/antrean/tambahAntrean/antre_bloc.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/poliklinik.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
@@ -15,11 +16,26 @@ class Antre extends StatefulWidget {
 
 class _AntreState extends State<Antre> {
   AntreBloc _antreBloc = AntreBloc();
+  String latitudeData = "";
+  String longitudeData = "";
 
   @override
   void initState() {
     _antreBloc.add(AntreEventGetPoliklinik());
     super.initState();
+    getCurrentLocation();
+  }
+
+  Future<void> getCurrentLocation() async {
+    final geoposition = await Geolocator().getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high
+    );
+
+    setState(() {
+      latitudeData  = geoposition.latitude.toString();
+      longitudeData = geoposition.longitude.toString();
+      print("https://www.google.com/maps/search/?api=1&query=$latitudeData,$longitudeData");
+    });
   }
 
   @override
@@ -168,6 +184,8 @@ class _AntreState extends State<Antre> {
           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: InkWell(
             onTap: () {
+              _antreBloc.latitudeData = latitudeData;
+              _antreBloc.longitudeData = longitudeData;
               _antreBloc.add(AntreEventRegister());
             },
             child: Container(
@@ -357,6 +375,8 @@ class _AntreState extends State<Antre> {
           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: InkWell(
             onTap: () {
+              _antreBloc.latitudeData = latitudeData;
+              _antreBloc.longitudeData = longitudeData;
               _antreBloc.add(AntreEventRegister());
             },
             child: Container(

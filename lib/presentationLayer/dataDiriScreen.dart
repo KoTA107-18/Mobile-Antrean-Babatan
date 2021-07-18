@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mobile_antrean_babatan/blocLayer/dataDiri/data_diri_bloc.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
 import 'package:mobile_antrean_babatan/presentationLayer/ubahPasswordScreen.dart';
@@ -22,6 +23,8 @@ class _DataDiriScreenState extends State<DataDiriScreen> {
   TextEditingController _kepalaKeluarga = TextEditingController();
   TextEditingController _username = TextEditingController();
   TextEditingController _nomorHandphone = TextEditingController();
+  String latitudeData = "";
+  String longitudeData = "";
   bool isClickValidated = false;
   bool isVerifiedNumber = false;
   DateTime selectedDate = DateTime.now();
@@ -39,6 +42,18 @@ class _DataDiriScreenState extends State<DataDiriScreen> {
       });
   }
 
+  Future<void> getCurrentLocation() async {
+    final geoposition = await Geolocator().getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high
+    );
+
+    setState(() {
+      latitudeData  = geoposition.latitude.toString();
+      longitudeData = geoposition.longitude.toString();
+      print("https://www.google.com/maps/search/?api=1&query=$latitudeData,$longitudeData");
+    });
+  }
+
   void verifiedInput() {
     setState(() {
       isClickValidated = true;
@@ -48,6 +63,8 @@ class _DataDiriScreenState extends State<DataDiriScreen> {
           namaLengkap: _namaLengkap.text.toString(),
           tglLahir: _tglLahir.text.toString(),
           alamat: _alamat.text.toString(),
+          latitude: latitudeData,
+          longitude: longitudeData,
           kepalaKeluarga: _kepalaKeluarga.text.toString(),
           username: _username.text.toString(),
           noHandphone: _nomorHandphone.text.toString());
@@ -59,6 +76,7 @@ class _DataDiriScreenState extends State<DataDiriScreen> {
   void initState() {
     _dataDiriBloc.add(DataDiriEventGetProfile());
     super.initState();
+    getCurrentLocation();
   }
 
   @override

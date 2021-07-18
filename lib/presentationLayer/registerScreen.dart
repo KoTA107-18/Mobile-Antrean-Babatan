@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/apiResponse.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
@@ -25,6 +26,8 @@ class _RegisterState extends State<Register> {
   TextEditingController _password = TextEditingController();
   TextEditingController _passwordTwo = TextEditingController();
   TextEditingController _nomorHandphone = TextEditingController();
+  String latitudeData = "";
+  String longitudeData = "";
   bool isClickValidated = false;
   bool isVerifiedNumber = false;
   DateTime selectedDate = DateTime.now();
@@ -39,6 +42,24 @@ class _RegisterState extends State<Register> {
       setState(() {
         selectedDate = picked;
       });
+  }
+
+  Future<void> getCurrentLocation() async {
+    final geoposition = await Geolocator().getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high
+    );
+
+    setState(() {
+      latitudeData  = geoposition.latitude.toString();
+      longitudeData = geoposition.longitude.toString();
+      print("https://www.google.com/maps/search/?api=1&query=$latitudeData,$longitudeData");
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLocation();
   }
 
   @override
@@ -303,6 +324,8 @@ class _RegisterState extends State<Register> {
           namaLengkap: _namaLengkap.text,
           password: _password.text,
           alamat: _alamat.text,
+          latitude: latitudeData,
+          longitude: longitudeData,
           tglLahir: _tglLahir.text);
 
       RequestApi.validasiPasien(pasien).then((value){

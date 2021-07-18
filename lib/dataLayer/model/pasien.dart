@@ -6,6 +6,8 @@ class Pasien {
   String namaLengkap;
   String password;
   String alamat;
+  String latitude;
+  String longitude;
   String tglLahir;
   Pasien(
       { this.idPasien,
@@ -15,6 +17,8 @@ class Pasien {
         this.namaLengkap,
         this.password,
         this.alamat,
+        this.latitude,
+        this.longitude,
         this.tglLahir});
   factory Pasien.fromJson(Map<String, dynamic> map) {
     return Pasien(
@@ -25,6 +29,8 @@ class Pasien {
         namaLengkap: map["nama_lengkap"].toString(),
         password: map["password"].toString(),
         alamat: map["alamat"].toString(),
+        latitude: map["latitude"].toString(),
+        longitude: map["longitude"].toString(),
         tglLahir: map["tgl_lahir"].toString());
   }
 
@@ -37,6 +43,8 @@ class Pasien {
       "nama_lengkap": namaLengkap,
       "password": password,
       "alamat": alamat,
+      "latitude": latitude,
+      "longitude": longitude,
       "tgl_lahir": tglLahir
     };
   }

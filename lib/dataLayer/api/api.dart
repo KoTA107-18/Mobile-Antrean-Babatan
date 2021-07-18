@@ -82,8 +82,12 @@ class RequestApi {
     Method Type : POST
     Desc : Insert data Pasien into Database
     */
-    var result = await http.post(Uri.http(apiUrl, 'api/pasien/register'),
-        body: pasien.toJson());
+    var uri = Uri.http(apiUrl, 'api/pasien/register');
+    var result = await http.post(uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(pasien.toJson()));
     return json.decode(result.body);
   }
 
@@ -105,8 +109,8 @@ class RequestApi {
     Method Type : POST
     Desc : Login with no Handphone, get API Token from API.
     */
-    var uri = Uri.http(apiUrl, 'api/pasien/login/nohp',
-        {"no_handphone": noHandphone});
+    var uri = Uri.http(
+        apiUrl, 'api/pasien/login/nohp', {"no_handphone": noHandphone});
     var result = await http.post(uri);
     return json.decode(result.body);
   }

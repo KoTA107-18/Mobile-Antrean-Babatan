@@ -41,6 +41,7 @@ class _VerificationState extends State<Verification> {
               verificationId: _verificationCode, smsCode: code))
           .then((value) async {
         if (value.user != null) {
+          print(widget.pasien.toJson().toString());
           RequestApi.registerPasien(widget.pasien).then((value) async {
             var response = ApiResponse.fromJson(value);
             if (response.success) {
