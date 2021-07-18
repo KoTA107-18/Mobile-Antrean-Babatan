@@ -10,6 +10,57 @@ class RequestApi {
     Method for functional Pasien.
   */
 
+  static Future getPasien(int id) async {
+    /*
+    Endpoint : rest-api-babatan.herokuapp.com/pasien/{id}
+    Method Type : GET
+    Desc : Get data pasien.
+    */
+    var uri = Uri.https(apiUrl, 'pasien/${id.toString()}');
+    var result = await http.get(uri);
+    if (result.statusCode == 200) {
+      return json.decode(result.body);
+    } else {
+      return null;
+    }
+  }
+
+  static Future<bool> updateProfile(Pasien pasien) async {
+    /*
+    Endpoint : rest-api-babatan.herokuapp.com/pasien
+    Method Type : PUT
+    Desc : Edit data diri.
+    */
+    var result = await http.put(Uri.http(apiUrl, 'pasien'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(pasien.toJson()));
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<bool> updatePassword(Pasien pasien) async {
+    /*
+    Endpoint : rest-api-babatan.herokuapp.com/pasien/password
+    Method Type : PUT
+    Desc : Edit password.
+    */
+    var result = await http.put(Uri.http(apiUrl, 'pasien/password'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(pasien.toJson()));
+    if (result.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static Future validasiPasien(Pasien pasien) async {
     /*
     Endpoint : rest-api-babatan.herokuapp.com/pasien/validasi

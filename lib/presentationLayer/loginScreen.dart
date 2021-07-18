@@ -37,19 +37,26 @@ class _LoginState extends State<Login> {
           .then((value) {
         if (value != null) {
           ResponseLogin resultSnapshot = ResponseLogin.fromJson(value);
-          SharedPref.saveLoginInfo(
-                  resultSnapshot.data.apiToken,
-                  resultSnapshot.data.pasien.username,
-                  resultSnapshot.data.pasien.idPasien)
-              .then((value) {
-            Navigator.pop(context);
+          Navigator.pop(context);
+          if(resultSnapshot.success == true){
+            SharedPref.saveLoginInfo(
+                resultSnapshot.data.apiToken,
+                resultSnapshot.data.pasien.username,
+                resultSnapshot.data.pasien.idPasien)
+                .then((value) {
+              Fluttertoast.showToast(
+                  backgroundColor: ColorTheme.greenDark,
+                  msg: "Login berhasil!",
+                  toastLength: Toast.LENGTH_LONG);
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => App()));
+            });
+          } else {
             Fluttertoast.showToast(
                 backgroundColor: ColorTheme.greenDark,
-                msg: "Login berhasil!",
+                msg: resultSnapshot.message.toString(),
                 toastLength: Toast.LENGTH_LONG);
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => App()));
-          });
+          }
         } else {
           Navigator.pop(context);
           Fluttertoast.showToast(

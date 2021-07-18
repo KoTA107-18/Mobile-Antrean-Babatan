@@ -1,4 +1,5 @@
 class Pasien {
+  int idPasien;
   String username;
   String noHandphone;
   String kepalaKeluarga;
@@ -7,7 +8,8 @@ class Pasien {
   String alamat;
   String tglLahir;
   Pasien(
-      {this.username,
+      { this.idPasien,
+        this.username,
         this.noHandphone,
         this.kepalaKeluarga,
         this.namaLengkap,
@@ -16,6 +18,7 @@ class Pasien {
         this.tglLahir});
   factory Pasien.fromJson(Map<String, dynamic> map) {
     return Pasien(
+        idPasien: int.parse(map["id_pasien"]),
         username: map["username"].toString(),
         noHandphone: map["no_handphone"].toString(),
         kepalaKeluarga: map["kepala_keluarga"].toString(),
@@ -27,6 +30,7 @@ class Pasien {
 
   Map<String, dynamic> toJson() {
     return {
+      "id_pasien": idPasien,
       "username": username,
       "no_handphone": noHandphone,
       "kepala_keluarga": kepalaKeluarga,
