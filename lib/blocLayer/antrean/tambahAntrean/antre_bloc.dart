@@ -78,6 +78,8 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
               idPoli: poliklinikTujuan.idPoli,
               idPasien: idPasien,
               tipeBooking: 1,
+              latitude: latitudeData,
+              longitude: longitudeData,
               jenisPasien: jenisPasien,
               tglPelayanan: tanggal.text,
               jamBooking: jam.text);
@@ -88,14 +90,14 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
               idPoli: poliklinikTujuan.idPoli,
               idPasien: idPasien,
               tipeBooking: 0,
+              latitude: latitudeData,
+              longitude: longitudeData,
               jenisPasien: jenisPasien);
         }
         var resultSnapshot = await RequestApi.insertAntrean(jadwalPasien);
         var response = ApiResponse.fromJson(resultSnapshot);
-        print("ERROR : " + response.message.toString());
         yield AntreStateSendMessage(daftarPoli: daftarPoli, message: response.message);
       } catch (e) {
-        print("ERROR : " + e.toString());
         yield AntreStateSendMessage(daftarPoli: daftarPoli, message: e.toString());
       }
 

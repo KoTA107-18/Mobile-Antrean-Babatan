@@ -193,6 +193,7 @@ class RequestApi {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(jadwalPasien.toJson()));
+    print(result.body);
     return json.decode(result.body);
   }
 
