@@ -10,6 +10,7 @@ part 'data_diri_event.dart';
 part 'data_diri_state.dart';
 
 class DataDiriBloc extends Bloc<DataDiriEvent, DataDiriState> {
+  String apiKey;
   Pasien pasien;
   int idPasien;
   DataDiriBloc() : super(DataDiriStateLoading());
@@ -21,8 +22,9 @@ class DataDiriBloc extends Bloc<DataDiriEvent, DataDiriState> {
     if(event is DataDiriEventGetProfile){
       yield DataDiriStateLoading();
       try {
+        apiKey = await SharedPref.getApiKey();
         idPasien = await SharedPref.getIdPasien();
-        await RequestApi.getPasien(idPasien).then((snapshot) {
+        await RequestApi.getPasien(idPasien, apiKey).then((snapshot) {
           if (snapshot != null) {
             pasien = Pasien.fromJson(snapshot[0]);
           }
@@ -38,7 +40,11 @@ class DataDiriBloc extends Bloc<DataDiriEvent, DataDiriState> {
       try {
         event.pasien.idPasien = idPasien;
         var result = await RequestApi.updateProfile(event.pasien);
-        yield DataDiriStateSuccess(pasien: event.pasien);
+        if(result){
+          yield DataDiriStateSuccess(pasien: event.pasien);
+        } else {
+          yield DataDiriStateFailed(messageFailed: "Edit profil gagal!");
+        }
       } catch (e) {
         yield DataDiriStateFailed(messageFailed: e.toString());
       }

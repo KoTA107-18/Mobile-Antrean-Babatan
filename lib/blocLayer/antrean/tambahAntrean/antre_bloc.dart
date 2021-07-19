@@ -16,6 +16,7 @@ part 'antre_state.dart';
 class AntreBloc extends Bloc<AntreEvent, AntreState> {
   AntreBloc() : super(AntreStateGetPoliLoading());
   List<Poliklinik> daftarPoli = [];
+  String apiKey;
 
   // Variabel Controller Input.
   TextEditingController tanggal = TextEditingController();
@@ -38,7 +39,8 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
     if (event is AntreEventGetPoliklinik) {
       yield AntreStateGetPoliLoading();
       try {
-        await RequestApi.getAllPoliklinik().then((snapshot) {
+        apiKey = await SharedPref.getApiKey();
+        await RequestApi.getAllPoliklinik(apiKey).then((snapshot) {
           if (snapshot != null) {
             var resultSnapshot = snapshot as List;
             print(resultSnapshot.toString());
@@ -94,7 +96,7 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
               longitude: longitudeData,
               jenisPasien: jenisPasien);
         }
-        var resultSnapshot = await RequestApi.insertAntrean(jadwalPasien);
+        var resultSnapshot = await RequestApi.insertAntrean(jadwalPasien, apiKey);
         var response = ApiResponse.fromJson(resultSnapshot);
         yield AntreStateSendMessage(daftarPoli: daftarPoli, message: response.message);
       } catch (e) {

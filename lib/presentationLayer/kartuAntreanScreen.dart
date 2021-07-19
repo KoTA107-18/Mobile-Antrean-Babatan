@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ticket_widget/flutter_ticket_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mobile_antrean_babatan/blocLayer/antrean/kartuAntrean/kartu_antrean_bloc.dart';
-import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/kartuAntrean.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 class KartuAntreanScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class KartuAntreanScreen extends StatefulWidget {
 class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
   KartuAntreanBloc _kartuAntreanBloc = KartuAntreanBloc();
 
-  _showMaterialDialog(JadwalPasien ticket) {
+  _showMaterialDialog(KartuAntrean ticket) {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -110,7 +110,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
     );
   }
 
-  ListView kartuAntrean(JadwalPasien jadwalPasien, String estimasi) {
+  ListView kartuAntrean(KartuAntrean jadwalPasien, String estimasi) {
     return ListView(
       children: [
         SizedBox(
@@ -172,7 +172,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        jadwalPasien.namaPoli,
+                        jadwalPasien.poliklinik.namaPoli,
                         style: TextStyle(color: ColorTheme.greenDark),
                       ),
                     ),
@@ -193,14 +193,14 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
                       children: <Widget>[
                         ticketDetailsWidget(
                             'Nama Lengkap',
-                            jadwalPasien.namaLengkap,
+                            jadwalPasien.pasien.namaLengkap,
                             'Tanggal Lahir',
-                            jadwalPasien.tglLahir),
+                            jadwalPasien.pasien.tglLahir),
                         SizedBox(
                           height: 8.0,
                         ),
                         ticketDetailsWidget('Kepala Keluarga',
-                            jadwalPasien.kepalaKeluarga, '', ''),
+                            jadwalPasien.pasien.kepalaKeluarga, '', ''),
                       ],
                     ),
                   ),

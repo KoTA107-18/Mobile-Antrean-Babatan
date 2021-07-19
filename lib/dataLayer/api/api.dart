@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:mobile_antrean_babatan/dataLayer/model/kartuAntrean.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
 
@@ -10,14 +11,15 @@ class RequestApi {
     Method for functional Pasien.
   */
 
-  static Future getPasien(int id) async {
+  static Future getPasien(int id, String apiToken) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/pasien/{id}
+    Endpoint : rest-api-babatan.herokuapp.com/api/pasien/{id}
     Method Type : GET
     Desc : Get data pasien.
     */
-    var uri = Uri.https(apiUrl, 'pasien/${id.toString()}');
-    var result = await http.get(uri);
+    var uri = Uri.https(apiUrl, 'api/pasien/${id.toString()}');
+    var result =
+        await http.get(uri, headers: {'Authorization': 'bearer $apiToken'});
     if (result.statusCode == 200) {
       return json.decode(result.body);
     } else {
@@ -63,11 +65,11 @@ class RequestApi {
 
   static Future validasiPasien(Pasien pasien) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/pasien/validasi
+    Endpoint : rest-api-babatan.herokuapp.com/api/pasien/validasi
     Method Type : POST
     Desc : Validate Pasien not duplicate in Database
     */
-    var uri = Uri.http(apiUrl, 'pasien/validasi');
+    var uri = Uri.http(apiUrl, 'api/pasien/validasi');
     var result = await http.post(uri,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -131,18 +133,21 @@ class RequestApi {
     Method for functional Jadwal Pasien.
   */
 
-  static Future getAntreanEstimasi(JadwalPasien jadwalPasien) async {
+  static Future getAntreanEstimasi(
+      KartuAntrean jadwalPasien, String apiToken) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/antrean/estimasi
+    Endpoint : rest-api-babatan.herokuapp.com/api/antrean/estimasi
     Method Type : GET
     Desc : Get estimate service.
     */
-    var uri = Uri.https(apiUrl, 'antrean/estimasi', {
-      'id_poli': jadwalPasien.idPoli.toString(),
+    var uri = Uri.https(apiUrl, 'api/antrean/estimasi', {
+      'id_poli': jadwalPasien.poliklinik.idPoli.toString(),
       'tgl_pelayanan': jadwalPasien.tglPelayanan.toString(),
       'jam_booking': jadwalPasien.jamBooking.toString()
     });
-    var result = await http.get(uri);
+    var result =
+        await http.post(uri, headers: {'Authorization': 'bearer $apiToken'});
+    print("ESTIMASI :" + result.body.toString());
     if (result.statusCode == 200) {
       return json.decode(result.body);
     } else {
@@ -150,14 +155,15 @@ class RequestApi {
     }
   }
 
-  static Future getAntreanRiwayat(String idPasien) async {
+  static Future getAntreanRiwayat(String idPasien, String apiToken) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/antrean/pasien/riwayat/{id}
+    Endpoint : rest-api-babatan.herokuapp.com/api/antrean/pasien/riwayat/{id}
     Method Type : GET
     Desc : Get riwayat antrean pasien.
     */
-    var uri = Uri.https(apiUrl, 'antrean/pasien/riwayat/$idPasien');
-    var result = await http.get(uri);
+    var uri = Uri.https(apiUrl, 'api/antrean/pasien/riwayat/$idPasien');
+    var result =
+        await http.get(uri, headers: {'Authorization': 'bearer $apiToken'});
     if (result.statusCode == 200) {
       return json.decode(result.body);
     } else {
@@ -165,14 +171,15 @@ class RequestApi {
     }
   }
 
-  static Future getKartuAntrean(int idPasien) async {
+  static Future getKartuAntrean(int idPasien, String apiToken) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/antrean/pasien/{id}
+    Endpoint : rest-api-babatan.herokuapp.com/api/antrean/pasien/{id}
     Method Type : GET
     Desc : Get antrean active.
     */
-    var uri = Uri.http(apiUrl, 'antrean/pasien/${idPasien.toString()}');
-    var result = await http.get(uri);
+    var uri = Uri.http(apiUrl, 'api/antrean/pasien/${idPasien.toString()}');
+    var result =
+        await http.get(uri, headers: {'Authorization': 'bearer $apiToken'});
     print(result.statusCode);
     if (result.statusCode == 200) {
       return json.decode(result.body);
@@ -181,15 +188,17 @@ class RequestApi {
     }
   }
 
-  static Future insertAntrean(JadwalPasien jadwalPasien) async {
+  static Future insertAntrean(
+      JadwalPasien jadwalPasien, String apiToken) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/antrean
+    Endpoint : rest-api-babatan.herokuapp.com/api/antrean/insert
     Method Type : POST
     Desc : Insert new antrean
     */
-    var uri = Uri.http(apiUrl, 'antrean');
+    var uri = Uri.http(apiUrl, 'api/antrean/insert');
     var result = await http.post(uri,
         headers: <String, String>{
+          'Authorization': 'bearer $apiToken',
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(jadwalPasien.toJson()));
@@ -197,14 +206,16 @@ class RequestApi {
     return json.decode(result.body);
   }
 
-  static Future<bool> updateAntrean(JadwalPasien jadwalPasien) async {
+  static Future<bool> updateAntrean(
+      KartuAntrean jadwalPasien, String apiToken) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/antrean
+    Endpoint : rest-api-babatan.herokuapp.com/api/antrean/edit
     Method Type : PUT
     Desc : Edit antrean to cancel status.
     */
-    var result = await http.put(Uri.http(apiUrl, 'antrean'),
+    var result = await http.put(Uri.http(apiUrl, 'api/antrean/edit'),
         headers: <String, String>{
+          'Authorization': 'bearer $apiToken',
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(jadwalPasien.toJson()));
@@ -219,14 +230,16 @@ class RequestApi {
     Method for functional Poliklinik.
   */
 
-  static Future getAllPoliklinik() async {
+  static Future getAllPoliklinik(String apiToken) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/poliklinik
+    Endpoint : rest-api-babatan.herokuapp.com/api/poliklinik
     Method Type : GET
     Desc : Get All Poliklinik in Database + Jadwal
     */
-    var uri = Uri.http(apiUrl, 'poliklinik');
-    var result = await http.get(uri);
+    var uri = Uri.http(apiUrl, 'api/poliklinik');
+    var result = await http.get(uri, headers: {
+      'Authorization': 'bearer $apiToken',
+    });
     if (result.statusCode == 200) {
       return json.decode(result.body);
     } else {
@@ -234,14 +247,16 @@ class RequestApi {
     }
   }
 
-  static Future getInfoPoliklinik() async {
+  static Future getInfoPoliklinik(String apiToken) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/antrean/info
+    Endpoint : rest-api-babatan.herokuapp.com/api/antrean/info
     Method Type : GET
     Desc : Get All Poliklinik in Database + Jadwal
     */
-    var uri = Uri.https(apiUrl, 'antrean/info');
-    var result = await http.get(uri);
+    var uri = Uri.https(apiUrl, 'api/antrean/info');
+    var result = await http.get(uri, headers: {
+      'Authorization': 'bearer $apiToken',
+    });
     if (result.statusCode == 200) {
       return json.decode(result.body);
     } else {

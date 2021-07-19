@@ -52,7 +52,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 Container(
                   padding:
-                  EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+                      EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
                   child: Text(
                     "PADA MENU ANTRE",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -78,35 +78,34 @@ class _DashboardState extends State<Dashboard> {
           return InkWell(
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) =>
-                  DetailPoliklinikScreen(daftarPoli[index])));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          DetailPoliklinikScreen(daftarPoli[index])));
             },
             child: Card(
-              //color: (daftarPoli[index].statusPoli == 1) ? Colors.white : Colors.white70,
+                //color: (daftarPoli[index].statusPoli == 1) ? Colors.white : Colors.white70,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                margin: EdgeInsets.only(
-                    left: 8.0, right: 8.0, top: 8.0),
+                margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             daftarPoli[index].namaPoli,
                             style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 18.0, fontWeight: FontWeight.bold),
                           ),
-                          Text("Nomor Antrian saat ini : " +
-                              daftarPoli[index].nomorAntrean.toString(),
-                              style: TextStyle(fontSize: 16.0)),
+                          (daftarPoli[index].nomorAntrean.length == 0)
+                              ? Text("Nomor Antrian saat ini : 0")
+                              : Text(
+                                  "Nomor Antrian saat ini : ${daftarPoli[index].nomorAntrean[0].result}"),
                         ],
                       ),
                     ),
@@ -115,19 +114,27 @@ class _DashboardState extends State<Dashboard> {
                       child: Container(
                         decoration: BoxDecoration(
                             color: ColorTheme.greenLight,
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(15))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15))),
                         height: 75,
                         width: 100,
                         child: Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Center(child: Text("Total Antrean")),
-                            Text(daftarPoli[index].totalAntrean.toString(),
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold)),
+                            (daftarPoli[index].totalAntrean.length == 0)
+                                ? Text("0",
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold))
+                                : Text(
+                                    daftarPoli[index]
+                                        .totalAntrean[0]
+                                        .result
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ),
@@ -151,7 +158,7 @@ class _DashboardState extends State<Dashboard> {
       child: BlocListener<DashboardBloc, DashboardState>(
         bloc: _dashboardBloc,
         listener: (context, state) {
-          if(state is DashboardStateSuccess){
+          if (state is DashboardStateSuccess) {
             Timer.periodic(Duration(milliseconds: 5000), (timer) {
               _dashboardBloc.add(DashboardEventGetPoliSilent());
             });
@@ -163,9 +170,11 @@ class _DashboardState extends State<Dashboard> {
             leading: Icon(Icons.home),
             title: Text("Daftar Poliklinik"),
             actions: [
-              IconButton(icon: Icon(Icons.refresh), onPressed: () {
-                _dashboardBloc.add(DashboardEventGetPoli());
-              })
+              IconButton(
+                  icon: Icon(Icons.refresh),
+                  onPressed: () {
+                    _dashboardBloc.add(DashboardEventGetPoli());
+                  })
             ],
           ),
           body: Column(

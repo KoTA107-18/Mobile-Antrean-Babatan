@@ -10,6 +10,7 @@ part 'riwayat_event.dart';
 part 'riwayat_state.dart';
 
 class RiwayatBloc extends Bloc<RiwayatEvent, RiwayatState> {
+  String apiToken;
   List<JadwalPasien> jadwalPasien = [];
   RiwayatBloc() : super(RiwayatStateLoading());
 
@@ -21,7 +22,8 @@ class RiwayatBloc extends Bloc<RiwayatEvent, RiwayatState> {
       yield RiwayatStateLoading();
       try {
         var idPasien = await SharedPref.getIdPasien();
-        await RequestApi.getAntreanRiwayat(idPasien.toString()).then((snapshot) {
+        idPasien = await SharedPref.getIdPasien();
+        await RequestApi.getAntreanRiwayat(idPasien.toString(), apiToken).then((snapshot) {
           if (snapshot != null) {
             var resultSnapshot = snapshot as List;
             jadwalPasien = resultSnapshot

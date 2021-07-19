@@ -3,16 +3,17 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
-import 'package:mobile_antrean_babatan/dataLayer/model/jadwalPasien.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/kartuAntrean.dart';
 import 'package:mobile_antrean_babatan/dataLayer/session/sharedPref.dart';
 
 part 'kartu_antrean_event.dart';
 part 'kartu_antrean_state.dart';
 
 class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
+  String apiKey;
   int idPasien;
   String messageError;
-  JadwalPasien kartuAntre;
+  KartuAntrean kartuAntre;
   var estimasi;
   KartuAntreanBloc() : super(KartuAntreanStateLoading());
 
@@ -24,15 +25,19 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
       yield KartuAntreanStateLoading();
       try {
         idPasien = await SharedPref.getIdPasien();
-        await RequestApi.getKartuAntrean(idPasien).then((value){
+        apiKey = await SharedPref.getApiKey();
+        await RequestApi.getKartuAntrean(idPasien, apiKey).then((value){
           if(value != null){
-            kartuAntre = new JadwalPasien.fromJson(value[0]);
+            print(value);
+            kartuAntre = new KartuAntrean.fromJson(value[0]);
           }
         });
         if(kartuAntre == null){
           yield KartuAntreanStateEmpty(message: "Anda belum mengambil antrean.");
         } else {
-          estimasi = await RequestApi.getAntreanEstimasi(kartuAntre);
+          idPasien = await SharedPref.getIdPasien();
+          apiKey = await SharedPref.getApiKey();
+          estimasi = await RequestApi.getAntreanEstimasi(kartuAntre, apiKey);
           yield KartuAntreanStateSuccess(kartuAntre: kartuAntre, estimasi: estimasi);
         }
       } catch (e) {
@@ -44,8 +49,9 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
       yield KartuAntreanStateLoading();
       try {
         bool result = false;
-        kartuAntre.statusAntrean = 5;
-        result = await RequestApi.updateAntrean(kartuAntre);
+        kartuAntre.statusAntrean = 5.toString();
+        apiKey = await SharedPref.getApiKey();
+        result = await RequestApi.updateAntrean(kartuAntre, apiKey);
         if(result){
           yield KartuAntreanStateEmpty(message: "Anda belum mengambil antrean.");
         } else {
@@ -58,17 +64,19 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
     }
 
     if(event is KartuAntreanEventGetKartuSilent){
-      JadwalPasien kartuAntreBaru;
+      KartuAntrean kartuAntreBaru;
       try {
-        await RequestApi.getKartuAntrean(idPasien).then((value){
+        apiKey = await SharedPref.getApiKey();
+        await RequestApi.getKartuAntrean(idPasien, apiKey).then((value){
           if(value != null){
-            kartuAntreBaru = new JadwalPasien.fromJson(value[0]);
+            kartuAntreBaru = new KartuAntrean.fromJson(value[0]);
           }
         });
         if(kartuAntreBaru == null){
           yield KartuAntreanStateEmpty(message: "Anda belum mengambil antrean.");
         } else {
-          var estimasiNew = await RequestApi.getAntreanEstimasi(kartuAntreBaru);
+          apiKey = await SharedPref.getApiKey();
+          var estimasiNew = await RequestApi.getAntreanEstimasi(kartuAntreBaru, apiKey);
           estimasi = estimasiNew;
           kartuAntre = kartuAntreBaru;
           yield KartuAntreanStateSuccess(kartuAntre: kartuAntre, estimasi: estimasi);
