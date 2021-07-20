@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:meta/meta.dart';
 import 'package:mobile_antrean_babatan/dataLayer/api/api.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/apiResponse.dart';
@@ -18,6 +19,9 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
   List<Poliklinik> daftarPoli = [];
   String apiKey;
 
+  // Notifications.
+  FlutterLocalNotificationsPlugin fltrNotification;
+
   // Variabel Controller Input.
   TextEditingController tanggal = TextEditingController();
   TextEditingController jam = TextEditingController();
@@ -32,12 +36,36 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
   DateTime tanggalPelayanan;
   TimeOfDay jamBooking;
 
+  Future _showNotification() async {
+    var androidDetails = new AndroidNotificationDetails(
+        "Channel ID", "Desi programmer", "This is my channel",
+        importance: Importance.max);
+    var iSODetails = new IOSNotificationDetails();
+    var generalNotificationDetails =
+    new NotificationDetails(android: androidDetails, iOS: iSODetails);
+
+    var scheduledTime = DateTime.now().add(Duration(seconds : 15));
+    fltrNotification.schedule(1, "Times Up", "Habis",
+        scheduledTime, generalNotificationDetails);
+    /*
+    await fltrNotification.show(
+        0, "Task", "You created a Task",
+        generalNotificationDetails, payload: "Task");*/
+  }
+
   @override
   Stream<AntreState> mapEventToState(
     AntreEvent event,
   ) async* {
     if (event is AntreEventGetPoliklinik) {
       yield AntreStateGetPoliLoading();
+      var androidInitilize = new AndroidInitializationSettings('app_icon');
+      var iOSinitilize = new IOSInitializationSettings();
+      var initilizationsSettings =
+      new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
+      fltrNotification = new FlutterLocalNotificationsPlugin();
+      fltrNotification.initialize(initilizationsSettings,
+          onSelectNotification: null);
       try {
         apiKey = await SharedPref.getApiKey();
         await RequestApi.getAllPoliklinik(apiKey).then((snapshot) {
@@ -98,7 +126,12 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
         }
         var resultSnapshot = await RequestApi.insertAntrean(jadwalPasien, apiKey);
         var response = ApiResponse.fromJson(resultSnapshot);
-        yield AntreStateSendMessage(daftarPoli: daftarPoli, message: response.message);
+        if(response.success){
+          _showNotification();
+          yield AntreStateSendMessage(daftarPoli: daftarPoli, message: response.message);
+        } else {
+          yield AntreStateSendMessage(daftarPoli: daftarPoli, message: response.message);
+        }
       } catch (e) {
         yield AntreStateSendMessage(daftarPoli: daftarPoli, message: e.toString());
       }
