@@ -41,7 +41,7 @@ class _UbahPasswordScreenState extends State<UbahPasswordScreen> {
     return BlocProvider(
       create: (context) => _ubahPasswordBloc,
       child: BlocListener<UbahPasswordBloc, UbahPasswordState>(
-        bloc: _ubahPasswordBloc,
+        cubit: _ubahPasswordBloc,
         listener: (context, state) {
           if (state is UbahPasswordLoading) {
             loading(context);

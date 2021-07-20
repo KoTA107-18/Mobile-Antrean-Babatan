@@ -125,7 +125,7 @@ class _AppState extends State<App> {
     return BlocProvider(
       create: (_) => navbarBloc,
       child: BlocBuilder<NavbarBloc, int>(
-        bloc: navbarBloc,
+        cubit: navbarBloc,
         builder: (context, index) {
           return Scaffold(
               body: screenList.elementAt(index),

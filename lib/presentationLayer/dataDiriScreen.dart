@@ -88,7 +88,7 @@ class _DataDiriScreenState extends State<DataDiriScreen> {
           title: Text("Data Diri Anda"),
         ),
         body: BlocConsumer<DataDiriBloc, DataDiriState>(
-          bloc: _dataDiriBloc,
+          cubit: _dataDiriBloc,
           listener: (context, state) {
             if (state is DataDiriStateSuccess) {
               _namaLengkap.text = state.pasien.namaLengkap;

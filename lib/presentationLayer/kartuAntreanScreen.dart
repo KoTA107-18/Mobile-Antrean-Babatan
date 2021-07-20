@@ -337,7 +337,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
     return BlocProvider(
       create: (_) => _kartuAntreanBloc,
       child: BlocListener<KartuAntreanBloc, KartuAntreanState>(
-        bloc: _kartuAntreanBloc,
+        cubit: _kartuAntreanBloc,
         listener: (context, state) {
           if (state is KartuAntreanStateSuccess) {
             Timer.periodic(Duration(milliseconds: 5000), (timer) {
@@ -359,7 +359,7 @@ class _KartuAntreanScreenState extends State<KartuAntreanScreen> {
               ],
             ),
             body: BlocBuilder<KartuAntreanBloc, KartuAntreanState>(
-              bloc: _kartuAntreanBloc,
+              cubit: _kartuAntreanBloc,
               builder: (context, state) {
                 if (state is KartuAntreanStateSuccess) {
                   return kartuAntrean(state.kartuAntre, state.estimasi);

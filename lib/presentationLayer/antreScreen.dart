@@ -48,7 +48,7 @@ class _AntreState extends State<Antre> {
           title: Text("Pendaftaran Antrean"),
         ),
         body: BlocConsumer<AntreBloc, AntreState>(
-          bloc: _antreBloc,
+          cubit: _antreBloc,
           listener: (context, state){
             if(state is AntreStateRegisterLoading){
               loading(context);
@@ -147,7 +147,7 @@ class _AntreState extends State<Antre> {
           ),
         ),
         BlocBuilder<AntreBloc, AntreState>(
-          bloc: _antreBloc,
+          cubit: _antreBloc,
           builder: (context, state) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -275,7 +275,7 @@ class _AntreState extends State<Antre> {
           ),
         ),
         BlocBuilder<AntreBloc, AntreState>(
-          bloc: _antreBloc,
+          cubit: _antreBloc,
           builder: (context, state) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
