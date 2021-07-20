@@ -168,6 +168,7 @@ class RequestApi {
     var uri = Uri.https(apiUrl, 'api/antrean/pasien/riwayat/$idPasien');
     var result =
         await http.get(uri, headers: {'Authorization': 'bearer $apiToken'});
+    print(result.body);
     if (result.statusCode == 200) {
       return json.decode(result.body);
     } else {

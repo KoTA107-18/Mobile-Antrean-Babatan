@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ticket_widget/flutter_ticket_widget.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/JadwalPasien.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/kartuAntrean.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
 class KartuRiwayatScreen extends StatefulWidget {
-  JadwalPasien jadwalPasien;
+  KartuAntrean jadwalPasien;
   KartuRiwayatScreen(this.jadwalPasien);
 
   @override
@@ -68,7 +69,7 @@ class _KartuRiwayatScreenState extends State<KartuRiwayatScreen> {
     );
   }
 
-  ListView kartuAntrean(JadwalPasien jadwalPasien) {
+  ListView kartuAntrean(KartuAntrean jadwalPasien) {
     return ListView(
       children: [
         SizedBox(
@@ -130,7 +131,7 @@ class _KartuRiwayatScreenState extends State<KartuRiwayatScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        jadwalPasien.namaPoli,
+                        jadwalPasien.poliklinik.namaPoli,
                         style: TextStyle(color: ColorTheme.greenDark),
                       ),
                     ),
@@ -151,14 +152,14 @@ class _KartuRiwayatScreenState extends State<KartuRiwayatScreen> {
                       children: <Widget>[
                         ticketDetailsWidget(
                             'Nama Lengkap',
-                            jadwalPasien.namaLengkap,
+                            jadwalPasien.pasien.namaLengkap,
                             'Tanggal Lahir',
-                            jadwalPasien.tglLahir),
+                            jadwalPasien.pasien.tglLahir),
                         SizedBox(
                           height: 8.0,
                         ),
                         ticketDetailsWidget('Kepala Keluarga',
-                            jadwalPasien.kepalaKeluarga, '', ''),
+                            jadwalPasien.pasien.kepalaKeluarga, '', ''),
                       ],
                     ),
                   ),

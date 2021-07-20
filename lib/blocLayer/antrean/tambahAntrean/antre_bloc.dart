@@ -16,6 +16,7 @@ part 'antre_state.dart';
 
 class AntreBloc extends Bloc<AntreEvent, AntreState> {
   AntreBloc() : super(AntreStateGetPoliLoading());
+  int i = 0;
   List<Poliklinik> daftarPoli = [];
   String apiKey;
 
@@ -36,21 +37,27 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
   DateTime tanggalPelayanan;
   TimeOfDay jamBooking;
 
-  Future _showNotification() async {
+  Future _showNotification(JadwalPasien jadwalPasie, String estimasi) async {
     var androidDetails = new AndroidNotificationDetails(
-        "Channel ID", "Desi programmer", "This is my channel",
+        "ID", "UPT Puskesmas Babatan", "Notifikasi Antrean",
         importance: Importance.max);
     var iSODetails = new IOSNotificationDetails();
     var generalNotificationDetails =
-    new NotificationDetails(android: androidDetails, iOS: iSODetails);
+        new NotificationDetails(android: androidDetails, iOS: iSODetails);
 
-    var scheduledTime = DateTime.now().add(Duration(seconds : 15));
-    fltrNotification.schedule(1, "Times Up", "Habis",
-        scheduledTime, generalNotificationDetails);
-    /*
-    await fltrNotification.show(
-        0, "Task", "You created a Task",
-        generalNotificationDetails, payload: "Task");*/
+    if (jadwalPasien.tipeBooking == 0) {
+      await fltrNotification.show(jadwalPasien.idPasien, jadwalPasien.namaPoli,
+          "Estimasi antrean anda pada pukul  ...", generalNotificationDetails,
+          payload: "Task");
+    } else {
+      var scheduledTime = DateTime.parse(jadwalPasien.tglPelayanan);
+      fltrNotification.schedule(
+          jadwalPasien.idPasien,
+          jadwalPasien.namaPoli,
+          "Estimasi antrean anda pada pukul  ...",
+          scheduledTime,
+          generalNotificationDetails);
+    }
   }
 
   @override
@@ -61,8 +68,8 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
       yield AntreStateGetPoliLoading();
       var androidInitilize = new AndroidInitializationSettings('app_icon');
       var iOSinitilize = new IOSInitializationSettings();
-      var initilizationsSettings =
-      new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
+      var initilizationsSettings = new InitializationSettings(
+          android: androidInitilize, iOS: iOSinitilize);
       fltrNotification = new FlutterLocalNotificationsPlugin();
       fltrNotification.initialize(initilizationsSettings,
           onSelectNotification: null);
@@ -105,6 +112,7 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
           jadwalPasien = JadwalPasien(
               hari: convertNumDayToCode(tanggalPelayanan.weekday),
               idPoli: poliklinikTujuan.idPoli,
+              namaPoli: poliklinikTujuan.namaPoli,
               idPasien: idPasien,
               tipeBooking: 1,
               latitude: latitudeData,
@@ -117,24 +125,28 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
           jadwalPasien = JadwalPasien(
               hari: convertNumDayToCode(tanggalPelayanan.weekday),
               idPoli: poliklinikTujuan.idPoli,
+              namaPoli: poliklinikTujuan.namaPoli,
               idPasien: idPasien,
               tipeBooking: 0,
               latitude: latitudeData,
               longitude: longitudeData,
               jenisPasien: jenisPasien);
         }
-        var resultSnapshot = await RequestApi.insertAntrean(jadwalPasien, apiKey);
+        var resultSnapshot =
+            await RequestApi.insertAntrean(jadwalPasien, apiKey);
         var response = ApiResponse.fromJson(resultSnapshot);
-        if(response.success){
-          _showNotification();
-          yield AntreStateSendMessage(daftarPoli: daftarPoli, message: response.message);
+        if (response.success) {
+          _showNotification(jadwalPasien, "-");
+          yield AntreStateSendMessage(
+              daftarPoli: daftarPoli, message: response.message);
         } else {
-          yield AntreStateSendMessage(daftarPoli: daftarPoli, message: response.message);
+          yield AntreStateSendMessage(
+              daftarPoli: daftarPoli, message: response.message);
         }
       } catch (e) {
-        yield AntreStateSendMessage(daftarPoli: daftarPoli, message: e.toString());
+        yield AntreStateSendMessage(
+            daftarPoli: daftarPoli, message: e.toString());
       }
-
     }
   }
 

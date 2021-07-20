@@ -8,7 +8,7 @@ abstract class RiwayatState {
 class RiwayatStateLoading extends RiwayatState {}
 
 class RiwayatStateSuccess extends RiwayatState {
-  List<JadwalPasien> jadwalPasien;
+  List<KartuAntrean> jadwalPasien;
   RiwayatStateSuccess({this.jadwalPasien});
 }
 

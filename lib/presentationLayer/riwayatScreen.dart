@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mobile_antrean_babatan/blocLayer/antrean/riwayat/riwayat_bloc.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/JadwalPasien.dart';
+import 'package:mobile_antrean_babatan/dataLayer/model/kartuAntrean.dart';
 import 'package:mobile_antrean_babatan/presentationLayer/kartuRiwayatScreen.dart';
 import 'package:mobile_antrean_babatan/utils/color.dart';
 
@@ -72,11 +73,11 @@ class _RiwayatState extends State<Riwayat> {
     );
   }
 
-  ListView elementJadwal(List<JadwalPasien> jadwalPasien) {
+  ListView elementJadwal(List<KartuAntrean> jadwalPasien) {
     return ListView.builder(
         itemCount: jadwalPasien.length,
         itemBuilder: (BuildContext context, int index) {
-          String status = (jadwalPasien[index].statusAntrean == 3) ? "Selesai Dilayani" : "Cancel";
+          String status = (jadwalPasien[index].statusAntrean == 3.toString()) ? "Selesai Dilayani" : "Cancel";
           return InkWell(
             onTap: (){
               Navigator.push(
@@ -112,7 +113,7 @@ class _RiwayatState extends State<Riwayat> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          jadwalPasien[index].namaPoli.toString(),
+                          jadwalPasien[index].poliklinik.namaPoli.toString(),
                           style: TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.bold),
                         ),
