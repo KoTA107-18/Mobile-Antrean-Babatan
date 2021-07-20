@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:mobile_antrean_babatan/dataLayer/model/kartuAntrean.dart';
 import 'package:mobile_antrean_babatan/dataLayer/model/pasien.dart';
@@ -27,17 +28,19 @@ class RequestApi {
     }
   }
 
-  static Future<bool> updateProfile(Pasien pasien) async {
+  static Future<bool> updateProfile(Pasien pasien, String apiToken) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/pasien
+    Endpoint : rest-api-babatan.herokuapp.com/api/pasien/edit
     Method Type : PUT
     Desc : Edit data diri.
     */
-    var result = await http.put(Uri.http(apiUrl, 'pasien'),
+    var result = await http.put(Uri.http(apiUrl, 'api/pasien/edit'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'bearer $apiToken'
         },
         body: jsonEncode(pasien.toJson()));
+    print(result.body);
     if (result.statusCode == 200) {
       return true;
     } else {
@@ -45,15 +48,16 @@ class RequestApi {
     }
   }
 
-  static Future<bool> updatePassword(Pasien pasien) async {
+  static Future<bool> updatePassword(Pasien pasien, String apiToken) async {
     /*
-    Endpoint : rest-api-babatan.herokuapp.com/pasien/password
+    Endpoint : rest-api-babatan.herokuapp.com/api/pasien/edit/password
     Method Type : PUT
     Desc : Edit password.
     */
-    var result = await http.put(Uri.http(apiUrl, 'pasien/password'),
+    var result = await http.put(Uri.http(apiUrl, 'api/pasien/edit/password'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'bearer $apiToken'
         },
         body: jsonEncode(pasien.toJson()));
     if (result.statusCode == 200) {

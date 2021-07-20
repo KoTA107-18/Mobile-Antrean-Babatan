@@ -71,7 +71,6 @@ class AntreBloc extends Bloc<AntreEvent, AntreState> {
         await RequestApi.getAllPoliklinik(apiKey).then((snapshot) {
           if (snapshot != null) {
             var resultSnapshot = snapshot as List;
-            print(resultSnapshot.toString());
             daftarPoli = resultSnapshot
                 .map((aJson) => Poliklinik.fromJson(aJson))
                 .toList();

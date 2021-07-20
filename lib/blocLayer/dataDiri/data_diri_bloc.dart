@@ -26,7 +26,7 @@ class DataDiriBloc extends Bloc<DataDiriEvent, DataDiriState> {
         idPasien = await SharedPref.getIdPasien();
         await RequestApi.getPasien(idPasien, apiKey).then((snapshot) {
           if (snapshot != null) {
-            pasien = Pasien.fromJson(snapshot[0]);
+            pasien = Pasien.fromJson(snapshot);
           }
         });
         yield DataDiriStateSuccess(pasien: pasien);
@@ -39,7 +39,8 @@ class DataDiriBloc extends Bloc<DataDiriEvent, DataDiriState> {
       yield DataDiriStateLoading();
       try {
         event.pasien.idPasien = idPasien;
-        var result = await RequestApi.updateProfile(event.pasien);
+        apiKey = await SharedPref.getApiKey();
+        var result = await RequestApi.updateProfile(event.pasien, apiKey);
         if(result){
           yield DataDiriStateSuccess(pasien: event.pasien);
         } else {
