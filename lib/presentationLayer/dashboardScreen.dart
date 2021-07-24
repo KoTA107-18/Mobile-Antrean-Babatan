@@ -156,7 +156,7 @@ class _DashboardState extends State<Dashboard> {
     return BlocProvider(
       create: (_) => _dashboardBloc,
       child: BlocListener<DashboardBloc, DashboardState>(
-        cubit: _dashboardBloc,
+        bloc: _dashboardBloc,
         listener: (context, state) {
           if (state is DashboardStateSuccess) {
             Timer.periodic(Duration(milliseconds: 5000), (timer) {
@@ -183,7 +183,7 @@ class _DashboardState extends State<Dashboard> {
               cardHeader(),
               Expanded(
                 child: BlocBuilder<DashboardBloc, DashboardState>(
-                  cubit: _dashboardBloc,
+                  bloc: _dashboardBloc,
                   builder: (context, state) {
                     if (state is DashboardStateSuccess) {
                       return daftarPoliklinik(state.daftarPoli);
