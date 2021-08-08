@@ -1,30 +1,28 @@
-import 'jadwal.dart';
-
 class Poliklinik {
   int idPoli;
   String namaPoli;
   String descPoli;
-  int statusPoli;
-  int rerataWaktuPelayanan;
-  int batasBooking;
+  String statusPoli;
+  String rerataWaktuPelayanan;
+  String batasBooking;
   List<Jadwal> jadwal;
 
   Poliklinik(
-      {this.idPoli = 0,
+      {this.idPoli,
         this.namaPoli,
         this.descPoli,
-        this.statusPoli = 0,
+        this.statusPoli,
         this.rerataWaktuPelayanan,
         this.batasBooking,
         this.jadwal});
 
   Poliklinik.fromJson(Map<String, dynamic> json) {
-    idPoli = int.parse(json['id_poli']);
-    namaPoli = json['nama_poli'].toString();
-    descPoli = json['desc_poli'].toString();
-    statusPoli = int.parse(json['status_poli']);
-    rerataWaktuPelayanan = int.parse(json['rerata_waktu_pelayanan']);
-    batasBooking = int.parse(json['batas_booking']);
+    idPoli = json['id_poli'];
+    namaPoli = json['nama_poli'];
+    descPoli = json['desc_poli'];
+    statusPoli = json['status_poli'];
+    rerataWaktuPelayanan = json['rerata_waktu_pelayanan'];
+    batasBooking = json['batas_booking'];
     if (json['jadwal'] != null) {
       jadwal = new List<Jadwal>();
       json['jadwal'].forEach((v) {
@@ -46,20 +44,29 @@ class Poliklinik {
     }
     return data;
   }
+}
 
-  String jadwalToString(){
-    String daftarHari = "";
-    for (var i=0; i<jadwal.length; i++) {
-      if(i+1 == jadwal.length){
-        daftarHari += jadwal[i].hari + ".";
-      } else {
-        daftarHari += jadwal[i].hari + ", ";
-      }
-    }
+class Jadwal {
+  String hari;
+  String idPoli;
+  String jamBukaBooking;
+  String jamTutupBooking;
 
-    if(daftarHari==""){
-      daftarHari = "-";
-    }
-    return daftarHari;
+  Jadwal({this.hari, this.idPoli, this.jamBukaBooking, this.jamTutupBooking});
+
+  Jadwal.fromJson(Map<String, dynamic> json) {
+    hari = json['hari'];
+    idPoli = json['id_poli'];
+    jamBukaBooking = json['jam_buka_booking'];
+    jamTutupBooking = json['jam_tutup_booking'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['hari'] = this.hari;
+    data['id_poli'] = this.idPoli;
+    data['jam_buka_booking'] = this.jamBukaBooking;
+    data['jam_tutup_booking'] = this.jamTutupBooking;
+    return data;
   }
 }

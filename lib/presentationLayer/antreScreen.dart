@@ -109,7 +109,7 @@ class _AntreState extends State<Antre> {
         firstDate: DateTime(
             DateTime.now().year, DateTime.now().month, DateTime.now().day + 1),
         lastDate: DateTime(
-            DateTime.now().year, DateTime.now().month, DateTime.now().day + _antreBloc.poliklinikTujuan.batasBooking));
+            DateTime.now().year, DateTime.now().month, DateTime.now().day + int.parse(_antreBloc.poliklinikTujuan.batasBooking)));
     return picked;
   }
 

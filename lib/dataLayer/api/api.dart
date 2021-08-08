@@ -21,7 +21,6 @@ class RequestApi {
     var uri = Uri.https(apiUrl, 'api/pasien/${id.toString()}');
     var result =
         await http.get(uri, headers: {'Authorization': 'bearer $apiToken'});
-    print(result.body);
     if (result.statusCode == 200) {
       return json.decode(result.body);
     } else {
@@ -190,7 +189,6 @@ class RequestApi {
     var uri = Uri.http(apiUrl, 'api/antrean/pasien/${idPasien.toString()}');
     var result =
         await http.get(uri, headers: {'Authorization': 'bearer $apiToken'});
-    print(result.statusCode);
     if (result.statusCode == 200) {
       return json.decode(result.body);
     } else {
@@ -249,7 +247,9 @@ class RequestApi {
     var uri = Uri.http(apiUrl, 'api/poliklinik');
     var result = await http.get(uri, headers: {
       'Authorization': 'bearer $apiToken',
+      'Content-Type': 'application/json; charset=UTF-8',
     });
+    print(result.body);
     if (result.statusCode == 200) {
       return json.decode(result.body);
     } else {
