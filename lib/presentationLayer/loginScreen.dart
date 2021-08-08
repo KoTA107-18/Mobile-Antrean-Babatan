@@ -36,9 +36,9 @@ class _LoginState extends State<Login> {
       RequestApi.loginPasienUsername(_username.text, _password.text)
           .then((value) {
         if (value != null) {
-          ResponseLogin resultSnapshot = ResponseLogin.fromJson(value);
           Navigator.pop(context);
-          if(resultSnapshot.success == true){
+          if(value['success'] == true){
+            ResponseLogin resultSnapshot = ResponseLogin.fromJson(value);
             SharedPref.saveLoginInfo(
                 resultSnapshot.data.apiToken,
                 resultSnapshot.data.pasien.username,
@@ -54,7 +54,7 @@ class _LoginState extends State<Login> {
           } else {
             Fluttertoast.showToast(
                 backgroundColor: ColorTheme.greenDark,
-                msg: resultSnapshot.message.toString(),
+                msg: value['message'].toString(),
                 toastLength: Toast.LENGTH_LONG);
           }
         } else {
