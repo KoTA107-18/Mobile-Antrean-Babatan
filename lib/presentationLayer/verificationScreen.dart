@@ -230,7 +230,9 @@ class _VerificationState extends State<Verification> {
                   ),
                   SizedBox(width: 5.0),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      _verifyPhone();
+                    },
                     child: Text(
                       'Kirim ulang kode',
                       style: TextStyle(
