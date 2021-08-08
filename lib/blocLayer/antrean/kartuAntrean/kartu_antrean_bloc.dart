@@ -88,8 +88,8 @@ class KartuAntreanBloc extends Bloc<KartuAntreanEvent, KartuAntreanState> {
         apiKey = await SharedPref.getApiKey();
         result = await RequestApi.updateAntrean(kartuAntre, apiKey);
         if (result) {
-          yield KartuAntreanStateEmpty(
-              message: "Anda belum mengambil antrean.");
+          fltrNotification.cancelAll();
+          yield KartuAntreanStateEmpty(message: "Anda belum mengambil antrean.");
         } else {
           yield KartuAntreanStateSuccess(kartuAntre: kartuAntre);
         }

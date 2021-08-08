@@ -102,26 +102,8 @@ class _AppState extends State<App> {
     );
   }
 
-  Future _showNotification() async {
-    var androidDetails = new AndroidNotificationDetails(
-        "Channel ID", "Desi programmer", "This is my channel",
-        importance: Importance.max);
-    var iSODetails = new IOSNotificationDetails();
-    var generalNotificationDetails =
-    new NotificationDetails(android: androidDetails, iOS: iSODetails);
-
-    var scheduledTime = DateTime.now().add(Duration(seconds : 15));
-    fltrNotification.schedule(1, "Times Up", "Habis",
-    scheduledTime, generalNotificationDetails);
-    /*
-    await fltrNotification.show(
-        0, "Task", "You created a Task",
-        generalNotificationDetails, payload: "Task");*/
-  }
-
   @override
   Widget build(BuildContext context) {
-    _showNotification();
     return BlocProvider(
       create: (_) => navbarBloc,
       child: BlocBuilder<NavbarBloc, int>(
