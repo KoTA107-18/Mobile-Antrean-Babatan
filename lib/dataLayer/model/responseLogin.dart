@@ -7,8 +7,8 @@ class ResponseLogin {
 
   ResponseLogin.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    message = json['message'].toString();
-    data = Data.fromJson(json['data']);
+    message = json['message'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -29,8 +29,9 @@ class Data {
   Data({this.pasien, this.apiToken});
 
   Data.fromJson(Map<String, dynamic> json) {
-    pasien = PasienLogin.fromJson(json['pasien']);
-    apiToken = json['api_token'].toString();
+    pasien =
+    json['pasien'] != null ? new PasienLogin.fromJson(json['pasien']) : null;
+    apiToken = json['api_token'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +51,8 @@ class PasienLogin {
   String kepalaKeluarga;
   String tglLahir;
   String alamat;
+  String latitude;
+  String longitude;
   String namaLengkap;
   int jenisPasien;
 
@@ -60,16 +63,22 @@ class PasienLogin {
         this.kepalaKeluarga,
         this.tglLahir,
         this.alamat,
-        this.namaLengkap});
+        this.latitude,
+        this.longitude,
+        this.namaLengkap,
+        this.jenisPasien});
 
   PasienLogin.fromJson(Map<String, dynamic> json) {
-    idPasien = int.parse(json['id_pasien']);
-    username = json['username'].toString();
-    noHandphone = json['no_handphone'].toString();
-    kepalaKeluarga = json['kepala_keluarga'].toString();
-    tglLahir = json['tgl_lahir'].toString();
-    alamat = json['alamat'].toString();
-    namaLengkap = json['nama_lengkap'].toString();
+    idPasien = json['id_pasien'];
+    username = json['username'];
+    noHandphone = json['no_handphone'];
+    kepalaKeluarga = json['kepala_keluarga'];
+    tglLahir = json['tgl_lahir'];
+    alamat = json['alamat'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    namaLengkap = json['nama_lengkap'];
+    jenisPasien = json['jenis_pasien'];
   }
 
   Map<String, dynamic> toJson() {
@@ -80,7 +89,10 @@ class PasienLogin {
     data['kepala_keluarga'] = this.kepalaKeluarga;
     data['tgl_lahir'] = this.tglLahir;
     data['alamat'] = this.alamat;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
     data['nama_lengkap'] = this.namaLengkap;
+    data['jenis_pasien'] = this.jenisPasien;
     return data;
   }
 }

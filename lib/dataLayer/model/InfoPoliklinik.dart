@@ -1,5 +1,5 @@
 class InfoPoliklinik {
-  String idPoli;
+  int idPoli;
   String namaPoli;
   String statusPoli;
   List<TotalAntrean> totalAntrean;

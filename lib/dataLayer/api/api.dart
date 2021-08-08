@@ -105,7 +105,9 @@ class RequestApi {
     */
     var uri = Uri.http(apiUrl, 'api/pasien/login/username',
         {"username": username, "password": password});
-    var result = await http.post(uri);
+    var result = await http.post(uri, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
     return json.decode(result.body);
   }
 
@@ -166,8 +168,10 @@ class RequestApi {
     Desc : Get riwayat antrean pasien.
     */
     var uri = Uri.https(apiUrl, 'api/antrean/pasien/riwayat/$idPasien');
-    var result =
-        await http.get(uri, headers: {'Authorization': 'bearer $apiToken'});
+    var result = await http.get(uri, headers: {
+      'Authorization': 'bearer $apiToken',
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
     print(result.body);
     if (result.statusCode == 200) {
       return json.decode(result.body);
@@ -261,6 +265,7 @@ class RequestApi {
     var uri = Uri.https(apiUrl, 'api/antrean/info');
     var result = await http.get(uri, headers: {
       'Authorization': 'bearer $apiToken',
+      'Content-Type': 'application/json; charset=UTF-8',
     });
     if (result.statusCode == 200) {
       return json.decode(result.body);

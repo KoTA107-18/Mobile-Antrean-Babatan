@@ -71,7 +71,7 @@ class KartuAntrean {
 }
 
 class PasienKartu {
-  String idPasien;
+  int idPasien;
   String username;
   String noHandphone;
   String kepalaKeluarga;
@@ -116,7 +116,7 @@ class PasienKartu {
 }
 
 class PoliklinikKartu {
-  String idPoli;
+  int idPoli;
   String namaPoli;
 
   PoliklinikKartu({this.idPoli, this.namaPoli});
