@@ -22,7 +22,7 @@ class Pasien {
         this.tglLahir});
   factory Pasien.fromJson(Map<String, dynamic> map) {
     return Pasien(
-        idPasien: int.parse(map["id_pasien"]),
+        idPasien: map["id_pasien"],
         username: map["username"].toString(),
         noHandphone: map["no_handphone"].toString(),
         kepalaKeluarga: map["kepala_keluarga"].toString(),
