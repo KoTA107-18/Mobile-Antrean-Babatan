@@ -257,6 +257,24 @@ class RequestApi {
     }
   }
 
+  static Future getPoliklinik(String apiToken, String idPoli) async {
+    /*
+    Endpoint : rest-api-babatan.herokuapp.com/api/poliklinik
+    Method Type : GET
+    Desc : Get All Poliklinik in Database + Jadwal
+    */
+    var uri = Uri.http(apiUrl, 'api/poliklinik/${idPoli.toString()}');
+    var result = await http.get(uri, headers: {
+      'Authorization': 'bearer $apiToken',
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+    if (result.statusCode == 200) {
+      return json.decode(result.body);
+    } else {
+      return null;
+    }
+  }
+
   static Future getInfoPoliklinik(String apiToken) async {
     /*
     Endpoint : rest-api-babatan.herokuapp.com/api/antrean/info
