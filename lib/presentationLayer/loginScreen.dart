@@ -117,13 +117,13 @@ class _LoginState extends State<Login> {
               Container(
                 padding: EdgeInsets.all(8.0),
                 child: Image(
-                  height: MediaQuery.of(context).size.width / 3,
+                  height: MediaQuery.of(context).size.width / 5,
                   image: AssetImage('asset/LogoPuskesmas.png'),
                 ),
               ),
               Container(
                 child: Center(
-                  child: Text('Selamat Datang',
+                  child: Text('Masuk ke Akun Anda',
                       style: TextStyle(
                           fontSize: 32.0,
                           fontWeight: FontWeight.bold,
@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
                 child: Center(
                   child: Text('Antrean Online Puskesmas Babatan',
                       style: TextStyle(
-                          fontSize: 16.0, color: ColorTheme.greenDark)),
+                          fontSize: 18.0, color: ColorTheme.greenDark)),
                 ),
               ),
               Form(
